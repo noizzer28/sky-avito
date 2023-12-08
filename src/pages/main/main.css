@@ -1,38 +1,3 @@
-.wrapper {
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-  background-color: #f1f1f1;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-}
-
-.container {
-  max-width: 1440px;
-  width: 100%;
-  height: 100vh;
-  margin: 0 auto;
-  background-color: #ffffff;
-}
-.btn-hov01:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid #ffffff;
-}
-
-.btn-hov02:hover {
-  background-color: #0080c1;
-}
-
-.main__h2:hover::before {
-  border-top: 2px solid #0080c1;
-  border-left: 2px solid #0080c1;
-}
-
 .main__container {
   /* height: 100%; */
   max-width: 1178px;
@@ -49,6 +14,10 @@
   margin-bottom: 30px;
 }
 
+.main__h2:hover::before {
+  border-top: 2px solid #0080c1;
+  border-left: 2px solid #0080c1;
+}
 .main__content {
   width: 100%;
   margin: 0 auto;
@@ -166,12 +135,6 @@
 }
 
 @media screen and (max-width: 590px) {
-  .container {
-    width: 100%;
-    min-width: 320px;
-    min-height: 100vh;
-    background-color: #ffffff;
-  }
   .header {
     display: none;
   }
@@ -223,79 +186,7 @@
     left: 0;
     top: 134px;
     bottom: 84px;
-  }
-  .search__logo-mob-link {
-    display: block;
-    width: 32px;
-    height: 32px;
-  }
-  .search__logo-link {
-    display: none;
-  }
-  .search__logo-mob-img {
-    width: 32px;
-    height: auto;
-    display: block;
-    -o-object-fit: cover;
-    object-fit: cover;
-  }
-  .search__form {
-    margin-left: 10px;
-    max-width: 1044px;
-    width: 100%;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-  }
-  .search__text {
-    display: none;
-  }
-  .search__text-mob {
-    display: inline-block;
-    width: 100%;
-    height: 32px;
-    border: none;
-    border-radius: 30px;
-    background-color: #ffffff;
-    padding: 5px 17px;
-    font-size: 14px;
-    line-height: 21px;
-    color: #000000;
-  }
-  .search__text-mob::-webkit-input-placeholder {
-    background-color: transparent;
-    color: #b3b3b3;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-  }
-  .search__text-mob:-ms-input-placeholder {
-    background-color: transparent;
-    color: #b3b3b3;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-  }
-  .search__text-mob::-ms-input-placeholder {
-    background-color: transparent;
-    color: #b3b3b3;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-  }
-  .search__text-mob::placeholder {
-    background-color: transparent;
-    color: #b3b3b3;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-  }
-  .search__btn {
-    display: none;
+    height: 100%;
   }
   .cards {
     display: -ms-grid;
@@ -307,6 +198,9 @@
     -webkit-box-pack: center;
     -ms-flex-pack: center;
     justify-content: center;
+  }
+  .card__content {
+    padding-left: 5px;
   }
   .cards__item {
     margin: 0;
@@ -358,48 +252,5 @@
     font-size: 12px;
     line-height: 16px;
     color: #5f5f5f;
-  }
-  .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 3;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    height: 54px;
-    width: 100%;
-    background-color: #ffffff;
-    -webkit-box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.1);
-  }
-  .footer__container {
-    width: 225px;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-  }
-  .footer__img {
-    width: 42px;
-    height: 42px;
-  }
-  .footer__img img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    -o-object-fit: cover;
-    object-fit: cover;
   }
 }
