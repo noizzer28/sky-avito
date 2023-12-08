@@ -1,5 +1,5 @@
-import { Main } from "./pages/main/main";
 import * as S from "./app.styles";
+import { AppRoutes } from "./components/routes/routes";
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
       <S.GlobalStyles />
       <S.Wrapper>
         <S.Container>
-          <Main></Main>
+          <AppRoutes></AppRoutes>
         </S.Container>
       </S.Wrapper>
     </>
