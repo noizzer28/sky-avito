@@ -1,46 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-*:before,
-*:after {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-a,
-a:visited {
-  text-decoration: none;
-  font-family: "StratosSkyeng", sans-serif;
-  cursor: pointer;
-}
-
-button,
-._btn {
-  cursor: pointer;
-}
-
-ul li {
-  list-style: none;
-}
-
-html,
-body {
-  width: 100%;
-  height: 100%;
-  font-family: "Roboto", sans-serif;
-  color: #000000;
-}
-
-div,
-button,
-a {
-  font-family: "Roboto", sans-serif;
-}
-
 .wrapper {
   width: 100%;
   height: 100vh;
@@ -86,7 +43,6 @@ a {
 
 .main__h2 {
   font-style: normal;
-  font-weight: 500;
   font-size: 40px;
   line-height: 42px;
   color: #000000;
@@ -163,7 +119,7 @@ a {
 .card__title {
   height: 52px;
   font-size: 22px;
-  font-weight: 500;
+  font-style: normal;
   line-height: 26px;
   color: #009ee4;
   margin-bottom: 10px;
@@ -175,9 +131,9 @@ a {
 .card__price {
   color: #000000;
   font-size: 22px;
-  font-weight: 500;
   line-height: 33px;
   margin-bottom: 10px;
+  font-weight: 600;
 }
 
 .card__place,
