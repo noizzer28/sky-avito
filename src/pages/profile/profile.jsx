@@ -2,6 +2,7 @@ import { Header } from "../../components/header/header";
 import { Footer } from "../../components/footer/footer";
 import * as S from "./profile-styles";
 import { Content } from "../../components/content/content";
+import { ComeBackElement } from "../../components/comeBack/comeBack";
 
 export const Profile = () => {
   return (
@@ -10,24 +11,7 @@ export const Profile = () => {
       <S.Main data-id="main">
         <S.MainContainer data-id="main__container">
           <S.MainCenterBlock data-id="main__center-block">
-            <S.MainMenu data-id="main__menu menu">
-              <S.MenuLogoLink data-id="menu__logo-link" href="" target="_blank">
-                <S.MenuLogoImg
-                  data-id="menu__logo-img"
-                  src="img/logo.png"
-                  alt="logo"
-                />
-              </S.MenuLogoLink>
-              <S.MenuForm data-id="menu__form" action="#">
-                <S.MenuButtom
-                  data-id="menu__btn "
-                  className="btn-hov02"
-                  id="btnGoBack"
-                >
-                  Вернуться на&nbsp;главную
-                </S.MenuButtom>
-              </S.MenuForm>
-            </S.MainMenu>
+            <ComeBackElement></ComeBackElement>
 
             <S.MainH2 data-id="main__h2">Здравствуйте, Антон!</S.MainH2>
 

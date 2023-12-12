@@ -1,8 +1,8 @@
-.footer {
+import styled from "styled-components";
+
+export const Footer = styled.footer`
   display: none;
-}
-@media screen and (max-width: 590px) {
-  .footer {
+  @media screen and (max-width: 590px) {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -22,7 +22,9 @@
     -webkit-box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.1);
   }
-  .footer__container {
+`;
+export const FooterContainer = styled.div`
+  @media screen and (max-width: 590px) {
     width: 225px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -34,15 +36,17 @@
     -ms-flex-pack: justify;
     justify-content: space-between;
   }
-  .footer__img {
+`;
+export const FooterImg = styled.div`
+  @media screen and (max-width: 590px) {
     width: 42px;
     height: 42px;
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      -o-object-fit: cover;
+      object-fit: cover;
+    }
   }
-  .footer__img img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    -o-object-fit: cover;
-    object-fit: cover;
-  }
-}
+`;

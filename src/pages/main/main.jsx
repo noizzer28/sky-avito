@@ -2,19 +2,19 @@ import { Header } from "../../components/header/header";
 import { Footer } from "../../components/footer/footer";
 import { Search } from "../../components/search/search";
 import { Content } from "../../components/content/content";
-import "./main.css";
+import * as S from "./main.styles";
 
 export const Main = () => {
   return (
     <>
       <Header></Header>
-      <main>
+      <S.Main>
         <Search></Search>
-        <div className="main__container">
-          <h2 className="main__h2">Объявления</h2>
+        <S.MainContainer data-id="main__container">
+          <S.MainH2 data-id="main__h2">Объявления</S.MainH2>
           <Content></Content>
-        </div>
-      </main>
+        </S.MainContainer>
+      </S.Main>
       <Footer></Footer>
     </>
   );

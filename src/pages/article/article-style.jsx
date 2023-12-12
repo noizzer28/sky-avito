@@ -12,24 +12,7 @@ export const MainContainer = styled.div`
     padding: 0 20px 0;
   }
 `;
-export const MainMenu = styled.div`
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
-  padding: 11px 0;
-  padding: 43px 5px 77px;
 
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
 export const MainArtic = styled.div`
   max-width: 1178px;
   padding: 0 0 70px;
@@ -66,32 +49,7 @@ export const MainContent = styled.div`
     padding: 0 0 84px;
   }
 `;
-export const MenuLogoLink = styled.a`
-  width: 54;
-  height: 50px;
-`;
-export const MenuLogoImg = styled.img`
-  width: 54px;
-  height: auto;
-`;
-export const MenuForm = styled.form`
-  margin-left: 60px;
-  max-width: 1044px;
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-`;
-export const MenuButtonSearch = styled.button`
-  width: 241px;
-  height: 50px;
-  background-color: #009ee4;
-  border: 1px solid #009ee4;
-  border-radius: 6px;
-  font-size: 16px;
-  line-height: 24px;
-  color: #ffffff;
-`;
+
 export const Title = styled.div`
   font-size: 32px;
   line-height: 46px;

@@ -1,30 +1,14 @@
 import { Footer } from "../../components/footer/footer";
 import { Header } from "../../components/header/header";
 import * as S from "./article-style";
-
+import { ComeBackElement } from "../../components/comeBack/comeBack";
 export const Article = () => {
   return (
     <>
       <Header></Header>
       <S.Main data-id="main">
         <S.MainContainer data-id="main__container">
-          <S.MainMenu data-id="main__menu menu">
-            <S.MenuLogoLink data-id="menu__logo-link" href="" target="_blank">
-              <S.MenuLogoImg
-                data-id="menu__logo-img"
-                src="img/logo.png"
-                alt="logo"
-              />
-            </S.MenuLogoLink>
-            <S.MenuForm data-id="menu__form" action="#">
-              <S.MenuButtonSearch
-                data-id="menu__btn-serch "
-                className="btn-hov02"
-              >
-                Вернуться на главную
-              </S.MenuButtonSearch>
-            </S.MenuForm>
-          </S.MainMenu>
+          <ComeBackElement></ComeBackElement>
         </S.MainContainer>
 
         <S.MainArtic data-id="main__artic artic">
