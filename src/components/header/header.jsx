@@ -1,21 +1,29 @@
-import "./header.css";
+import * as S from "./header-styles";
 
 export const Header = () => {
   return (
-    <header className="header">
-      <nav className="header__nav">
-        <div className="header__logo logo-mob">
-          <a className="logo-mob__link" href="" target="_blank">
-            <img className="logo-mob__img" src="img/logo-mob.png" alt="logo" />
-          </a>
-        </div>
-        <button className="header__btn-putAd btn-hov01" id="btputAd">
+    <S.Header className="header">
+      <S.HeaderNav className="header__nav">
+        <S.HeaderLogo className="header__logo logo-mob">
+          <S.HeaderLogoMobLink
+            className="logo-mob__link"
+            href=""
+            target="_blank"
+          >
+            <S.HeaderLogoMobImg
+              className="logo-mob__img"
+              src="img/logo-mob.png"
+              alt="logo"
+            />
+          </S.HeaderLogoMobLink>
+        </S.HeaderLogo>
+        <S.HeaderButton className="header__btn-putAd btn-hov01" id="btputAd">
           Разместить объявление
-        </button>
-        <button className="header__btn-lk btn-hov01" id="btnlk">
+        </S.HeaderButton>
+        <S.HeaderButton className="header__btn-lk btn-hov01" id="btnlk">
           Личный кабинет
-        </button>
-      </nav>
-    </header>
+        </S.HeaderButton>
+      </S.HeaderNav>
+    </S.Header>
   );
 };
