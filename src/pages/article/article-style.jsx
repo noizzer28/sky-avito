@@ -29,6 +29,9 @@ export const MainArtic = styled.div`
 export const MainTitle = styled.div`
   margin-bottom: 32px;
   padding: 0 5px;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 70px;
   @media screen and (max-width: 768px) {
     margin-bottom: 14px;
     padding: 0;
