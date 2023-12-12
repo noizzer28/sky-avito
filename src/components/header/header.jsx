@@ -17,12 +17,10 @@ export const Header = () => {
             />
           </S.HeaderLogoMobLink>
         </S.HeaderLogo>
-        <S.HeaderButton className="header__btn-putAd btn-hov01" id="btputAd">
+        <S.HeaderButton className="btn-hov01">
           Разместить объявление
         </S.HeaderButton>
-        <S.HeaderButton className="header__btn-lk btn-hov01" id="btnlk">
-          Личный кабинет
-        </S.HeaderButton>
+        <S.HeaderButton className="btn-hov01">Личный кабинет</S.HeaderButton>
       </S.HeaderNav>
     </S.Header>
   );

@@ -38,6 +38,14 @@ export const GlobalStyles = createGlobalStyle`
   ul li {
     list-style: none;
   }
+  .btn-hov01:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid #FFFFFF;
+  }
+  
+  .btn-hov02:hover {
+    background-color: #0080C1;
+  }
   
   html,
   body {

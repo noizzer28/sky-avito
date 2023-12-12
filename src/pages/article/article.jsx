@@ -17,7 +17,10 @@ export const Article = () => {
               />
             </S.MenuLogoLink>
             <S.MenuForm data-id="menu__form" action="#">
-              <S.MenuButtonSearch data-id="menu__btn-serch btn-hov02">
+              <S.MenuButtonSearch
+                data-id="menu__btn-serch "
+                className="btn-hov02"
+              >
                 Вернуться на главную
               </S.MenuButtonSearch>
             </S.MenuForm>
@@ -84,7 +87,7 @@ export const Article = () => {
                 <S.AtriclePrice data-id="article__price">
                   2 200 ₽
                 </S.AtriclePrice>
-                <S.AtricleButton data-id="article__btn btn-hov02">
+                <S.AtricleButton data-id="article__btn" className="btn-hov02">
                   Показать&nbsp;телефон
                   <span>8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ</span>
                 </S.AtricleButton>
