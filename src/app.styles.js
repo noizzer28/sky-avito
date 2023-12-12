@@ -100,19 +100,3 @@ export const Container = styled.div`
     background-color: #ffffff;
   }
 `;
-
-export const DarkBG = styled.div`
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 100%;
-  height: 100%;
-  background-color: #009ee4;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @media screen and (max-width: 768px) {
-    opacity: 0;
-  }
-`;

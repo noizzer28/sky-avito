@@ -8,7 +8,7 @@ export const ModalWrapper = styled.div`
   top: 0px;
   width: 100%;
   height: 100%;
-  background-color: #009ee4;
+  background-color: #2492ca;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -26,8 +26,8 @@ export const ModalBlock = styled.div`
     top: 55px;
   }
 `;
-export const ModalForm = styled.form`
-  width: 366px;
+export const Modal = styled.div`
+  width: 400px;
   background-color: #ffffff;
   border-radius: 12px;
   display: -webkit-box;
@@ -162,13 +162,14 @@ export const Buttons = styled.div`
   gap: 20px;
   margin-top: 60px;
   width: 100%;
+  align-items: center;
   @media screen and (max-width: 768px) {
     margin-top: 15px;
     gap: 10px;
   }
 `;
 
-export const Inputs = styled.div`
+export const Inputs = styled.form`
   display: flex;
   flex-direction: column;
   gap: 30px;

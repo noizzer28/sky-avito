@@ -9,76 +9,74 @@ export function Register() {
   const isLoading = false;
 
   return (
-    <S.ModalWrapper className="container-enter">
-      <S.ModalBlock className="modal__block">
-        <S.ModalForm>
+    <S.ModalWrapper data-id="wrapper">
+      <S.ModalBlock data-id="modal-block">
+        <S.Modal data-id="modal">
           <Link to="/">
-            <S.ModalLogo>
+            <S.ModalLogo data-id="modalLogo">
               <img src="/img/logo_modal.png" alt="logo" />
             </S.ModalLogo>
           </Link>
-          <form>
-            <S.Inputs>
-              <S.ModalInput
-                type="text"
-                name="login"
-                placeholder="Почта"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
-              <S.ModalInput
-                type="password"
-                name="password"
-                placeholder="Пароль"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
-              <S.ModalInput
-                type="password"
-                name="repeat-password"
-                placeholder="Повторите пароль"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
-              <S.ModalInput
-                type="text"
-                name="name"
-                placeholder="Имя (необязательно)"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
-              <S.ModalInput
-                type="text"
-                name="last-name"
-                placeholder="Фамилия (необязательно)"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
-              <S.ModalInput
-                type="text"
-                name="city"
-                placeholder="Город (необязательно)"
-                onChange={(e) => {
-                  console.log(e.target.value);
-                }}
-              />
-            </S.Inputs>
-            {error && <S.Error>{error}</S.Error>}
-            <S.Buttons>
-              <S.PrimaryButton disabled={isLoading ? true : false}>
-                Зарегистрироваться
-              </S.PrimaryButton>
-              <Link to="/login">
-                <S.SecondaryButton>Войти</S.SecondaryButton>
-              </Link>
-            </S.Buttons>
-          </form>
-        </S.ModalForm>
+          <S.Inputs data-id="input">
+            <S.ModalInput
+              type="text"
+              name="login"
+              placeholder="Почта"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+            <S.ModalInput
+              type="password"
+              name="password"
+              placeholder="Пароль"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+            <S.ModalInput
+              type="password"
+              name="repeat-password"
+              placeholder="Повторите пароль"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+            <S.ModalInput
+              type="text"
+              name="name"
+              placeholder="Имя (необязательно)"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+            <S.ModalInput
+              type="text"
+              name="last-name"
+              placeholder="Фамилия (необязательно)"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+            <S.ModalInput
+              type="text"
+              name="city"
+              placeholder="Город (необязательно)"
+              onChange={(e) => {
+                console.log(e.target.value);
+              }}
+            />
+          </S.Inputs>
+          {error && <S.Error>{error}</S.Error>}
+          <S.Buttons data-id="buttons">
+            <S.PrimaryButton disabled={isLoading ? true : false}>
+              Зарегистрироваться
+            </S.PrimaryButton>
+            <Link to="/login">
+              <S.SecondaryButton>Войти</S.SecondaryButton>
+            </Link>
+          </S.Buttons>
+        </S.Modal>
       </S.ModalBlock>
     </S.ModalWrapper>
   );
