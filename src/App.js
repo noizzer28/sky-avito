@@ -5,8 +5,8 @@ function App() {
   return (
     <>
       <S.GlobalStyles />
-      <S.Wrapper>
-        <S.Container>
+      <S.Wrapper data-id="wrapper">
+        <S.Container data-id="container">
           <AppRoutes></AppRoutes>
         </S.Container>
       </S.Wrapper>

@@ -4,6 +4,8 @@ import { Profile } from "../../pages/profile/profile";
 import { ProtectedRoute } from "./protectedRoute";
 import { Article } from "../../pages/article/article";
 import { SellerProfile } from "../../pages/sellerProfile/sellerProfile";
+import { Login } from "../../pages/login/login";
+import { Register } from "../../pages/login/register";
 
 export const AppRoutes = () => {
   return (
@@ -11,6 +13,8 @@ export const AppRoutes = () => {
       <Route path="/" element={<Main />} />
       <Route path="article" element={<Article />} />
       <Route path="sellerProfile" element={<SellerProfile />} />
+      <Route path="/login" element={<Login />}></Route>
+      <Route path="/register" element={<Register />}></Route>
       <Route
         path="profile"
         element={

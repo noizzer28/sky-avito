@@ -53,6 +53,7 @@ export const GlobalStyles = createGlobalStyle`
     height: 100%;
     font-family: "Roboto", sans-serif;
     color: #000000;
+    background-color: #f1f1f1;
   }
   
   div,
@@ -73,9 +74,8 @@ export const GlobalStyles = createGlobalStyle`
 
 export const Wrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
-  background-color: #f1f1f1;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -83,6 +83,7 @@ export const Wrapper = styled.div`
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
   flex-direction: column;
+  position: relative;
 `;
 
 export const Container = styled.div`
@@ -91,10 +92,27 @@ export const Container = styled.div`
   height: 100vh;
   margin: 0 auto;
   background-color: #ffffff;
+
   @media screen and (max-width: 590px) {
     width: 100%;
     min-width: 320px;
     min-height: 100vh;
     background-color: #ffffff;
+  }
+`;
+
+export const DarkBG = styled.div`
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #009ee4;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    opacity: 0;
   }
 `;
