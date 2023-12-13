@@ -1,4 +1,4 @@
-import "./content-style.css";
+import "./content.styles.css";
 
 export const Content = () => {
   return (

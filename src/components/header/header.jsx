@@ -1,9 +1,9 @@
-import * as S from "./header-styles";
+import * as S from "./header.styles";
 import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const navigate = useNavigate();
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   return (
     <S.Header className="header">
       <S.HeaderNav className="header__nav">

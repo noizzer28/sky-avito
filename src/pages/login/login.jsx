@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import * as S from "./login.styles";
-import { DarkBG } from "../../app.styles";
 
 export function Login() {
   const isLoading = false;
@@ -8,8 +7,8 @@ export function Login() {
   return (
     <S.ModalWrapper data-id="modal-wrapper">
       <S.ModalBlock data-id="modal__block">
-        <S.Modal data-id="modal" id="formLogIn" action="#">
-          <Link to="/login">
+        <S.Modal data-id="modal">
+          <Link to="/">
             <S.ModalLogo>
               <img src="/img/logo_modal.png" alt="logo" />
             </S.ModalLogo>

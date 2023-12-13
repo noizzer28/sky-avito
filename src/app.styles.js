@@ -70,6 +70,11 @@ export const GlobalStyles = createGlobalStyle`
   .btn-hov02:hover {
     background-color: #0080c1;
   }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -100,3 +105,5 @@ export const Container = styled.div`
     background-color: #ffffff;
   }
 `;
+
+export const Title = styled.h3``;

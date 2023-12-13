@@ -6,6 +6,8 @@ import { Article } from "../../pages/article/article";
 import { SellerProfile } from "../../pages/sellerProfile/sellerProfile";
 import { Login } from "../../pages/login/login";
 import { Register } from "../../pages/login/register";
+import { EditModal } from "../../pages/modals/newModal";
+import { FeedbackModal } from "../../pages/modals/feedbacks";
 
 export const AppRoutes = () => {
   return (
@@ -15,6 +17,9 @@ export const AppRoutes = () => {
       <Route path="sellerProfile" element={<SellerProfile />} />
       <Route path="/login" element={<Login />}></Route>
       <Route path="/register" element={<Register />}></Route>
+      <Route path="/feedback" element={<FeedbackModal />}></Route>
+      <Route path="/new" element={<EditModal isEdit={true} />}></Route>
+      <Route path="/edit" element={<EditModal isEdit={false} />}></Route>
       <Route
         path="profile"
         element={
