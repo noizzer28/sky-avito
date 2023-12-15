@@ -13,17 +13,20 @@ export const ModalWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  padding-top: 20px;
+  @media screen and (max-width: 600px) {
+    padding-top: 0px;
+  }
 `;
 
 export const ModalBlock = styled.div`
-  position: absolute;
-  z-index: 2;
-  left: 50%
-  top: 50%
-  opacity: 1;
-  @media screen and (max-width: 768px) {
-    left: calc(50% - (320px / 2));
-    top: 55px;
+  margin-top: 10px;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    margin-top: 0;
   }
 `;
 export const Modal = styled.div`
@@ -40,13 +43,12 @@ export const Modal = styled.div`
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 43px 42px 47px;
 
-  @media screen and (max-width: 768px) {
-    width: 320px;
+  @media screen and (max-width: 600px) {
+    width: 100%;
     height: auto;
     border-radius: 0px;
-    padding: 40px 20px;
+    padding: 10px 20px;
   }
 `;
 
@@ -148,7 +150,6 @@ export const ModalContent = styled.div`
   position: relative;
 
   @media screen and (max-width: 600px) {
-    display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
@@ -251,7 +252,7 @@ export const InputText = styled.div`
 `;
 
 export const ModalImageFlex = styled.div`
-  width: 500px;
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -268,7 +269,7 @@ export const ModalImageFlex = styled.div`
   margin-bottom: 10px;
   overflow: hidden;
   @media screen and (max-width: 600px) {
-    width: 278px;
+    width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -283,7 +284,7 @@ export const ModalImageFlex = styled.div`
     -ms-flex-pack: start;
     justify-content: start;
     margin: 0px -5px 10px;
-    overflow: hidden;
+    overflow-x: scroll;
   }
 `;
 export const ModalImage = styled.div`
@@ -457,5 +458,12 @@ export const ModalButton = styled.button`
     margin-top: 10px;
     width: 100%;
     height: 46px;
+  }
+`;
+
+export const HeaderWrapper = styled.div`
+  display: none;
+  @media screen and (max-width: 600px) {
+    display: block;
   }
 `;

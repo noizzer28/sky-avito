@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
 import * as S from "./modal.styles";
+import { Header } from "../../components/header/header";
 
 export function EditModal({ page }) {
   return (
     <S.ModalWrapper data-id="modal-wrapper">
       <S.ModalBlock data-id="modal__block">
+        <S.HeaderWrapper data-id="header wrapper">
+          <Header></Header>
+        </S.HeaderWrapper>
         <S.Modal data-id="modal">
-          <S.ModalContent>
+          <S.ModalContent data-id="modal-content">
             <S.Title data-id="title">Новое объявление</S.Title>
             <S.ModalClose data-id="modalclose">
               <S.ModalCloseLine data-id="modalline"></S.ModalCloseLine>
@@ -32,11 +36,11 @@ export function EditModal({ page }) {
                 />
               </S.ModalInput>
 
-              <S.ModalInput>
+              <S.ModalInput data-id="modal input">
                 <S.InputText data-id="InputText">
                   Фотографии товара<span>не более 5 фотографий</span>
                 </S.InputText>
-                <S.ModalImageFlex data-id="form-newArt__bar-img">
+                <S.ModalImageFlex data-id=" ModalImageFlex form-newArt__bar-img">
                   <S.ModalImage data-id="form-newArt__img">
                     <img src="" alt="" />
                     <S.ModalImageCover data-id="form-newArt__img-cover"></S.ModalImageCover>
