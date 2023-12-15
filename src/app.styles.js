@@ -58,7 +58,8 @@ export const GlobalStyles = createGlobalStyle`
   
   div,
   button,
-  a {
+  a,
+  textarea {
     font-family: "Roboto", sans-serif;
   }
   

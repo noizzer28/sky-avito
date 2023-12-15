@@ -21,7 +21,25 @@ export const ModalWrapper = styled.div`
 `;
 
 export const ModalBlock = styled.div`
-  margin-top: 10px;
+  margin: 0 20px;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    margin: 0;
+  }
+`;
+export const ModalNew = styled.div`
+  max-width: 600px;
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    height: 100vh;
+    overflow-y: scroll;
+    margin-top: 0;
+  }
+`;
+export const ModalReview = styled.div`
+  max-width: 900px;
   @media screen and (max-width: 600px) {
     width: 100%;
     height: 100vh;
@@ -30,7 +48,6 @@ export const ModalBlock = styled.div`
   }
 `;
 export const Modal = styled.div`
-  width: 600px;
   background-color: #ffffff;
   border-radius: 12px;
   display: -webkit-box;
@@ -46,7 +63,7 @@ export const Modal = styled.div`
 
   @media screen and (max-width: 600px) {
     width: 100%;
-    height: auto;
+    height: 100vh;
     border-radius: 0px;
     padding: 10px 20px;
   }
@@ -142,7 +159,7 @@ export const ModalContent = styled.div`
   -webkit-box-align: start;
   -ms-flex-align: start;
   align-items: flex-start;
-  width: 600px;
+  width: 100%;
   height: auto;
   padding: 32px 50px 42px;
   background-color: #ffffff;
@@ -166,6 +183,7 @@ export const ModalContent = styled.div`
   }
 `;
 export const ModalForm = styled.form`
+  width: 100%;
   margin-top: 22px;
   @media screen and (max-width: 600px) {
     margin-top: 22px;
@@ -215,6 +233,31 @@ export const Input = styled.input`
   border-radius: 6px;
   width: 100%;
   font-size: 16px;
+  line-height: 24px;
+  &::-webkit-input-placeholder,
+  &::-ms-input-placeholder,
+  &::placeholder,
+  &::-ms-input-placeholder {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #0000004d;
+  }
+  @media screen and (max-width: 600px) {
+    width: 100%;
+  }
+`;
+
+export const InputDescription = styled.textarea`
+  margin-top: 5px;
+  padding: 13px 19px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  width: 100%;
+  font-size: 16px;
+  resize: none;
   line-height: 24px;
   &::-webkit-input-placeholder,
   &::-ms-input-placeholder,
@@ -466,4 +509,65 @@ export const HeaderWrapper = styled.div`
   @media screen and (max-width: 600px) {
     display: block;
   }
+`;
+export const ModalReviews = styled.div`
+  width: 100%;
+`;
+export const Reviews = styled.div`
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 15px 0;
+`;
+export const ReviewItem = styled.div`
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+`;
+export const ReviewLeft = styled.div`
+  margin-right: 12px;
+`;
+export const ReviewRight = styled.div`
+  display: block;
+`;
+export const ReviewImg = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+`;
+export const ReviewText = styled.p`
+  margin-bottom: 12px;
+  font-weight: 600;
+  span {
+    margin-left: 10px;
+    color: #5f5f5f;
+  }
+`;
+export const ReviewComm = styled.p`
+  margin-bottom: 12px;
+  font-weight: 400;
 `;

@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
 import * as S from "./modal.styles";
 import { Header } from "../../components/header/header";
 
-export function EditModal({ page }) {
+export function Modal({ isNew }) {
   return (
     <S.ModalWrapper data-id="modal-wrapper">
       <S.ModalBlock data-id="modal__block">
@@ -11,7 +10,9 @@ export function EditModal({ page }) {
         </S.HeaderWrapper>
         <S.Modal data-id="modal">
           <S.ModalContent data-id="modal-content">
-            <S.Title data-id="title">Новое объявление</S.Title>
+            <S.Title data-id="title">
+              {isNew ? "Новое объявление" : "Редактировать объявление"}
+            </S.Title>
             <S.ModalClose data-id="modalclose">
               <S.ModalCloseLine data-id="modalline"></S.ModalCloseLine>
             </S.ModalClose>
@@ -27,11 +28,10 @@ export function EditModal({ page }) {
               </S.ModalInput>
               <S.ModalInput data-id="ModalInput">
                 <S.Label htmlFor="name">Описание</S.Label>
-                <S.Input
+                <S.InputDescription
                   name="text"
-                  id="formArea"
+                  rows="6"
                   cols="auto"
-                  rows="10"
                   placeholder="Введите описание"
                 />
               </S.ModalInput>
@@ -81,7 +81,7 @@ export function EditModal({ page }) {
                 className="btn-hov02"
                 id="btnPublish"
               >
-                Опубликовать
+                {isNew ? "Опубликовать " : "Сохранить"}
               </S.ModalButton>
             </S.ModalForm>
           </S.ModalContent>
