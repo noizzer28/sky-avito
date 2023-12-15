@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const navigate = useNavigate();
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   return (
     <S.Header className="header">
       <S.HeaderNav className="header__nav">

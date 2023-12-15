@@ -141,6 +141,11 @@ export const PrimaryButton = styled(Button)`
   &:active {
     background-color: #015681;
   }
+
+  &:disabled {
+    background-color: #5e5e5e;
+    cursor: not-allowed;
+  }
 `;
 export const SecondaryButton = styled(Button)`
   color: #000000;
