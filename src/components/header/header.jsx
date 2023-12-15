@@ -1,13 +1,16 @@
 import * as S from "./header.styles";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 export const Header = () => {
   const navigate = useNavigate();
-  const isLoggedIn = false;
+
+  const { isAuth } = useAuth();
+  console.log(isAuth);
   return (
     <S.Header className="header">
       <S.HeaderNav className="header__nav">
-        {isLoggedIn ? (
+        {isAuth ? (
           <>
             <S.HeaderLogo className="header__logo logo-mob">
               <S.HeaderLogoMobLink

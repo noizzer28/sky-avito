@@ -1,13 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const LoginApi = createAsyncThunk(
-  "user/login",
-  async function ({ login, password }) {
+  "user/email",
+  async function ({ email, password }) {
     try {
-      const response = await fetch(`http://127.0.0.1:8090/auth/login`, {
+      const response = await fetch(`http://127.0.0.1:8090/auth/email`, {
         method: "POST",
         body: JSON.stringify({
-          email: `${login}`,
+          email: `${email}`,
           password: `${password}`,
         }),
         headers: {
@@ -28,7 +28,7 @@ export const LoginApi = createAsyncThunk(
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    login: "",
+    email: "",
     password: "",
     refreshToken: null,
     accessToken: null,
@@ -41,7 +41,7 @@ const userSlice = createSlice({
       state.password = action.payload;
     },
     setLogin(state, action) {
-      state.login = action.payload;
+      state.email = action.payload;
     },
     setRefreshToken(state, action) {
       state.refreshToken = action.payload;
@@ -54,6 +54,12 @@ const userSlice = createSlice({
     },
     setError(state, action) {
       state.error = action.payload;
+    },
+    setUser(state, action) {
+      console.log(action.payload);
+      state.email = action.payload.email;
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
     },
   },
   extraReducers: (builder) => {
@@ -86,6 +92,7 @@ export const {
   setIsActiveToken,
   setStatus,
   setError,
+  setUser,
 } = userSlice.actions;
 
 export default userSlice.reducer;

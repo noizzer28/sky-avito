@@ -12,30 +12,25 @@ import { useState } from "react";
 export function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { password, login, status, error, loading } = useSelector(
+  const { password, email, error, loading } = useSelector(
     (state) => state.user
   );
 
   const handleLogin = async () => {
-    if (!password || !login) {
+    if (!password || !email) {
       dispatch(setError(`Все поля должны быть заполнены`));
       return;
     }
     try {
-      const data = await dispatch(LoginApi({ login, password }));
-      console.log("data", data);
-      console.log(status);
-
+      const data = await dispatch(LoginApi({ email, password }));
       const user = {
         refresh_token: data.payload.refresh_token,
         access_token: data.payload.access_token,
-        email: login,
+        email: email,
       };
-      console.log(user);
       localStorage.setItem("token", JSON.stringify(user));
       navigate("/");
     } catch (error) {
-      console.log("ERROR", error);
       setError(`Ошибка: ${error.message}`);
     }
   };
@@ -52,10 +47,10 @@ export function Login() {
           <S.Inputs data-id="inputs">
             <S.ModalInput
               type="text"
-              name="login"
+              name="email"
               placeholder="Почта"
-              value={login}
-              autoComplete={login}
+              value={email}
+              autoComplete={email}
               onChange={(e) => {
                 dispatch(setLogin(e.target.value));
               }}
