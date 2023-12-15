@@ -4,7 +4,7 @@ export const LoginApi = createAsyncThunk(
   "user/email",
   async function ({ email, password }) {
     try {
-      const response = await fetch(`http://127.0.0.1:8090/auth/email`, {
+      const response = await fetch(`http://127.0.0.1:8090/auth/login`, {
         method: "POST",
         body: JSON.stringify({
           email: `${email}`,
@@ -14,12 +14,15 @@ export const LoginApi = createAsyncThunk(
           "content-type": "application/json",
         },
       });
-      console.log("RESPONsE", response);
-      const data = await response.json();
-      console.log("DATA", data);
-      return data;
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message);
+      } else {
+        const data = await response.json();
+        return data;
+      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new Error(error);
     }
   }

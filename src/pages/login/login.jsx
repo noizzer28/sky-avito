@@ -7,7 +7,6 @@ import {
 } from "../../components/store/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginApi } from "../../components/store/userSlice";
-import { useState } from "react";
 
 export function Login() {
   const dispatch = useDispatch();
@@ -15,7 +14,6 @@ export function Login() {
   const { password, email, error, loading } = useSelector(
     (state) => state.user
   );
-
   const handleLogin = async () => {
     if (!password || !email) {
       dispatch(setError(`Все поля должны быть заполнены`));
@@ -72,7 +70,7 @@ export function Login() {
               disabled={loading ? true : false}
               onClick={handleLogin}
             >
-              Войти
+              {loading ? "Логинимся" : "Войти"}
             </S.PrimaryButton>
             <Link to="/register">
               <S.SecondaryButton>Зарегистрироваться</S.SecondaryButton>
