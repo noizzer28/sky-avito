@@ -1,12 +1,12 @@
 import * as S from "./header.styles";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 export const Header = () => {
   const navigate = useNavigate();
 
   const { isAuth } = useAuth();
-  console.log(isAuth);
+
   return (
     <S.Header className="header">
       <S.HeaderNav className="header__nav">
@@ -28,9 +28,11 @@ export const Header = () => {
             <S.HeaderButton className="btn-hov01">
               Разместить объявление
             </S.HeaderButton>
-            <S.HeaderButton className="btn-hov01">
-              Личный кабинет
-            </S.HeaderButton>
+            <Link to={"/profile"}>
+              <S.HeaderButton className="btn-hov01">
+                Личный кабинет
+              </S.HeaderButton>
+            </Link>
           </>
         ) : (
           <>

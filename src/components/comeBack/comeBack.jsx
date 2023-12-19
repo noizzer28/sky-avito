@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import * as S from "./comeBack.styles";
 
 export const ComeBackElement = () => {
@@ -7,9 +8,11 @@ export const ComeBackElement = () => {
         <S.MenuLogoImg data-id="menu__logo-img" src="img/logo.png" alt="logo" />
       </S.MenuLogoLink>
       <S.MenuForm data-id="menu__form" action="#">
-        <S.MenuButtonSearch data-id="menu__btn-serch " className="btn-hov02">
-          Вернуться на главную
-        </S.MenuButtonSearch>
+        <Link to={"/"}>
+          <S.MenuButtonSearch data-id="menu__btn-serch " className="btn-hov02">
+            Вернуться на главную
+          </S.MenuButtonSearch>
+        </Link>
       </S.MenuForm>
     </S.MainMenu>
   );

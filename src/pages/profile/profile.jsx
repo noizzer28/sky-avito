@@ -3,8 +3,18 @@ import { Footer } from "../../components/footer/footer";
 import * as S from "./profile-styles";
 import { Content } from "../../components/content/content";
 import { ComeBackElement } from "../../components/comeBack/comeBack";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setInitialState } from "../../components/store/userSlice";
 
 export const Profile = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    localStorage.clear();
+    dispatch(setInitialState());
+    navigate("/login");
+  };
   return (
     <>
       <Header></Header>
@@ -91,6 +101,14 @@ export const Profile = () => {
                         id="settings-btn"
                       >
                         Сохранить
+                      </S.SettingsButton>
+                      <S.SettingsButton
+                        data-id="settings__btn "
+                        className="btn-hov02"
+                        id="settings-btn"
+                        onClick={handleLogout}
+                      >
+                        Выйти
                       </S.SettingsButton>
                     </S.SettingsForm>
                   </S.SettingsRight>

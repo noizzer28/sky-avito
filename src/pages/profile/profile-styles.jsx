@@ -174,6 +174,7 @@ export const SettingsForm = styled.form`
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 6px;
     padding: 13px 19px;
+    margin-right: 15px;
 
     &::-webkit-input-placeholder,
     &:-ms-input-placeholder,
@@ -253,7 +254,8 @@ export const SettingsButton = styled.button`
   color: #ffffff;
   width: 154px;
   height: 50px;
-  margin: 10px 7px 0;
+  margin-top: 10px;
+  margin-right: 15px;
   background-color: #009ee4;
   border-radius: 6px;
   border: 1px solid #009ee4;

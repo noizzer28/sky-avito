@@ -1,12 +1,60 @@
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import * as S from "./login.styles";
-import { DarkBG } from "../../app.styles";
-import { useNavigate } from "react-router-dom";
+import {
+  setUserData,
+  setPassword,
+  setLogin,
+  setError,
+} from "../../components/store/userSlice";
+import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { RegisterApi, LoginApi } from "../../components/store/userSlice";
 
 export function Register() {
+  const { password, email, error, loading, status } = useSelector(
+    (state) => state.user
+  );
+  const [userName, setName] = useState();
+  const [repPass, setRepPass] = useState();
+  const [surName, setLastName] = useState();
+  const [city, setCity] = useState();
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const error = false;
-  const isLoading = false;
+
+  const handleRegister = async () => {
+    if (!password || !email || !repPass) {
+      dispatch(setError(`Обязательные поля должны быть заполнены`));
+      return;
+    }
+    if (password !== repPass) {
+      dispatch(setError(`Введенные пароли не совпадают`));
+      return;
+    }
+    try {
+      const data = await dispatch(
+        RegisterApi({
+          email,
+          password,
+          city,
+          userName,
+          surName,
+        })
+      );
+      if (status === "fulfilled") {
+        const authData = await dispatch(LoginApi({ email, password }));
+        const user = {
+          refresh_token: authData.payload.refresh_token,
+          access_token: authData.payload.access_token,
+          email: email,
+        };
+        localStorage.setItem("token", JSON.stringify(user));
+      }
+      navigate("/");
+    } catch (error) {
+      setError(`Ошибка: ${error.message}`);
+    }
+  };
 
   return (
     <S.ModalWrapper data-id="wrapper">
@@ -17,21 +65,23 @@ export function Register() {
               <img src="/img/logo_modal.png" alt="logo" />
             </S.ModalLogo>
           </Link>
-          <S.Inputs data-id="input">
+          <S.Inputs data-id="input" autoComplete="off">
             <S.ModalInput
               type="text"
               name="login"
               placeholder="Почта"
+              autoComplete="login"
               onChange={(e) => {
-                console.log(e.target.value);
+                dispatch(setLogin(e.target.value));
               }}
             />
             <S.ModalInput
               type="password"
               name="password"
               placeholder="Пароль"
+              autoComplete="password"
               onChange={(e) => {
-                console.log(e.target.value);
+                dispatch(setPassword(e.target.value));
               }}
             />
             <S.ModalInput
@@ -39,7 +89,7 @@ export function Register() {
               name="repeat-password"
               placeholder="Повторите пароль"
               onChange={(e) => {
-                console.log(e.target.value);
+                setRepPass(e.target.value);
               }}
             />
             <S.ModalInput
@@ -47,7 +97,7 @@ export function Register() {
               name="name"
               placeholder="Имя (необязательно)"
               onChange={(e) => {
-                console.log(e.target.value);
+                setName(e.target.value);
               }}
             />
             <S.ModalInput
@@ -55,7 +105,7 @@ export function Register() {
               name="last-name"
               placeholder="Фамилия (необязательно)"
               onChange={(e) => {
-                console.log(e.target.value);
+                setLastName(e.target.value);
               }}
             />
             <S.ModalInput
@@ -63,13 +113,16 @@ export function Register() {
               name="city"
               placeholder="Город (необязательно)"
               onChange={(e) => {
-                console.log(e.target.value);
+                setCity(e.target.value);
               }}
             />
           </S.Inputs>
           {error && <S.Error>{error}</S.Error>}
           <S.Buttons data-id="buttons">
-            <S.PrimaryButton disabled={isLoading ? true : false}>
+            <S.PrimaryButton
+              disabled={loading ? true : false}
+              onClick={handleRegister}
+            >
               Зарегистрироваться
             </S.PrimaryButton>
             <Link to="/login">
