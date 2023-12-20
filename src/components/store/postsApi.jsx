@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setAccessToken, setRefreshToken } from "./userSlice";
+import { setAccessToken, setInitialState, setRefreshToken } from "./userSlice";
+import { clearConfigCache } from "prettier";
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://127.0.0.1:8090/",
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().user.access_Token;
+      const token = getState().user.refreshToken;
       console.debug("Использую токен из стора", { token });
 
       if (token) {
@@ -25,16 +26,15 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
   const forceLogout = () => {
     console.debug("Принудительная авторизация!");
-    // api.dispatch(setInitialState())
     localStorage.clear();
-    api.dispatch(setRefreshToken(null));
+    api.dispatch(setInitialState());
     window.location.href = "/login";
   };
 
   const auth = api.getState().user;
-
   console.debug("Данные пользователя в сторе", auth);
-  if (!auth.refresh_Token) {
+  if (!auth.email || !auth.password) {
+    console.log("force logout");
     return forceLogout();
   }
 
@@ -43,26 +43,28 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       url: "/auth/login",
       method: "POST",
       body: {
-        email: "email",
-        password: "password",
+        email: auth.email,
+        password: auth.password,
       },
     },
     api,
     extraOptions
   );
 
-  // console.debug("Результат запроса на обновление токена", { refreshResult });
+  console.debug("Результат запроса на обновление токена", { refreshResult });
 
-  if (!refreshResult?.data?.access) {
+  if (!refreshResult?.data) {
+    console.log("REFRESHRESULT UNSUCCESSFUL");
     return forceLogout();
   } else {
-    api.dispatch(
-      setAccessToken({ ...auth, access: refreshResult.data.access })
-    );
+    api.dispatch(setAccessToken(refreshResult.data.access_token));
+    api.dispatch(setRefreshToken(refreshResult.data.refresh_token));
 
     const retryResult = await baseQuery(args, api, extraOptions);
+    console.log("retryresult", retryResult);
     if (retryResult?.error?.status === 401) {
-      return forceLogout();
+      console.log("again force logout");
+      // return forceLogout();
     }
 
     // console.debug(`Повторный запрос завершился успешно `);
@@ -71,10 +73,25 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   }
 };
 
+const USER_TAG = "USER";
 export const PostsApi = createApi({
   reducerPath: "adsApi",
   baseQuery: baseQueryWithReauth,
   endpoints: (build) => ({
+    getUser: build.query({
+      query: () => ({
+        url: "/user",
+        method: "GET",
+      }),
+    }),
+    changeUser: build.mutation({
+      query: (data) => ({
+        url: "/user",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: () => [USER_TAG],
+    }),
     getPosts: build.query({
       query: () => ({
         url: "ads",
@@ -99,4 +116,10 @@ export const PostsApi = createApi({
   }),
 });
 
-export const { useGetPosts, useAddPost, useDeletePost } = PostsApi;
+export const {
+  useGetPostsQuery,
+  useAddPostQuery,
+  useDeletePostQuery,
+  useGetUserQuery,
+  useChangeUserMutation,
+} = PostsApi;

@@ -4,21 +4,23 @@ import { useEffect } from "react";
 
 export function useAuth() {
   const dispatch = useDispatch();
+  const email = useSelector((state) => state.user.email);
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("token"));
+    console.log(userData);
     if (userData) {
       dispatch(
         setUser({
           email: userData.email,
           accessToken: userData.access_token,
           refreshToken: userData.refresh_token,
+          password: userData.password,
         })
       );
     }
   }, [dispatch]);
 
-  const email = useSelector((state) => state.user.email);
   return {
     isAuth: !!email,
   };

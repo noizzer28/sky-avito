@@ -61,33 +61,33 @@ export const RegisterApi = createAsyncThunk(
     }
   }
 );
-// export const GetTokenApi = createAsyncThunk(
-//   "user/reg",
-//   async function ({ email, password, userName, surName, city }) {
-//     try {
-//       const response = await fetch(`http://127.0.0.1:8090/user`, {
-//         method: "GET",
-//         body: JSON.stringify({
-//           token:
-//         }),
-//         headers: {
-//           "content-type": "application/json",
-//         },
-//       });
-//       console.log(response);
-//       if (!response.ok) {
-//         const data = await response.json();
-//         throw new Error(data.message);
-//       } else {
-//         const data = await response.json();
-//         return data;
-//       }
-//     } catch (error) {
-//       console.error(error);
-//       throw new Error(error);
-//     }
-//   }
-// );
+export const GetUserApi = createAsyncThunk(
+  "getuser",
+  async function (accessToken) {
+    console.log(accessToken);
+    try {
+      const response = await fetch("http://127.0.0.1:8090/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      console.log(response);
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message);
+      } else {
+        const data = await response.json();
+        return data;
+      }
+    } catch (error) {
+      console.error(error);
+      throw new Error(error);
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
@@ -101,7 +101,9 @@ const userSlice = createSlice({
     loading: false,
     city: "",
     name: "",
-    lastName: "",
+    surname: "",
+    phone: "",
+    avatar: "",
   },
   reducers: {
     setPassword(state, action) {
@@ -114,7 +116,7 @@ const userSlice = createSlice({
       state.refreshToken = action.payload;
     },
     setAccessToken(state, action) {
-      state.accessToken = action.payload.access;
+      state.accessToken = action.payload;
     },
     setStatus(state, action) {
       state.status = action.payload;
@@ -123,16 +125,29 @@ const userSlice = createSlice({
       state.error = action.payload;
     },
     setUser(state, action) {
-      console.log(action.payload);
+      console.log("setting user  tokens");
       state.email = action.payload.email;
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
+      state.password = action.payload.password;
     },
     setUserData(state, action) {
-      console.log(action.payload);
-      state.city = action.payload.city;
-      state.name = action.payload.name;
-      state.lastName = action.payload.lastName;
+      console.log("setting user data", action.payload);
+      if (action.payload.city) {
+        state.city = action.payload.city;
+      }
+      if (action.payload.name) {
+        state.name = action.payload.name;
+      }
+      if (action.payload.surname) {
+        state.surname = action.payload.surname;
+      }
+      if (action.payload.phone) {
+        state.phone = action.payload.phone;
+      }
+      if (action.payload.avatar) {
+        state.avatar = action.payload.avatar;
+      }
     },
     setInitialState(state) {
       state.email = "";
@@ -141,7 +156,7 @@ const userSlice = createSlice({
       state.accessToken = null;
       state.city = "";
       state.name = "";
-      state.lastName = "";
+      state.surname = "";
     },
   },
   extraReducers: (builder) => {

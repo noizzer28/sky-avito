@@ -21,10 +21,12 @@ export function Login() {
     }
     try {
       const data = await dispatch(LoginApi({ email, password }));
+      console.log("PASSWORD", password);
       const user = {
         refresh_token: data.payload.refresh_token,
         access_token: data.payload.access_token,
         email: email,
+        password: password,
       };
       localStorage.setItem("token", JSON.stringify(user));
       navigate("/");
