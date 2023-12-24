@@ -1,6 +1,14 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setAccessToken, setInitialState, setRefreshToken } from "./userSlice";
-import { clearConfigCache } from "prettier";
+
+const baseQueryWithoutReauth = async (args, api, extraOptions) => {
+  const baseQuery = fetchBaseQuery({
+    baseUrl: "http://127.0.0.1:8090/",
+  });
+  const result = await baseQuery(args, api, extraOptions);
+  console.log(result);
+  return result;
+};
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({

@@ -61,33 +61,33 @@ export const RegisterApi = createAsyncThunk(
     }
   }
 );
-export const GetUserApi = createAsyncThunk(
-  "getuser",
-  async function (accessToken) {
-    console.log(accessToken);
-    try {
-      const response = await fetch("http://127.0.0.1:8090/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+// export const GetUserApi = createAsyncThunk(
+//   "getuser",
+//   async function (accessToken) {
+//     console.log(accessToken);
+//     try {
+//       const response = await fetch("http://127.0.0.1:8090/user", {
+//         method: "GET",
+//         headers: {
+//           Authorization: `Bearer ${accessToken}`,
+//         },
+//       });
 
-      console.log(response);
+//       console.log(response);
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message);
-      } else {
-        const data = await response.json();
-        return data;
-      }
-    } catch (error) {
-      console.error(error);
-      throw new Error(error);
-    }
-  }
-);
+//       if (!response.ok) {
+//         const data = await response.json();
+//         throw new Error(data.message);
+//       } else {
+//         const data = await response.json();
+//         return data;
+//       }
+//     } catch (error) {
+//       console.error(error);
+//       throw new Error(error);
+//     }
+//   }
+// );
 
 const userSlice = createSlice({
   name: "user",
@@ -125,14 +125,12 @@ const userSlice = createSlice({
       state.error = action.payload;
     },
     setUser(state, action) {
-      console.log("setting user  tokens");
       state.email = action.payload.email;
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
       state.password = action.payload.password;
     },
     setUserData(state, action) {
-      console.log("setting user data", action.payload);
       if (action.payload.city) {
         state.city = action.payload.city;
       }

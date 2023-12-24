@@ -8,7 +8,6 @@ export function useAuth() {
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("token"));
-    console.log(userData);
     if (userData) {
       dispatch(
         setUser({

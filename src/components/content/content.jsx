@@ -2,6 +2,9 @@ import * as S from "./content.styles";
 import { Link } from "react-router-dom";
 
 export const Content = ({ ads }) => {
+  if (!ads) {
+    return <S.MainContent>Здесь еще нет ни одного объявления</S.MainContent>;
+  }
   console.log(ads);
   return (
     <S.MainContent data-id="main__content">
@@ -16,12 +19,12 @@ export const Content = ({ ads }) => {
             <S.CardItem data-id="cards__item" key={post.id}>
               <S.Card data-id="cards__card card">
                 <S.CardImage data-id="card__image">
-                  <a href="/" target="_blank">
+                  <Link to={`/article/${post.id}`}>
                     <img
                       src={imgUrl ? imgUrl : "/img/no_image.png"}
                       alt="none"
                     />
-                  </a>
+                  </Link>
                 </S.CardImage>
                 <S.CardContent data-id="card__content">
                   <Link to={`/article/${post.id}`}>

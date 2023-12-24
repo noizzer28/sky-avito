@@ -5,7 +5,11 @@ export const ComeBackElement = () => {
   return (
     <S.MainMenu data-id="main__menu menu">
       <S.MenuLogoLink data-id="menu__logo-link" href="" target="_blank">
-        <S.MenuLogoImg data-id="menu__logo-img" src="img/logo.png" alt="logo" />
+        <S.MenuLogoImg
+          data-id="menu__logo-img"
+          src="/img/logo-mob.png"
+          alt="logo"
+        />
       </S.MenuLogoLink>
       <S.MenuForm data-id="menu__form" action="#">
         <Link to={"/"}>

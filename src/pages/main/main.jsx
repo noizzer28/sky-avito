@@ -4,11 +4,19 @@ import { Search } from "../../components/search/search";
 import { Content } from "../../components/content/content";
 import * as S from "./main.styles";
 import { useGetPostsQuery } from "../../components/store/postsApi";
+import { useState, useEffect } from "react";
+import { GetPostsApi } from "../../components/store/postsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { SkeletonLoading } from "../../components/content/loading";
 
 export const Main = () => {
-  const { data = [], isLoading, error } = useGetPostsQuery();
-  console.log(data);
-  console.log(isLoading);
+  const dispatch = useDispatch();
+  const { posts, error, loading } = useSelector((state) => state.post);
+  console.log(posts);
+
+  useEffect(() => {
+    dispatch(GetPostsApi());
+  }, []);
 
   return (
     <>
@@ -17,7 +25,11 @@ export const Main = () => {
         <Search></Search>
         <S.MainContainer data-id="main__container">
           <S.MainH2 data-id="main__h2">Объявления</S.MainH2>
-          <Content ads={data}></Content>
+          {loading ? (
+            <SkeletonLoading amount={8} />
+          ) : (
+            <Content ads={posts}></Content>
+          )}
         </S.MainContainer>
       </S.Main>
       <Footer></Footer>
