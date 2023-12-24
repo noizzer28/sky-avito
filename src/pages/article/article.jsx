@@ -2,7 +2,13 @@ import { Footer } from "../../components/footer/footer";
 import { Header } from "../../components/header/header";
 import * as S from "./article-style";
 import { ComeBackElement } from "../../components/comeBack/comeBack";
+import { useParams } from "react-router-dom"
+
+
 export const Article = () => {
+
+  const {id} = useParams()
+  console.log(id)
   return (
     <>
       <Header></Header>

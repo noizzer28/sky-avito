@@ -94,7 +94,7 @@ export const PostsApi = createApi({
     }),
     getPosts: build.query({
       query: () => ({
-        url: "ads",
+        url: "/ads",
         method: "GET",
       }),
     }),

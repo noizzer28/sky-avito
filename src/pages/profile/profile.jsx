@@ -19,7 +19,6 @@ export const Profile = () => {
   const dispatch = useDispatch();
 
   const { data = [], isLoading, isSuccess, error } = useGetUserQuery();
-  // console.log("data from api", data);
 
   useEffect(() => {
     dispatch(setUserData(data));
@@ -27,9 +26,6 @@ export const Profile = () => {
 
   const user = useSelector((state) => state.user);
   const [isDisabled, setDisabled] = useState(true);
-  // console.log("user from store", user);
-  // console.log(user.name);
-
   const [userName, setName] = useState();
   const [userSurname, setSurname] = useState();
   const [userCity, setCity] = useState();
@@ -46,7 +42,7 @@ export const Profile = () => {
     if (
       userName != user.name ||
       userCity != user.city ||
-      user.phone != user.phone ||
+      user.phone != userPhone ||
       user.surname != userSurname
     ) {
       setDisabled(false);
@@ -70,7 +66,6 @@ export const Profile = () => {
       phone: userPhone,
       city: userCity,
     }).unwrap();
-    console.log(response);
   };
 
   return (

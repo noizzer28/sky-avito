@@ -15,7 +15,7 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Main />} />
-      <Route path="article" element={<Article />} />
+      <Route path="article/:id" element={<Article />} />
       <Route path="sellerProfile" element={<SellerProfile />} />
       <Route path="/login" element={<Login />}></Route>
       <Route path="/register" element={<Register />}></Route>

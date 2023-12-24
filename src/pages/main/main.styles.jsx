@@ -1,13 +1,16 @@
 import styled from "styled-components";
 
-export const Main = styled.main``;
+export const Main = styled.main`
+  height: calc(100vh - 90px);
+  overflow: hidden;
+`;
 
 export const MainContainer = styled.div`
   max-width: 1178px;
   margin: 0 auto;
   padding: 52px 10px 37px;
-  overflow: auto;
-
+  overflow: hidden;
+  height: calc(100vh - 200px);
   @media screen and (max-width: 590px) {
     padding: 15px 10px 84px;
     height: 100vh;
