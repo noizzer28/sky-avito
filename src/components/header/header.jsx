@@ -20,7 +20,7 @@ export const Header = () => {
               >
                 <S.HeaderLogoMobImg
                   className="logo-mob__img"
-                  src="img/logo-mob.png"
+                  src="/img/logo-mob.png"
                   alt="logo"
                 />
               </S.HeaderLogoMobLink>

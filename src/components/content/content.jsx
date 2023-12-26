@@ -1,5 +1,6 @@
 import * as S from "./content.styles";
 import { Link } from "react-router-dom";
+import ReactTimeAgo from "react-time-ago";
 
 export const Content = ({ ads }) => {
   if (!ads) {
@@ -39,7 +40,9 @@ export const Content = ({ ads }) => {
                     {post.user.city}
                   </S.CardData>
                   <S.CardData data-id="card__date">
-                    {post.created_on}
+                    <ReactTimeAgo
+                      date={new Date(post.created_on)}
+                    ></ReactTimeAgo>
                   </S.CardData>
                 </S.CardContent>
               </S.Card>

@@ -100,9 +100,9 @@ export const PostsApi = createApi({
       }),
       invalidatesTags: () => [USER_TAG],
     }),
-    getPosts: build.query({
-      query: () => ({
-        url: "/ads",
+    getPost: build.query({
+      query: (body) => ({
+        url: `/ads/${body}`,
         method: "GET",
       }),
     }),
@@ -125,7 +125,7 @@ export const PostsApi = createApi({
 });
 
 export const {
-  useGetPostsQuery,
+  useGetPostQuery,
   useAddPostQuery,
   useDeletePostQuery,
   useGetUserQuery,

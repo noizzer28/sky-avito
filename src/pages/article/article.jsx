@@ -2,13 +2,33 @@ import { Footer } from "../../components/footer/footer";
 import { Header } from "../../components/header/header";
 import * as S from "./article-style";
 import { ComeBackElement } from "../../components/comeBack/comeBack";
-import { useParams } from "react-router-dom"
-
+import { useParams } from "react-router-dom";
+import { useGetPostQuery } from "../../components/store/postsApi";
+import { useState, useEffect } from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import ReactTimeAgo from "react-time-ago";
 
 export const Article = () => {
+  const { id } = useParams();
+  const [images, setImages] = useState([]);
+  const [activeImage, setActiveImage] = useState(null);
+  const [isHidden, setIsHidden] = useState(false);
+  const { data = [], error, isLoading, isSuccess } = useGetPostQuery(id);
 
-  const {id} = useParams()
-  console.log(id)
+  console.log(data);
+  useEffect(() => {
+    if (data.images && data.images.length > 0) {
+      const arr = data.images.map((item, index) => {
+        if (index === 0) {
+          setActiveImage(`http://127.0.0.1:8090/${item.url}`);
+        }
+        return `http://127.0.0.1:8090/${item.url}`;
+      });
+      setImages(arr);
+    }
+  }, [data]);
+
   return (
     <>
       <Header></Header>
@@ -21,49 +41,78 @@ export const Article = () => {
           <S.ArticContent data-id="artic__content article">
             <S.ArticleLeft data-id="article__left">
               <S.ArticleFillImg data-id="article__fill-img">
-                <S.AtricleImg data-id="article__img">
-                  <img src="" alt="" />
-                </S.AtricleImg>
+                <S.BackArrowMob data-id="BackArrowMob"></S.BackArrowMob>
+                <S.ArticleImg data-id="article__img">
+                  {activeImage ? (
+                    <img src={activeImage} alt="no" />
+                  ) : (
+                    <img src="/img/no_image.png" alt="no" />
+                  )}
+                </S.ArticleImg>
+
                 <S.AtricleImgBar data-id="article__img-bar">
-                  <S.AtricleImgBarDiv data-id="article__img-bar-div">
-                    <img src="" alt="" />
-                  </S.AtricleImgBarDiv>
-                  <S.AtricleImgBarDiv data-id="article__img-bar-div">
-                    <img src="" alt="" />
-                  </S.AtricleImgBarDiv>
-                  <S.AtricleImgBarDiv data-id="article__img-bar-div">
-                    <img src="" alt="" />
-                  </S.AtricleImgBarDiv>
-                  <S.AtricleImgBarDiv data-id="article__img-bar-div">
-                    <img src="" alt="" />
-                  </S.AtricleImgBarDiv>
-                  <S.AtricleImgBarDiv data-id="article__img-bar-div">
-                    <img src="" alt="" />
-                  </S.AtricleImgBarDiv>
-                  <S.AtricleImgBarDiv data-id="article__img-bar-div">
-                    <img src="" alt="" />
-                  </S.AtricleImgBarDiv>
+                  {images.map((item, index) => {
+                    if (item === activeImage) {
+                      return (
+                        <S.AtricleImgBarActive
+                          key={index}
+                          data-id="article__img_active"
+                        >
+                          <img src={item} alt="no" />
+                        </S.AtricleImgBarActive>
+                      );
+                    } else {
+                      return (
+                        <S.AtricleImgBarDiv
+                          key={index}
+                          data-id="article__img"
+                          onClick={() => setActiveImage(item)}
+                        >
+                          <img src={item} alt="no" />
+                        </S.AtricleImgBarDiv>
+                      );
+                    }
+                  })}
                 </S.AtricleImgBar>
-                <S.AtricleImgMob data-id="article__img-bar-mob img-bar-mob">
-                  <S.ImgCircleMob data-id="img-bar-mob__circle circle-active"></S.ImgCircleMob>
-                  <S.ImgCircleMob data-id="img-bar-mob__circle"></S.ImgCircleMob>
-                  <S.ImgCircleMob data-id="img-bar-mob__circle"></S.ImgCircleMob>
-                  <S.ImgCircleMob data-id="img-bar-mob__circle"></S.ImgCircleMob>
-                  <S.ImgCircleMob data-id="img-bar-mob__circle"></S.ImgCircleMob>
+                <S.AtricleImgMob data-id="article__img-mob">
+                  {images.map((item, index) => {
+                    if (item === activeImage) {
+                      return (
+                        <S.ImgCircleMobActive
+                          key={index}
+                          data-id="ImgCircleMobActive"
+                        ></S.ImgCircleMobActive>
+                      );
+                    } else {
+                      return (
+                        <S.ImgCircleMob
+                          key={index}
+                          data-id="ImgCircleMob"
+                          onClick={() => setActiveImage(item)}
+                        ></S.ImgCircleMob>
+                      );
+                    }
+                  })}
                 </S.AtricleImgMob>
               </S.ArticleFillImg>
             </S.ArticleLeft>
             <S.AtricleRight data-id="article__right">
               <S.AtricleBlock data-id="article__block">
                 <S.AtricleTitle data-id="article__title title">
-                  Ракетка для большого тенниса Triumph Pro STС Б/У
+                  {isLoading ? <Skeleton></Skeleton> : data.title}
                 </S.AtricleTitle>
                 <S.AtricleInfo data-id="article__info">
                   <S.AtricleData data-id="article__date">
-                    Сегодня в 10:45
+                    {isLoading ? (
+                      <Skeleton></Skeleton>
+                    ) : (
+                      <ReactTimeAgo
+                        date={new Date(data.created_on)}
+                      ></ReactTimeAgo>
+                    )}
                   </S.AtricleData>
-                  <S.AtricleData data-id="article__city">
-                    Санкт-Петербург
+                  <S.AtricleData data-id="articledata">
+                    {isLoading ? <Skeleton></Skeleton> : data.user.city}
                   </S.AtricleData>
                   <S.AtricleLink
                     data-id="article__link"
@@ -71,24 +120,51 @@ export const Article = () => {
                     target="_blank"
                     rel=""
                   >
-                    23 отзыва
+                    {isLoading ? <Skeleton></Skeleton> : `feedbacks`}
                   </S.AtricleLink>
                 </S.AtricleInfo>
                 <S.AtriclePrice data-id="article__price">
-                  2 200 ₽
+                  {isLoading ? <Skeleton></Skeleton> : `${data.price} ₽`}
                 </S.AtriclePrice>
-                <S.AtricleButton data-id="article__btn" className="btn-hov02">
+
+                <S.AtricleButton
+                  disabled={!data?.user?.phone}
+                  data-id="article__btn"
+                  className="btn-hov02"
+                  onClick={() => setIsHidden((prev) => !prev)}
+                >
                   Показать&nbsp;телефон
-                  <span>8&nbsp;905&nbsp;ХХХ&nbsp;ХХ&nbsp;ХХ</span>
+                  {data?.user?.phone && (
+                    <span>
+                      {isHidden
+                        ? data.user.phone
+                        : handleHideNumber(data.user.phone)}
+                    </span>
+                  )}
                 </S.AtricleButton>
                 <S.AtricleAuthor data-id="article__author author">
                   <S.AuthorImg data-id="author__img">
-                    <img src="" alt="" />
+                    {isLoading ? (
+                      <Skeleton></Skeleton>
+                    ) : (
+                      data.user.avatar && (
+                        <img
+                          src={`http://127.0.0.1:8090/${data?.user?.avatar}`}
+                          alt="no"
+                        />
+                      )
+                    )}
                   </S.AuthorImg>
                   <S.AuthorCont data-id="author__cont">
-                    <S.AuthorName data-id="author__name">Кирилл</S.AuthorName>
+                    <S.AuthorName data-id="author__name">
+                      {isLoading ? <Skeleton></Skeleton> : data.user.name}
+                    </S.AuthorName>
                     <S.AuthorAbout data-id="author__about">
-                      Продает товары с августа 2021
+                      {isLoading ? (
+                        <Skeleton></Skeleton>
+                      ) : (
+                        formatDate(data.user.sells_from)
+                      )}
                     </S.AuthorAbout>
                   </S.AuthorCont>
                 </S.AtricleAuthor>
@@ -101,13 +177,13 @@ export const Article = () => {
           <S.MainTitle data-id="main__title title">Описание товара</S.MainTitle>
           <S.MainContent data-id="main__content">
             <S.MainText data-id="main__text">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              {isLoading ? (
+                <Skeleton count={5}></Skeleton>
+              ) : data.description ? (
+                data.description
+              ) : (
+                "Пользователь еще не добавил описание"
+              )}
             </S.MainText>
           </S.MainContent>
         </S.MainContainer>
@@ -116,3 +192,35 @@ export const Article = () => {
     </>
   );
 };
+
+function handleHideNumber(mob) {
+  const lastIndex = mob.length - 4;
+  const replacedString = mob.substring(0, lastIndex) + "X".repeat(4);
+  return replacedString;
+}
+
+function formatDate(inputDate) {
+  const months = [
+    "января",
+    "февраля",
+    "марта",
+    "апреля",
+    "мая",
+    "июня",
+    "июля",
+    "августа",
+    "сентября",
+    "октября",
+    "ноября",
+    "декабря",
+  ];
+
+  const dateParts = inputDate.split("-");
+  const year = parseInt(dateParts[0], 10);
+  const month = parseInt(dateParts[1], 10) - 1;
+  const day = parseInt(dateParts[2], 10);
+
+  const formattedDate = `Продает товары с ${day} ${months[month]} ${year} г.`;
+
+  return formattedDate;
+}

@@ -3,7 +3,6 @@ import { Footer } from "../../components/footer/footer";
 import { Search } from "../../components/search/search";
 import { Content } from "../../components/content/content";
 import * as S from "./main.styles";
-import { useGetPostsQuery } from "../../components/store/postsApi";
 import { useState, useEffect } from "react";
 import { GetPostsApi } from "../../components/store/postsSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +16,7 @@ export const Main = () => {
   useEffect(() => {
     dispatch(GetPostsApi());
   }, []);
+  console.log(error);
 
   return (
     <>
@@ -25,6 +25,9 @@ export const Main = () => {
         <Search></Search>
         <S.MainContainer data-id="main__container">
           <S.MainH2 data-id="main__h2">Объявления</S.MainH2>
+          {error && (
+            <S.Error>Не удалось загрузить данные с сервера: {error}</S.Error>
+          )}
           {loading ? (
             <SkeletonLoading amount={8} />
           ) : (

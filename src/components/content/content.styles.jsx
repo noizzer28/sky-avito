@@ -74,7 +74,10 @@ export const Cards = styled.div`
 
 export const CardItem = styled.div`
   margin: 0;
-
+  transition: 0.3s;
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
   @media screen and (max-width: 590px) {
     margin: 0;
     -webkit-box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
@@ -138,7 +141,8 @@ export const CardImage = styled.div`
 
 export const CardContent = styled.div``;
 export const CardTitle = styled.h3`
-  height: 52px;
+  max-height: 52px;
+  margin-bottom: 5px;
   font-size: 22px;
   font-weight: 500;
   line-height: 26px;

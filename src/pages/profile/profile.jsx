@@ -18,7 +18,7 @@ export const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { data = [], isLoading, isSuccess, error } = useGetUserQuery();
+  const { data = [], isLoading, error } = useGetUserQuery();
 
   useEffect(() => {
     dispatch(setUserData(data));

@@ -8,6 +8,7 @@ export const GetPostsApi = createAsyncThunk("getPosts", async function () {
 
     if (!response.ok) {
       const data = await response.json();
+      console.log(response, data);
       throw new Error(data.message);
     } else {
       const data = await response.json();

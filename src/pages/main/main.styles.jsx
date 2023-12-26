@@ -62,3 +62,8 @@ export const MainH2 = styled.h2`
     }
   }
 `;
+
+export const Error = styled.div`
+  color: #8c0303;
+  font-size: 20px;
+`;
