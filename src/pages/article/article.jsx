@@ -3,18 +3,24 @@ import { Header } from "../../components/header/header";
 import * as S from "./article-style";
 import { ComeBackElement } from "../../components/comeBack/comeBack";
 import { useParams } from "react-router-dom";
-import { useGetPostQuery } from "../../components/store/postsApi";
+import {
+  useGetPostQuery,
+  useGetFeedbacksQuery,
+} from "../../components/store/postsApi";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import ReactTimeAgo from "react-time-ago";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 export const Article = () => {
   const { id } = useParams();
   const [images, setImages] = useState([]);
   const [activeImage, setActiveImage] = useState(null);
   const [isHidden, setIsHidden] = useState(false);
-  const { data = [], error, isLoading, isSuccess } = useGetPostQuery(id);
+  // const [feedbacks, setFeedbacks] = useState([]);
+
+  const { data = [], isLoading } = useGetPostQuery(id);
 
   console.log(data);
   useEffect(() => {
@@ -29,6 +35,11 @@ export const Article = () => {
     }
   }, [data]);
 
+  const { data: feedbacks, isLoading: feedbackLoading } = useGetFeedbacksQuery(
+    data.id ?? skipToken
+  );
+  console.log(feedbacks);
+  console.log(feedbackLoading);
   return (
     <>
       <Header></Header>
@@ -120,7 +131,13 @@ export const Article = () => {
                     target="_blank"
                     rel=""
                   >
-                    {isLoading ? <Skeleton></Skeleton> : `feedbacks`}
+                    {isLoading || feedbackLoading ? (
+                      <Skeleton></Skeleton>
+                    ) : feedbacks?.length > 0 ? (
+                      formatComments(feedbacks.length)
+                    ) : (
+                      "Оставить первый комментарий"
+                    )}
                   </S.AtricleLink>
                 </S.AtricleInfo>
                 <S.AtriclePrice data-id="article__price">
@@ -133,15 +150,16 @@ export const Article = () => {
                   className="btn-hov02"
                   onClick={() => setIsHidden((prev) => !prev)}
                 >
-                  Показать&nbsp;телефон
+                  {isHidden ? "Скрыть" : "Показать"}&nbsp;телефон
                   {data?.user?.phone && (
                     <span>
                       {isHidden
                         ? data.user.phone
-                        : handleHideNumber(data.user.phone)}
+                        : handleShowNumber(data.user.phone)}
                     </span>
                   )}
                 </S.AtricleButton>
+
                 <S.AtricleAuthor data-id="article__author author">
                   <S.AuthorImg data-id="author__img">
                     {isLoading ? (
@@ -193,7 +211,7 @@ export const Article = () => {
   );
 };
 
-function handleHideNumber(mob) {
+function handleShowNumber(mob) {
   const lastIndex = mob.length - 4;
   const replacedString = mob.substring(0, lastIndex) + "X".repeat(4);
   return replacedString;
@@ -223,4 +241,16 @@ function formatDate(inputDate) {
   const formattedDate = `Продает товары с ${day} ${months[month]} ${year} г.`;
 
   return formattedDate;
+}
+
+function formatComments(length) {
+  const lastDigit = length % 10;
+  console.log(lastDigit);
+  if (lastDigit === 1) {
+    return `${length} отзыв`;
+  } else if (lastDigit > 1 && lastDigit < 5) {
+    return `${length} отзыва`;
+  } else {
+    return `${length} отзывов`;
+  }
 }

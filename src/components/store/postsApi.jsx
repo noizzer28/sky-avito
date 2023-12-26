@@ -106,6 +106,12 @@ export const PostsApi = createApi({
         method: "GET",
       }),
     }),
+    getFeedbacks: build.query({
+      query: (body) => ({
+        url: `/ads/${body}/comments`,
+        method: "GET",
+      }),
+    }),
     addPost: build.mutation({
       query: (body) => ({
         method: "POST",
@@ -127,6 +133,7 @@ export const PostsApi = createApi({
 export const {
   useGetPostQuery,
   useAddPostQuery,
+  useGetFeedbacksQuery,
   useDeletePostQuery,
   useGetUserQuery,
   useChangeUserMutation,
