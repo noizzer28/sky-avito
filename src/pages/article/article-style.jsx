@@ -167,18 +167,22 @@ export const ArticleFillImg = styled.div`
 //   }
 // `;
 export const BackArrowMob = styled.div`
-  width: 23px;
-  height: 23px;
-  background-color: transparent;
-  border-top: 2px solid #000000;
-  border-left: 2px solid #000000;
-  -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-  position: absolute;
-  top: 24px;
-  left: 32px;
-  cursor: pointer;
-}`;
+  display: none;
+
+  @media screen and (max-width: 768px) {
+    width: 23px;
+    height: 23px;
+    background-color: transparent;
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 24px;
+    left: 32px;
+    cursor: pointer;
+  }
+`;
 export const ArticleImg = styled.div`
   width: 480px;
   height: 480px;
@@ -299,10 +303,11 @@ export const AtricleData = styled.p`
     margin-bottom: 4px;
   }
 `;
-export const AtricleLink = styled.a`
+export const AtricleLink = styled.p`
   font-size: 16px;
   line-height: 21px;
   color: #009ee4;
+  cursor: pointer;
   @media screen and (max-width: 768px) {
     font-size: 14px;
     line-height: 19px;

@@ -1,18 +1,26 @@
 import * as S from "./modal.styles";
 import { Header } from "../../components/header/header";
 
-export function ReviewsModal() {
+export const ReviewsModal = ({ reviews, isModal }) => {
+  console.log(isModal);
+  console.log(reviews);
+  const toggleModal = () => {
+    isModal((prev) => !prev);
+  };
   return (
-    <S.ModalWrapper data-id="modal-wrapper">
-      <S.ModalReview data-id="modal__block">
+    <S.ModalWrapper data-id="modal-wrapper" onClick={toggleModal}>
+      <S.ModalReview
+        data-id="modal__review"
+        onClick={(e) => e.stopPropagation()}
+      >
         <S.HeaderWrapper data-id="header wrapper">
           <Header></Header>
         </S.HeaderWrapper>
-        <S.ModalBlock>
+        <S.ModalBlock data-id="modalBlock">
           <S.Modal data-id="modal">
             <S.ModalContent data-id="modal-content">
               <S.Title data-id="title">Отзывы о товаре</S.Title>
-              <S.ModalClose data-id="modalclose">
+              <S.ModalClose data-id="modalclose" onClick={toggleModal}>
                 <S.ModalCloseLine data-id="modalline"></S.ModalCloseLine>
               </S.ModalClose>
               <S.ModalForm data-id="ModalForms" id="formNewArt" action="#">
@@ -110,4 +118,4 @@ export function ReviewsModal() {
       </S.ModalReview>
     </S.ModalWrapper>
   );
-}
+};

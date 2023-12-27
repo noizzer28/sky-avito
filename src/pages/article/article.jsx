@@ -12,17 +12,16 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import ReactTimeAgo from "react-time-ago";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { ReviewsModal } from "../modals/reviews";
 
 export const Article = () => {
   const { id } = useParams();
   const [images, setImages] = useState([]);
   const [activeImage, setActiveImage] = useState(null);
   const [isHidden, setIsHidden] = useState(false);
-  // const [feedbacks, setFeedbacks] = useState([]);
-
+  const [isModal, setModal] = useState(false);
   const { data = [], isLoading } = useGetPostQuery(id);
 
-  console.log(data);
   useEffect(() => {
     if (data.images && data.images.length > 0) {
       const arr = data.images.map((item, index) => {
@@ -35,13 +34,21 @@ export const Article = () => {
     }
   }, [data]);
 
-  const { data: feedbacks, isLoading: feedbackLoading } = useGetFeedbacksQuery(
+  const { data: reviews, isLoading: reviewsLoading } = useGetFeedbacksQuery(
     data.id ?? skipToken
   );
-  console.log(feedbacks);
-  console.log(feedbackLoading);
+  console.log(reviews);
+  console.log("1");
+
+  const toggleModal = () => {
+    setModal((prev) => !prev);
+  };
+
   return (
     <>
+      {isModal && (
+        <ReviewsModal reviews={reviews} isModal={toggleModal}></ReviewsModal>
+      )}
       <Header></Header>
       <S.Main data-id="main">
         <S.MainContainer data-id="main__container">
@@ -127,14 +134,12 @@ export const Article = () => {
                   </S.AtricleData>
                   <S.AtricleLink
                     data-id="article__link"
-                    href=""
-                    target="_blank"
-                    rel=""
+                    onClick={() => setModal(true)}
                   >
-                    {isLoading || feedbackLoading ? (
+                    {isLoading || reviewsLoading ? (
                       <Skeleton></Skeleton>
-                    ) : feedbacks?.length > 0 ? (
-                      formatComments(feedbacks.length)
+                    ) : reviews?.length > 0 ? (
+                      formatComments(reviews.length)
                     ) : (
                       "Оставить первый комментарий"
                     )}
@@ -245,7 +250,6 @@ function formatDate(inputDate) {
 
 function formatComments(length) {
   const lastDigit = length % 10;
-  console.log(lastDigit);
   if (lastDigit === 1) {
     return `${length} отзыв`;
   } else if (lastDigit > 1 && lastDigit < 5) {

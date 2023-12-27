@@ -8,30 +8,32 @@ export const ModalWrapper = styled.div`
   top: 0px;
   width: 100%;
   height: 100%;
-  background-color: #2492ca;
+  background-color: rgba(0, 0, 0, 0.7);
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 3;
 
   padding-top: 20px;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     padding-top: 0px;
   }
 `;
 
 export const ModalBlock = styled.div`
   margin: 0 20px;
-  @media screen and (max-width: 600px) {
+
+  @media screen and (max-width: 768px) {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     overflow-y: auto;
     margin: 0;
   }
 `;
 export const ModalNew = styled.div`
-  max-width: 600px;
-  @media screen and (max-width: 600px) {
+  max-width: 768px;
+  @media screen and (max-width: 768px) {
     width: 100%;
     height: 100vh;
     overflow-y: scroll;
@@ -40,10 +42,10 @@ export const ModalNew = styled.div`
 `;
 export const ModalReview = styled.div`
   max-width: 900px;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
     height: 100vh;
-    overflow-y: scroll;
+    overflow-y: hidden;
     margin-top: 0;
   }
 `;
@@ -61,7 +63,7 @@ export const Modal = styled.div`
   -ms-flex-align: center;
   align-items: center;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
     height: 100vh;
     border-radius: 0px;
@@ -79,7 +81,7 @@ export const Title = styled.h3`
     border-left: 2px solid #0080c1;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     font-size: 24px;
     line-height: 29px;
     padding: 0 0 0 26px;
@@ -111,7 +113,7 @@ export const ModalClose = styled.div`
   right: 50px;
   z-index: 3;
   cursor: pointer;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;
@@ -144,7 +146,7 @@ export const ModalCloseLine = styled.div`
     transform: rotate(-45deg);
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;
@@ -166,7 +168,7 @@ export const ModalContent = styled.div`
   border-radius: 12px;
   position: relative;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
@@ -185,7 +187,7 @@ export const ModalContent = styled.div`
 export const ModalForm = styled.form`
   width: 100%;
   margin-top: 22px;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     margin-top: 22px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -207,7 +209,7 @@ display: flex;
     -ms-flex-direction: column;
         flex-direction: column;
 margin-bottom: 20px;
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -244,7 +246,7 @@ export const Input = styled.input`
     line-height: 24px;
     color: #0000004d;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -269,7 +271,7 @@ export const InputDescription = styled.textarea`
     line-height: 24px;
     color: #0000004d;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
 `;
@@ -282,7 +284,7 @@ export const InputText = styled.div`
     margin-left: 10px;
     color: rgba(0, 0, 0, 0.3);
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     font-size: 14px;
     line-height: 21px;
     margin-bottom: 10px;
@@ -311,7 +313,7 @@ export const ModalImageFlex = styled.div`
   justify-content: space-between;
   margin-bottom: 10px;
   overflow: hidden;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -346,7 +348,7 @@ export const ModalImage = styled.div`
     z-index: 2;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     display: block;
     width: 90px;
     min-width: 90px;
@@ -398,7 +400,7 @@ export const ModalPriceInput = styled.div`
   flex-direction: column;
   margin-bottom: 20px;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -441,7 +443,7 @@ export const InputPrice = styled(Input)`
   //   color: #000000;
   //   z-index: 2;
   // }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
     &::-webkit-input-placeholder,
     &:-ms-input-placeholder,
@@ -471,7 +473,7 @@ export const Price = styled.div`
   transform: translateY(-50%);
   position: absolute;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 21px;
     height: 21px;
     font-size: 14px;
@@ -497,7 +499,7 @@ export const ModalButton = styled.button`
   line-height: 24px;
   color: #ffffff;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     margin-top: 10px;
     width: 100%;
     height: 46px;
@@ -506,7 +508,7 @@ export const ModalButton = styled.button`
 
 export const HeaderWrapper = styled.div`
   display: none;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     display: block;
   }
 `;

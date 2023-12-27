@@ -16,7 +16,7 @@ export const Main = () => {
   useEffect(() => {
     dispatch(GetPostsApi());
   }, []);
-  console.log(error);
+  console.log("log");
 
   return (
     <>
