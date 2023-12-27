@@ -249,29 +249,24 @@ export const SettingsInputPhone = styled.input`
   }
 `;
 export const SettingsButton = styled.button`
-  font-size: 16px;
-  line-height: 1;
-  color: #ffffff;
   width: 154px;
   height: 50px;
   margin-top: 10px;
   margin-right: 15px;
-  background-color: #009ee4;
-  border-radius: 6px;
-  border: 1px solid #009ee4;
-  &:hover {
-    background-color: #0080c1;
-  }
 
-  &:active {
-    background-color: #015681;
-  }
+  // &:hover {
+  //   background-color: #0080c1;
+  // }
 
-  &:disabled {
-    background-color: #5e5e5e;
-    border: none;
-    cursor: not-allowed;
-  }
+  // &:active {
+  //   background-color: #015681;
+  // }
+
+  // &:disabled {
+  //   background-color: #5e5e5e;
+  //   border: none;
+  //   cursor: not-allowed;
+  // }
   @media screen and (max-width: 620px) {
     font-size: 16px;
     line-height: 1;

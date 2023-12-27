@@ -63,7 +63,14 @@ export const GlobalStyles = createGlobalStyle`
     font-family: "Roboto", sans-serif;
   }
   
-  
+  button {
+    background-color: #009ee4;
+    border-radius: 6px;
+    border: 1px solid #009ee4;
+    font-size: 16px;
+    line-height: 1;
+    color: #ffffff;
+  }
   button:hover {
       background-color: #0080c1;
     }
@@ -73,8 +80,14 @@ export const GlobalStyles = createGlobalStyle`
     }
   
     button:disabled {
+      border: none;
       background-color: #5e5e5e;
-      cursor: not-allowed;
+    }
+    button:hover:disabled {
+      border: none;
+      background-color: #4d4d4d;
+      cursor: default;
+     
     }
   
   .btn-hov01:hover {

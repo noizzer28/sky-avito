@@ -47,7 +47,11 @@ export const Article = () => {
   return (
     <>
       {isModal && (
-        <ReviewsModal reviews={reviews} isModal={toggleModal}></ReviewsModal>
+        <ReviewsModal
+          reviews={reviews}
+          isModal={toggleModal}
+          postId={id}
+        ></ReviewsModal>
       )}
       <Header></Header>
       <S.Main data-id="main">

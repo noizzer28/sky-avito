@@ -4,11 +4,29 @@ import { format } from "date-fns";
 import { ru } from "date-fns/locale/ru";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAddFeedbackMutation } from "../../components/store/postsApi";
+import { useState, useEffect } from "react";
 
-export const ReviewsModal = ({ reviews, isModal }) => {
+export const ReviewsModal = ({ reviews, isModal, postId }) => {
   const email = useSelector((state) => state.user.email);
+  const [review, setReview] = useState("");
   const toggleModal = () => {
     isModal((prev) => !prev);
+  };
+
+  const [addReview] = useAddFeedbackMutation();
+
+  const handlePostReview = async (e) => {
+    e.preventDefault();
+    const response = await addReview({
+      text: {
+        text: review,
+      },
+      postId: postId,
+    }).unwrap();
+    if (response?.id) {
+      setReview("");
+    }
   };
 
   return (
@@ -39,7 +57,9 @@ export const ReviewsModal = ({ reviews, isModal }) => {
                       name="name"
                       id="formName"
                       rows="6"
+                      value={review}
                       placeholder="Введите отзыв"
+                      onChange={(e) => setReview(e.target.value)}
                     />
                   </S.ModalInput>
 
@@ -47,6 +67,8 @@ export const ReviewsModal = ({ reviews, isModal }) => {
                     data-id="form-newArt__btn-pub btn-hov02"
                     className="btn-hov02"
                     id="btnPublish"
+                    disabled={review === "" ? true : false}
+                    onClick={handlePostReview}
                   >
                     Сохранить
                   </S.ModalButton>

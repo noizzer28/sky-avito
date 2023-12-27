@@ -82,6 +82,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 };
 
 const USER_TAG = "USER";
+const REVIEW_TAG = "REVIEW";
 export const PostsApi = createApi({
   reducerPath: "adsApi",
   baseQuery: baseQueryWithReauth,
@@ -111,6 +112,15 @@ export const PostsApi = createApi({
         url: `/ads/${body}/comments`,
         method: "GET",
       }),
+      providesTags: () => [REVIEW_TAG],
+    }),
+    addFeedback: build.mutation({
+      query: ({ postId, text }) => ({
+        url: `/ads/${postId}/comments`,
+        method: "POST",
+        body: text,
+      }),
+      invalidatesTags: () => [REVIEW_TAG],
     }),
     addPost: build.mutation({
       query: (body) => ({
@@ -132,8 +142,9 @@ export const PostsApi = createApi({
 
 export const {
   useGetPostQuery,
-  useAddPostQuery,
+  useAddFeedbackMutation,
   useGetFeedbacksQuery,
+  useAddPostQuery,
   useDeletePostQuery,
   useGetUserQuery,
   useChangeUserMutation,

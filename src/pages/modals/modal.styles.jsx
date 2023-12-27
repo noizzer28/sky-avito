@@ -499,12 +499,6 @@ export const ModalButton = styled.button`
   margin-top: 10px;
   width: 181px;
   height: 50px;
-  background: #d9d9d9;
-  border: 1px solid #d9d9d9;
-  border-radius: 6px;
-  font-size: 16px;
-  line-height: 24px;
-  color: #ffffff;
 
   @media screen and (max-width: 768px) {
     margin-top: 10px;
