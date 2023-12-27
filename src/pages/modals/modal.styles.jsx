@@ -41,7 +41,10 @@ export const ModalNew = styled.div`
   }
 `;
 export const ModalReview = styled.div`
-  max-width: 900px;
+  min-width: 900px;
+  @media screen and (max-width: 900px) {
+    min-width: 700px;
+  }
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 100vh;
@@ -87,20 +90,6 @@ export const Title = styled.h3`
     padding: 0 0 0 26px;
     position: relative;
 
-    &::before {
-      content: "";
-      display: block;
-      width: 12px;
-      height: 12px;
-      background-color: transparent;
-      border-top: 2px solid #000000;
-      border-left: 2px solid #000000;
-      -webkit-transform: rotate(-45deg);
-      transform: rotate(-45deg);
-      position: absolute;
-      top: 9px;
-      left: 0;
-      cursor: pointer;
     }
   }
 `;
@@ -116,6 +105,23 @@ export const ModalClose = styled.div`
   @media screen and (max-width: 768px) {
     display: none;
   }
+`;
+export const ModalCloseMob = styled.div`
+  @media screen and (max-width: 768px) {
+    display: block;
+    width: 12px;
+    height: 12px;
+    background-color: transparent;
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 9px;
+    left: 0;
+    cursor: pointer;
+  }
+  display: none;
 `;
 export const ModalCloseLine = styled.div`
   position: relative;
@@ -167,6 +173,7 @@ export const ModalContent = styled.div`
   background-color: #ffffff;
   border-radius: 12px;
   position: relative;
+  max-height: 1100px;
 
   @media screen and (max-width: 768px) {
     display: -ms-flexbox;
@@ -514,6 +521,23 @@ export const HeaderWrapper = styled.div`
 `;
 export const ModalReviews = styled.div`
   width: 100%;
+  margin-top: 20px;
+  overflow-y: scroll;
+  scrollbar-color: #ffffff #2e2e2e;
+  scrollbar-width: thin;
+  scrollbar-width: 0px;
+  height: 100%;
+  padding-bottom: 50px;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    background-color: #009ee4;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #0080c1;
+    border-radius: 3px;
+  }
 `;
 export const Reviews = styled.div`
   display: -webkit-box;
@@ -524,7 +548,7 @@ export const Reviews = styled.div`
   align-items: center;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 15px 0;
 `;
 export const ReviewItem = styled.div`
@@ -572,4 +596,12 @@ export const ReviewText = styled.p`
 export const ReviewComm = styled.p`
   margin-bottom: 12px;
   font-weight: 400;
+`;
+export const AuthModalWarning = styled.p`
+  margin-top: 20px;
+  font-size: 18px;
+  span {
+    cursor: pointer;
+    color: #009ee4;
+  }
 `;

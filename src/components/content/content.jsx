@@ -6,7 +6,7 @@ export const Content = ({ ads }) => {
   if (!ads) {
     return <S.MainContent>Здесь еще нет ни одного объявления</S.MainContent>;
   }
-  console.log(ads);
+
   return (
     <S.MainContent data-id="main__content">
       <S.Cards data-id="content__cards cards">

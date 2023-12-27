@@ -11,12 +11,11 @@ import { SkeletonLoading } from "../../components/content/loading";
 export const Main = () => {
   const dispatch = useDispatch();
   const { posts, error, loading } = useSelector((state) => state.post);
-  console.log(posts);
+
 
   useEffect(() => {
     dispatch(GetPostsApi());
   }, []);
-  console.log("log");
 
   return (
     <>

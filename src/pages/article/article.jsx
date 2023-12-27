@@ -13,6 +13,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import ReactTimeAgo from "react-time-ago";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { ReviewsModal } from "../modals/reviews";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale/ru";
 
 export const Article = () => {
   const { id } = useParams();
@@ -37,8 +39,6 @@ export const Article = () => {
   const { data: reviews, isLoading: reviewsLoading } = useGetFeedbacksQuery(
     data.id ?? skipToken
   );
-  console.log(reviews);
-  console.log("1");
 
   const toggleModal = () => {
     setModal((prev) => !prev);
@@ -186,7 +186,13 @@ export const Article = () => {
                       {isLoading ? (
                         <Skeleton></Skeleton>
                       ) : (
-                        formatDate(data.user.sells_from)
+                        `Продает товары с ${format(
+                          new Date(data.user.sells_from),
+                          "d MMMM yyyy",
+                          {
+                            locale: ru,
+                          }
+                        )} г.`
                       )}
                     </S.AuthorAbout>
                   </S.AuthorCont>
@@ -220,32 +226,6 @@ function handleShowNumber(mob) {
   const lastIndex = mob.length - 4;
   const replacedString = mob.substring(0, lastIndex) + "X".repeat(4);
   return replacedString;
-}
-
-function formatDate(inputDate) {
-  const months = [
-    "января",
-    "февраля",
-    "марта",
-    "апреля",
-    "мая",
-    "июня",
-    "июля",
-    "августа",
-    "сентября",
-    "октября",
-    "ноября",
-    "декабря",
-  ];
-
-  const dateParts = inputDate.split("-");
-  const year = parseInt(dateParts[0], 10);
-  const month = parseInt(dateParts[1], 10) - 1;
-  const day = parseInt(dateParts[2], 10);
-
-  const formattedDate = `Продает товары с ${day} ${months[month]} ${year} г.`;
-
-  return formattedDate;
 }
 
 function formatComments(length) {
