@@ -1,6 +1,6 @@
 import * as S from "./modal.styles";
 import { Header } from "../../components/header/header";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import {
   useAddNewPostMutation,
   useAddPostPictureMutation,
@@ -18,7 +18,6 @@ export function Modal({ isNew, isModal }) {
   const [addPost] = useAddNewPostMutation();
   const [addPostPicture] = useAddPostPictureMutation();
   const [error, setError] = useState(null);
-  const formRef = useRef(null);
 
   const toggleModal = () => {
     isModal((prev) => !prev);
@@ -89,13 +88,11 @@ export function Modal({ isNew, isModal }) {
             setSuccess(true);
             setLoading(false);
             setPostData([{ title: "" }, { description: "" }, { price: "" }]);
-            formRef.current.reset();
           }
         });
       }
     }
   };
-
   return (
     <S.ModalWrapper data-id="modal-wrapper" onClick={toggleModal}>
       <S.ModalBlock data-id="modal__block" onClick={(e) => e.stopPropagation()}>
@@ -114,12 +111,7 @@ export function Modal({ isNew, isModal }) {
                 onClick={toggleModal}
               ></S.ModalCloseLine>
             </S.ModalClose>
-            <S.ModalForm
-              data-id="ModalForms"
-              id="formNewArt"
-              action="#"
-              ref={formRef}
-            >
+            <S.ModalForm data-id="ModalForms" id="formNewArt" action="#">
               <S.ModalInput data-id="ModalInput">
                 <S.Label htmlFor="name">Название</S.Label>
                 <S.Input
@@ -127,7 +119,7 @@ export function Modal({ isNew, isModal }) {
                   name="name"
                   id="formName"
                   placeholder="Введите название"
-                  autoComplete={postData[0]}
+                  value={postData[0].title}
                   onChange={(e) =>
                     setPostData((prevArray) => {
                       const newArray = [...prevArray];
@@ -144,7 +136,7 @@ export function Modal({ isNew, isModal }) {
                   rows="6"
                   cols="auto"
                   placeholder="Введите описание"
-                  autoComplete={postData[1]}
+                  value={postData[1].description}
                   onChange={(e) =>
                     setPostData((prevArray) => {
                       const newArray = [...prevArray];
@@ -271,7 +263,7 @@ export function Modal({ isNew, isModal }) {
                     type="number"
                     name="price"
                     id="formName"
-                    autoComplete={postData[1]}
+                    value={postData[1].price}
                     onChange={(e) =>
                       setPostData((prevArray) => {
                         const newArray = [...prevArray];

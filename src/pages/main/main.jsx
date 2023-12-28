@@ -7,15 +7,17 @@ import { useState, useEffect } from "react";
 import { GetPostsApi } from "../../components/store/postsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { SkeletonLoading } from "../../components/content/loading";
+import { useGetAllPostsQuery } from "../../components/store/postsApi";
 
 export const Main = () => {
   const dispatch = useDispatch();
-  const { posts, error, loading } = useSelector((state) => state.post);
+  // const { posts: data, error: isError, loading: isLoading } = useSelector((state) => state.post);
 
-
-  useEffect(() => {
-    dispatch(GetPostsApi());
-  }, []);
+  const { data, isError, isLoading } = useGetAllPostsQuery();
+  // useEffect(() => {
+  //   dispatch(GetPostsApi());
+  // }, []);
+  console.log(data);
 
   return (
     <>
@@ -24,13 +26,13 @@ export const Main = () => {
         <Search></Search>
         <S.MainContainer data-id="main__container">
           <S.MainH2 data-id="main__h2">Объявления</S.MainH2>
-          {error && (
-            <S.Error>Не удалось загрузить данные с сервера: {error}</S.Error>
+          {isError && (
+            <S.Error>Не удалось загрузить данные с сервера: {isError}</S.Error>
           )}
-          {loading ? (
+          {isLoading ? (
             <SkeletonLoading amount={8} />
           ) : (
-            <Content ads={posts}></Content>
+            <Content ads={data}></Content>
           )}
         </S.MainContainer>
       </S.Main>

@@ -74,6 +74,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 const USER_TAG = "USER";
 const REVIEW_TAG = "REVIEW";
+const POSTS_TAG = "POSTS";
 export const PostsApi = createApi({
   reducerPath: "adsApi",
   baseQuery: baseQueryWithReauth,
@@ -119,12 +120,17 @@ export const PostsApi = createApi({
       }),
       invalidatesTags: () => [REVIEW_TAG],
     }),
+    getAllPosts: build.query({
+      query: () => "ads",
+      providesTags: () => [POSTS_TAG],
+    }),
     addNewPost: build.mutation({
       query: (body) => ({
         method: "POST",
         url: `adstext`,
         body,
       }),
+      invalidatesTags: () => [POSTS_TAG],
     }),
     addPostPicture: build.mutation({
       query: ({ postId, image }) => {
@@ -138,6 +144,7 @@ export const PostsApi = createApi({
           body: fD,
         };
       },
+      invalidatesTags: () => [POSTS_TAG],
     }),
   }),
 });
@@ -151,4 +158,5 @@ export const {
   useChangeUserMutation,
   useAddNewPostMutation,
   useAddPostPictureMutation,
+  useGetAllPostsQuery,
 } = PostsApi;
