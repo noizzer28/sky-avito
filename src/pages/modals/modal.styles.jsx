@@ -500,6 +500,15 @@ export const ModalButton = styled.button`
   margin-top: 10px;
   width: 181px;
   height: 50px;
+  &:disabled {
+    border: none;
+    background-color: #5e5e5e;
+  }
+  &:hover:disabled {
+    border: none;
+    background-color: #4d4d4d;
+    cursor: default;
+  }
 
   @media screen and (max-width: 768px) {
     margin-top: 10px;
@@ -599,6 +608,12 @@ export const AuthModalWarning = styled.p`
     cursor: pointer;
     color: #009ee4;
   }
+`;
+export const Error = styled.p`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #700404;
 `;
 export const InputPicture = styled.input`
   display: none;

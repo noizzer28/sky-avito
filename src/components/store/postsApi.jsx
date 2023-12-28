@@ -130,8 +130,8 @@ export const PostsApi = createApi({
       query: ({ postId, image }) => {
         const fD = new FormData();
         fD.append("file", image);
-        console.log(fD);
-        console.log(image);
+        console.log(postId, "postID");
+        console.log("img before send", image);
         return {
           url: `ads/${postId}/image`,
           method: "POST",

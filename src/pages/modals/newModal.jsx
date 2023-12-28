@@ -1,20 +1,25 @@
 import * as S from "./modal.styles";
 import { Header } from "../../components/header/header";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   useAddNewPostMutation,
   useAddPostPictureMutation,
 } from "../../components/store/postsApi";
 
 export function Modal({ isNew, isModal }) {
+  const [postData, setPostData] = useState([
+    { title: "" },
+    { description: "" },
+    { price: "" },
+  ]);
   const [uploadedPics, setUploadedPics] = useState([]);
-  const [nameAdv, setNameAdv] = useState("");
-  const [postDescription, setDescription] = useState("");
-
-  const [price, setPrice] = useState("");
-  const [postId, setPostId] = useState(null);
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [addPost] = useAddNewPostMutation();
+  const [addPostPicture] = useAddPostPictureMutation();
+  const [error, setError] = useState(null);
+  const formRef = useRef(null);
+
   const toggleModal = () => {
     isModal((prev) => !prev);
   };
@@ -42,36 +47,55 @@ export function Modal({ isNew, isModal }) {
     );
   };
 
-  const [addPost] = useAddNewPostMutation();
-  const [addPostPicture] = useAddPostPictureMutation();
   const handlePostAd = async (e) => {
     e.preventDefault();
-    setloading(true);
-    const response = await addPost({
-      title: nameAdv,
-      description: postDescription,
-      price: price,
-    }).unwrap();
-    console.log(response);
-    if (response?.id) {
-      setPostId(response.id);
-      setNameAdv("");
-      setDescription("");
-      setPrice("");
-    }
-    uploadedPics.forEach(async (pic) => {
-      const result = await addPostPicture({
-        postId: postId,
-        image: pic.file,
-      });
-      if (result?.id) {
-        setSuccess(true);
+    setLoading(true);
+    if (
+      postData[0].title === "" ||
+      postData[1].description === "" ||
+      postData[2].price === ""
+    ) {
+      setError("Необходимо заполнить все поля перед отправкой");
+      setLoading(false);
+    } else {
+      setError(null);
+      const response = await addPost({
+        title: postData[0],
+        description: postData[1],
+        price: postData[2],
+      }).unwrap();
+      console.log("first response: ", response);
+      if (response.error) {
+        setError("Произошла ошибка, попробуйте еще раз");
+        setLoading(false);
+      } else {
+        console.log("sending pictures");
+        console.log("responseID", response.id);
+
+        uploadedPics.forEach(async (pic) => {
+          const result = await addPostPicture({
+            postId: response.id,
+            image: pic.file,
+          });
+          console.log("secondResponse", result);
+          console.error(result.error);
+          if (result.error) {
+            setError("Произошла ошибка, попробуйте еще раз");
+
+            setLoading(false);
+          } else {
+            console.log("final");
+            setUploadedPics([]);
+            setSuccess(true);
+            setLoading(false);
+            setPostData([{ title: "" }, { description: "" }, { price: "" }]);
+            formRef.current.reset();
+          }
+        });
       }
-      console.log("RESULTAT", result);
-    });
-    setloading(false);
+    }
   };
-  console.log(uploadedPics);
+
   return (
     <S.ModalWrapper data-id="modal-wrapper" onClick={toggleModal}>
       <S.ModalBlock data-id="modal__block" onClick={(e) => e.stopPropagation()}>
@@ -83,13 +107,19 @@ export function Modal({ isNew, isModal }) {
             <S.Title data-id="title">
               {isNew ? "Новое объявление" : "Редактировать объявление"}
             </S.Title>
+            {success && <div>Объясление успешно загружено!</div>}
             <S.ModalClose data-id="modalclose">
               <S.ModalCloseLine
                 data-id="modalline"
                 onClick={toggleModal}
               ></S.ModalCloseLine>
             </S.ModalClose>
-            <S.ModalForm data-id="ModalForms" id="formNewArt" action="#">
+            <S.ModalForm
+              data-id="ModalForms"
+              id="formNewArt"
+              action="#"
+              ref={formRef}
+            >
               <S.ModalInput data-id="ModalInput">
                 <S.Label htmlFor="name">Название</S.Label>
                 <S.Input
@@ -97,7 +127,14 @@ export function Modal({ isNew, isModal }) {
                   name="name"
                   id="formName"
                   placeholder="Введите название"
-                  onChange={(e) => setNameAdv(e.target.value)}
+                  autoComplete={postData[0]}
+                  onChange={(e) =>
+                    setPostData((prevArray) => {
+                      const newArray = [...prevArray];
+                      newArray[0] = e.target.value;
+                      return newArray;
+                    })
+                  }
                 />
               </S.ModalInput>
               <S.ModalInput data-id="ModalInput">
@@ -107,7 +144,14 @@ export function Modal({ isNew, isModal }) {
                   rows="6"
                   cols="auto"
                   placeholder="Введите описание"
-                  onChange={(e) => setDescription(e.target.value)}
+                  autoComplete={postData[1]}
+                  onChange={(e) =>
+                    setPostData((prevArray) => {
+                      const newArray = [...prevArray];
+                      newArray[1] = e.target.value;
+                      return newArray;
+                    })
+                  }
                 />
               </S.ModalInput>
 
@@ -227,20 +271,29 @@ export function Modal({ isNew, isModal }) {
                     type="number"
                     name="price"
                     id="formName"
-                    onChange={(e) => setPrice(e.target.value)}
+                    autoComplete={postData[1]}
+                    onChange={(e) =>
+                      setPostData((prevArray) => {
+                        const newArray = [...prevArray];
+                        newArray[2] = e.target.value;
+                        return newArray;
+                      })
+                    }
                   />
                   <S.Price data-id="form-newArt__input-price-cover">₽</S.Price>
                 </S.InputWrapper>
               </S.ModalPriceInput>
-
+              {error && <S.Error data-id="WARNING">{error}</S.Error>}
               <S.ModalButton
                 data-id="form-newArt__btn-pub btn-hov02"
                 className="btn-hov02"
                 id="btnPublish"
-                disabled={!!loading}
+                disabled={loading ? true : false}
                 onClick={handlePostAd}
               >
-                {isNew ? "Опубликовать" : "Сохранить"}
+                {isNew
+                  ? `${loading ? "Загрузка" : "Опубликовать"}`
+                  : "Сохранить"}
               </S.ModalButton>
             </S.ModalForm>
           </S.ModalContent>
