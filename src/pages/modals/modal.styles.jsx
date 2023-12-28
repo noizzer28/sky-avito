@@ -615,6 +615,12 @@ export const Error = styled.p`
   font-size: 18px;
   color: #700404;
 `;
+export const Success = styled.p`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #078f2e;
+`;
 export const InputPicture = styled.input`
   display: none;
 `;

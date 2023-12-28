@@ -104,7 +104,7 @@ export function Modal({ isNew, isModal }) {
             <S.Title data-id="title">
               {isNew ? "Новое объявление" : "Редактировать объявление"}
             </S.Title>
-            {success && <div>Объясление успешно загружено!</div>}
+
             <S.ModalClose data-id="modalclose">
               <S.ModalCloseLine
                 data-id="modalline"
@@ -263,7 +263,7 @@ export function Modal({ isNew, isModal }) {
                     type="number"
                     name="price"
                     id="formName"
-                    value={postData[1].price}
+                    value={postData[2].price}
                     onChange={(e) =>
                       setPostData((prevArray) => {
                         const newArray = [...prevArray];
@@ -275,6 +275,7 @@ export function Modal({ isNew, isModal }) {
                   <S.Price data-id="form-newArt__input-price-cover">₽</S.Price>
                 </S.InputWrapper>
               </S.ModalPriceInput>
+              {success && <S.Success>Объявление успешно загружено!</S.Success>}
               {error && <S.Error data-id="WARNING">{error}</S.Error>}
               <S.ModalButton
                 data-id="form-newArt__btn-pub btn-hov02"
@@ -287,6 +288,7 @@ export function Modal({ isNew, isModal }) {
                   ? `${loading ? "Загрузка" : "Опубликовать"}`
                   : "Сохранить"}
               </S.ModalButton>
+
             </S.ModalForm>
           </S.ModalContent>
         </S.Modal>
