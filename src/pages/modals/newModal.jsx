@@ -1,10 +1,80 @@
 import * as S from "./modal.styles";
 import { Header } from "../../components/header/header";
+import { useState } from "react";
+import {
+  useAddNewPostMutation,
+  useAddPostPictureMutation,
+} from "../../components/store/postsApi";
 
-export function Modal({ isNew }) {
+export function Modal({ isNew, isModal }) {
+  const [uploadedPics, setUploadedPics] = useState([]);
+  const [nameAdv, setNameAdv] = useState("");
+  const [postDescription, setDescription] = useState("");
+
+  const [price, setPrice] = useState("");
+  const [postId, setPostId] = useState(null);
+  const [loading, setloading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const toggleModal = () => {
+    isModal((prev) => !prev);
+  };
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const imageUrl = reader.result;
+        setUploadedPics((prevUploadedPics) => [
+          ...prevUploadedPics,
+          { file: file, src: imageUrl },
+        ]);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removePic = (indexValue) => {
+    console.log(indexValue);
+    setUploadedPics((prevArray) =>
+      prevArray.filter((_, index) => index !== indexValue)
+    );
+  };
+
+  const [addPost] = useAddNewPostMutation();
+  const [addPostPicture] = useAddPostPictureMutation();
+  const handlePostAd = async (e) => {
+    e.preventDefault();
+    setloading(true);
+    const response = await addPost({
+      title: nameAdv,
+      description: postDescription,
+      price: price,
+    }).unwrap();
+    console.log(response);
+    if (response?.id) {
+      setPostId(response.id);
+      setNameAdv("");
+      setDescription("");
+      setPrice("");
+    }
+    uploadedPics.forEach(async (pic) => {
+      const result = await addPostPicture({
+        postId: postId,
+        image: pic.file,
+      });
+      if (result?.id) {
+        setSuccess(true);
+      }
+      console.log("RESULTAT", result);
+    });
+    setloading(false);
+  };
+  console.log(uploadedPics);
   return (
-    <S.ModalWrapper data-id="modal-wrapper">
-      <S.ModalBlock data-id="modal__block">
+    <S.ModalWrapper data-id="modal-wrapper" onClick={toggleModal}>
+      <S.ModalBlock data-id="modal__block" onClick={(e) => e.stopPropagation()}>
         <S.HeaderWrapper data-id="header wrapper">
           <Header></Header>
         </S.HeaderWrapper>
@@ -14,7 +84,10 @@ export function Modal({ isNew }) {
               {isNew ? "Новое объявление" : "Редактировать объявление"}
             </S.Title>
             <S.ModalClose data-id="modalclose">
-              <S.ModalCloseLine data-id="modalline"></S.ModalCloseLine>
+              <S.ModalCloseLine
+                data-id="modalline"
+                onClick={toggleModal}
+              ></S.ModalCloseLine>
             </S.ModalClose>
             <S.ModalForm data-id="ModalForms" id="formNewArt" action="#">
               <S.ModalInput data-id="ModalInput">
@@ -24,6 +97,7 @@ export function Modal({ isNew }) {
                   name="name"
                   id="formName"
                   placeholder="Введите название"
+                  onChange={(e) => setNameAdv(e.target.value)}
                 />
               </S.ModalInput>
               <S.ModalInput data-id="ModalInput">
@@ -33,6 +107,7 @@ export function Modal({ isNew }) {
                   rows="6"
                   cols="auto"
                   placeholder="Введите описание"
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </S.ModalInput>
 
@@ -42,24 +117,105 @@ export function Modal({ isNew }) {
                 </S.InputText>
                 <S.ModalImageFlex data-id=" ModalImageFlex form-newArt__bar-img">
                   <S.ModalImage data-id="form-newArt__img">
-                    <img src="" alt="" />
-                    <S.ModalImageCover data-id="form-newArt__img-cover"></S.ModalImageCover>
+                    {uploadedPics[0] && (
+                      <>
+                        {" "}
+                        <img src={uploadedPics[0].src} alt="no" />{" "}
+                        <S.DeletePic onClick={() => removePic(0)}></S.DeletePic>
+                      </>
+                    )}
+
+                    <S.ModalImageCover
+                      htmlFor="fileInput"
+                      data-id="form-newArt__img-cover"
+                    >
+                      <S.InputPicture
+                        type="file"
+                        data-id="inputpicture"
+                        id="fileInput"
+                        onChange={(e) => handlePhotoChange(e)}
+                      ></S.InputPicture>
+                    </S.ModalImageCover>
                   </S.ModalImage>
                   <S.ModalImage data-id="form-newArt__img">
-                    <img src="" alt="" />
-                    <S.ModalImageCover data-id="form-newArt__img-cover"></S.ModalImageCover>
+                    {uploadedPics[1] && (
+                      <>
+                        {" "}
+                        <img src={uploadedPics[1].src} alt="no" />{" "}
+                        <S.DeletePic onClick={() => removePic(1)}></S.DeletePic>
+                      </>
+                    )}
+                    <S.ModalImageCover
+                      htmlFor="fileInput2"
+                      data-id="form-newArt__img-cover"
+                    >
+                      <S.InputPicture
+                        type="file"
+                        data-id="inputpicture"
+                        id="fileInput2"
+                        onChange={(e) => handlePhotoChange(e)}
+                      ></S.InputPicture>
+                    </S.ModalImageCover>
                   </S.ModalImage>
                   <S.ModalImage data-id="form-newArt__img">
-                    <img src="" alt="" />
-                    <S.ModalImageCover data-id="form-newArt__img-cover"></S.ModalImageCover>
+                    {uploadedPics[2] && (
+                      <>
+                        {" "}
+                        <img src={uploadedPics[2].src} alt="no" />{" "}
+                        <S.DeletePic onClick={() => removePic(2)}></S.DeletePic>
+                      </>
+                    )}
+                    <S.ModalImageCover
+                      htmlFor="fileInput2"
+                      data-id="form-newArt__img-cover"
+                    >
+                      <S.InputPicture
+                        type="file"
+                        data-id="inputpicture"
+                        id="fileInput2"
+                        onChange={(e) => handlePhotoChange(e)}
+                      ></S.InputPicture>
+                    </S.ModalImageCover>
                   </S.ModalImage>
                   <S.ModalImage data-id="form-newArt__img">
-                    <img src="" alt="" />
-                    <S.ModalImageCover data-id="form-newArt__img-cover"></S.ModalImageCover>
+                    {uploadedPics[3] && (
+                      <>
+                        {" "}
+                        <img src={uploadedPics[3].src} alt="no" />{" "}
+                        <S.DeletePic onClick={() => removePic(3)}></S.DeletePic>
+                      </>
+                    )}
+                    <S.ModalImageCover
+                      htmlFor="fileInput2"
+                      data-id="form-newArt__img-cover"
+                    >
+                      <S.InputPicture
+                        type="file"
+                        data-id="inputpicture"
+                        id="fileInput2"
+                        onChange={(e) => handlePhotoChange(e)}
+                      ></S.InputPicture>
+                    </S.ModalImageCover>
                   </S.ModalImage>
                   <S.ModalImage data-id="form-newArt__img">
-                    <img src="" alt="" />
-                    <S.ModalImageCover data-id="form-newArt__img-cover"></S.ModalImageCover>
+                    {uploadedPics[4] && (
+                      <>
+                        {" "}
+                        <img src={uploadedPics[4].src} alt="no" />{" "}
+                        <S.DeletePic onClick={() => removePic(4)}></S.DeletePic>
+                      </>
+                    )}
+                    <S.ModalImageCover
+                      htmlFor="fileInput2"
+                      data-id="form-newArt__img-cover"
+                    >
+                      <S.InputPicture
+                        type="file"
+                        data-id="inputpicture"
+                        id="fileInput2"
+                        onChange={(e) => handlePhotoChange(e)}
+                      ></S.InputPicture>
+                    </S.ModalImageCover>
                   </S.ModalImage>
                 </S.ModalImageFlex>
               </S.ModalInput>
@@ -71,6 +227,7 @@ export function Modal({ isNew }) {
                     type="number"
                     name="price"
                     id="formName"
+                    onChange={(e) => setPrice(e.target.value)}
                   />
                   <S.Price data-id="form-newArt__input-price-cover">₽</S.Price>
                 </S.InputWrapper>
@@ -80,8 +237,10 @@ export function Modal({ isNew }) {
                 data-id="form-newArt__btn-pub btn-hov02"
                 className="btn-hov02"
                 id="btnPublish"
+                disabled={!!loading}
+                onClick={handlePostAd}
               >
-                {isNew ? "Опубликовать " : "Сохранить"}
+                {isNew ? "Опубликовать" : "Сохранить"}
               </S.ModalButton>
             </S.ModalForm>
           </S.ModalContent>

@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import {
   useGetUserQuery,
   useChangeUserMutation,
+  useGetUserPostQuery,
 } from "../../components/store/postsApi";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -19,6 +20,8 @@ export const Profile = () => {
   const dispatch = useDispatch();
 
   const { data = [], isLoading, error } = useGetUserQuery();
+  const { userPosts = [] } = useGetUserPostQuery();
+  console.log(userPosts);
 
   useEffect(() => {
     dispatch(setUserData(data));

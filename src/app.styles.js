@@ -89,7 +89,7 @@ export const GlobalStyles = createGlobalStyle`
       cursor: default;
      
     }
-  
+
   .btn-hov01:hover {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid #ffffff;

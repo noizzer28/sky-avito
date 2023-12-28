@@ -1,15 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setAccessToken, setInitialState, setRefreshToken } from "./userSlice";
 
-const baseQueryWithoutReauth = async (args, api, extraOptions) => {
-  const baseQuery = fetchBaseQuery({
-    baseUrl: "http://127.0.0.1:8090/",
-  });
-  const result = await baseQuery(args, api, extraOptions);
-  console.log(result);
-  return result;
-};
-
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: "http://127.0.0.1:8090/",
@@ -93,6 +84,12 @@ export const PostsApi = createApi({
         method: "GET",
       }),
     }),
+    getUserPost: build.query({
+      query: () => ({
+        url: "/ads/me",
+        method: "GET",
+      }),
+    }),
     changeUser: build.mutation({
       query: (data) => ({
         url: "/user",
@@ -122,20 +119,25 @@ export const PostsApi = createApi({
       }),
       invalidatesTags: () => [REVIEW_TAG],
     }),
-    addPost: build.mutation({
+    addNewPost: build.mutation({
       query: (body) => ({
         method: "POST",
-        url: `ads`,
+        url: `adstext`,
         body,
       }),
     }),
-
-    deletePost: build.mutation({
-      query: (body) => ({
-        url: `ads/me`,
-        method: "DELETE",
-        body,
-      }),
+    addPostPicture: build.mutation({
+      query: ({ postId, image }) => {
+        const fD = new FormData();
+        fD.append("file", image);
+        console.log(fD);
+        console.log(image);
+        return {
+          url: `ads/${postId}/image`,
+          method: "POST",
+          body: fD,
+        };
+      },
     }),
   }),
 });
@@ -144,8 +146,9 @@ export const {
   useGetPostQuery,
   useAddFeedbackMutation,
   useGetFeedbacksQuery,
-  useAddPostQuery,
-  useDeletePostQuery,
+  useGetUserPostQuery,
   useGetUserQuery,
   useChangeUserMutation,
+  useAddNewPostMutation,
+  useAddPostPictureMutation,
 } = PostsApi;

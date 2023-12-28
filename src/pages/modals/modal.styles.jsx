@@ -349,7 +349,7 @@ export const ModalImage = styled.div`
   img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
     z-index: 2;
@@ -371,7 +371,7 @@ export const ModalImage = styled.div`
     }
   }
 `;
-export const ModalImageCover = styled.div`
+export const ModalImageCover = styled.label`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -379,6 +379,7 @@ export const ModalImageCover = styled.div`
   left: 0;
   background-color: #f0f0f0;
   z-index: -1;
+  cursor: pointer;
 
   &::after,
   &::before {
@@ -521,7 +522,7 @@ export const ModalReviews = styled.div`
   scrollbar-width: thin;
   scrollbar-width: 0px;
   height: 100%;
-  padding-bottom: 50px;
+  padding-bottom: 30px;
 
   &::-webkit-scrollbar {
     width: 0px;
@@ -597,5 +598,44 @@ export const AuthModalWarning = styled.p`
   span {
     cursor: pointer;
     color: #009ee4;
+  }
+`;
+export const InputPicture = styled.input`
+  display: none;
+`;
+
+export const DeletePic = styled.div`
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 8px;
+  right: 2px;
+  z-index: 3;
+  cursor: pointer;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 1px;
+    border-radius: 2px;
+    background-color: #3b3a39;
+  }
+  &:hover::before,
+  &:hover::after {
+    background-color: #0080c1;
+  }
+
+  &::before {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  &::after {
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+
+  @media screen and (max-width: 768px) {
+    display: none;
   }
 `;
