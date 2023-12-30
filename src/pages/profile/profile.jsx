@@ -14,13 +14,14 @@ import {
 } from "../../components/store/postsApi";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { SkeletonLoading } from "../../components/content/loading";
 
 export const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { data = [], isLoading, error } = useGetUserQuery();
-  const { userPosts = [] } = useGetUserPostQuery();
+  const { data: userPosts } = useGetUserPostQuery();
   console.log(userPosts);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ export const Profile = () => {
   const [userSurname, setSurname] = useState();
   const [userCity, setCity] = useState();
   const [userPhone, setPhone] = useState();
+  const [userAvatar, setAvatar] = useState();
 
   useEffect(() => {
     setSurname(user.surname);
@@ -71,11 +73,25 @@ export const Profile = () => {
     }).unwrap();
   };
 
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const imageUrl = reader.result;
+        setAvatar(() => [{ file: file, src: imageUrl }]);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  console.log(userAvatar);
+
   return (
     <>
       <Header></Header>
       <S.Main data-id="main">
-        <S.MainContainer data-id="main__container">
+        <S.ProfileContainer data-id="profile__container">
           <S.MainCenterBlock data-id="main__center-block">
             <ComeBackElement></ComeBackElement>
             {isLoading ? (
@@ -103,10 +119,21 @@ export const Profile = () => {
                     </S.SettingsImg>
                     <S.SettingsPhoto
                       data-id="settings__change-photo"
-                      href=""
-                      target="_self"
+                      htmlFor="fileInput"
                     >
-                      {isLoading ? <Skeleton></Skeleton> : "Заменить"}
+                      {isLoading ? (
+                        <Skeleton></Skeleton>
+                      ) : (
+                        <>
+                          Заменить
+                          <S.InputPicture
+                            type="file"
+                            data-id="inputpicture"
+                            id="fileInput"
+                            onChange={(e) => handlePhotoChange(e)}
+                          ></S.InputPicture>
+                        </>
+                      )}
                     </S.SettingsPhoto>
                   </S.SettingsLeft>
                   <S.SettingsRight data-id="settings__right">
@@ -200,11 +227,11 @@ export const Profile = () => {
             <S.MainTitle data-id="main__title title">Мои товары</S.MainTitle>
           </S.MainCenterBlock>
           {isLoading ? (
-            <Skeleton height={"100%"}></Skeleton>
+            <SkeletonLoading amount={4}></SkeletonLoading>
           ) : (
-            <Content></Content>
+            <Content ads={userPosts}></Content>
           )}
-        </S.MainContainer>
+        </S.ProfileContainer>
       </S.Main>
       <Footer></Footer>
     </>

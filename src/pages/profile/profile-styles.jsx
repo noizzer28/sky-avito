@@ -1,10 +1,26 @@
 import styled from "styled-components";
 
-export const Main = styled.div``;
-export const MainContainer = styled.div`
+export const Main = styled.div`
+  overflow: auto;
+  height: 100vh;
+  scrollbar-color: #ffffff #2e2e2e;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    background-color: #009ee4;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #0080c1;
+    border-radius: 3px;
+  }
+`;
+export const ProfileContainer = styled.div`
   max-width: 1178px;
   margin: 0 auto;
   padding: 0px 10px 79px;
+
   @media screen and (max-width: 890px) {
     padding: 15px 0px 84px;
   }
@@ -147,19 +163,23 @@ export const SettingsImg = styled.div`
     height: 132px;
   }
 `;
-export const SettingsPhoto = styled.a`
+export const SettingsPhoto = styled.label`
   margin-top: 10px;
   margin-bottom: 30px;
   text-decoration: none;
   font-size: 16px;
   line-height: 24px;
   color: #009ee4;
+  cursor: pointer;
 `;
 export const SettingsRight = styled.div`
   width: 630px;
   @media screen and (max-width: 620px) {
     width: 100%;
   }
+`;
+export const InputPicture = styled.input`
+  display: none;
 `;
 export const SettingsForm = styled.form`
   width: 630px;
