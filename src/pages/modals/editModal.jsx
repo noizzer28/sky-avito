@@ -12,28 +12,7 @@ export function Modal({ isNew, isModal }) {
     { description: "" },
     { price: "" },
   ]);
-  const [uploadedPics, setUploadedPics] = useState([
-    {
-      file: "",
-      src: ""
-    },
-    {
-      file: "",
-      src: ""
-    },
-    {
-      file: "",
-      src: ""
-    },
-    {
-      file: "",
-      src: ""
-    },
-    {
-      file: "",
-      src: ""
-    }
-  ]);
+  const [uploadedPics, setUploadedPics] = useState([]);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [addPost] = useAddNewPostMutation();
@@ -51,15 +30,15 @@ export function Modal({ isNew, isModal }) {
       const reader = new FileReader();
       reader.onloadend = () => {
         const imageUrl = reader.result;
-        setUploadedPics((prevValue) => [
-          ...prevValue,
+        setUploadedPics((prevUploadedPics) => [
+          ...prevUploadedPics,
           { file: file, src: imageUrl },
         ]);
       };
       reader.readAsDataURL(file);
     }
   };
-console.log("uploadedPics",uploadedPics)
+
   const removePic = (indexValue) => {
     setUploadedPics((prevArray) =>
       prevArray.filter((_, index) => index !== indexValue)
@@ -171,41 +150,8 @@ console.log("uploadedPics",uploadedPics)
                 <S.InputText data-id="InputText">
                   Фотографии товара<span>не более 5 фотографий</span>
                 </S.InputText>
-                <S.ModalImageFlex>
-                  {uploadedPics.map((item, index) => {
-                     return <S.ModalImage data-id="ModalImage" key={index}>
-                                              {item.src === "" ?  "" :  (
-                                              <>
-                                              <img src={item.src} alt="no" />
-                                              
-                                              <S.DeletePic onClick={() => removePic(0)}></S.DeletePic>
-                                              
-                                              </>
-                                              )
-                                              
-                                              
-                                              }
-
-
-                                         <S.ModalImageCover
-                                           htmlFor="fileInput"
-                                           data-id="ModalImage-cover"
-                                         >
-                                           <S.InputPicture
-                                             type="file"
-                                             data-id="inputpicture"
-                                             id="fileInput"
-                                             onChange={(e) => handlePhotoChange(e)}
-                                           ></S.InputPicture>
-                                         </S.ModalImageCover>
-                                       </S.ModalImage>
-                  
-                  
-                }
-                  )}
-                </S.ModalImageFlex>
                 <S.ModalImageFlex data-id=" ModalImageFlex form-newArt__bar-img">
-                  <S.ModalImage data-id="ModalImage">
+                  <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[0] && (
                       <>
                         {" "}
@@ -216,7 +162,7 @@ console.log("uploadedPics",uploadedPics)
 
                     <S.ModalImageCover
                       htmlFor="fileInput"
-                      data-id="ModalImage-cover"
+                      data-id="form-newArt__img-cover"
                     >
                       <S.InputPicture
                         type="file"
@@ -226,7 +172,7 @@ console.log("uploadedPics",uploadedPics)
                       ></S.InputPicture>
                     </S.ModalImageCover>
                   </S.ModalImage>
-                  <S.ModalImage data-id="ModalImage">
+                  <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[1] && (
                       <>
                         {" "}
@@ -236,7 +182,7 @@ console.log("uploadedPics",uploadedPics)
                     )}
                     <S.ModalImageCover
                       htmlFor="fileInput2"
-                      data-id="ModalImage-cover"
+                      data-id="form-newArt__img-cover"
                     >
                       <S.InputPicture
                         type="file"
@@ -246,7 +192,7 @@ console.log("uploadedPics",uploadedPics)
                       ></S.InputPicture>
                     </S.ModalImageCover>
                   </S.ModalImage>
-                  <S.ModalImage data-id="ModalImage">
+                  <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[2] && (
                       <>
                         {" "}
@@ -256,7 +202,7 @@ console.log("uploadedPics",uploadedPics)
                     )}
                     <S.ModalImageCover
                       htmlFor="fileInput2"
-                      data-id="ModalImage-cover"
+                      data-id="form-newArt__img-cover"
                     >
                       <S.InputPicture
                         type="file"
@@ -266,7 +212,7 @@ console.log("uploadedPics",uploadedPics)
                       ></S.InputPicture>
                     </S.ModalImageCover>
                   </S.ModalImage>
-                  <S.ModalImage data-id="ModalImage">
+                  <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[3] && (
                       <>
                         {" "}
@@ -276,7 +222,7 @@ console.log("uploadedPics",uploadedPics)
                     )}
                     <S.ModalImageCover
                       htmlFor="fileInput2"
-                      data-id="ModalImage-cover"
+                      data-id="form-newArt__img-cover"
                     >
                       <S.InputPicture
                         type="file"
@@ -286,7 +232,7 @@ console.log("uploadedPics",uploadedPics)
                       ></S.InputPicture>
                     </S.ModalImageCover>
                   </S.ModalImage>
-                  <S.ModalImage data-id="ModalImage">
+                  <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[4] && (
                       <>
                         {" "}
@@ -296,7 +242,7 @@ console.log("uploadedPics",uploadedPics)
                     )}
                     <S.ModalImageCover
                       htmlFor="fileInput2"
-                      data-id="ModalImage-cover"
+                      data-id="form-newArt__img-cover"
                     >
                       <S.InputPicture
                         type="file"

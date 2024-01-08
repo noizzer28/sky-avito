@@ -1,4 +1,4 @@
-
+import React from "react";
 import { ComeBackElement } from "../../components/comeBack/comeBack";
 import { Header } from "../../components/header/header";
 import { Footer } from "../../components/footer/footer";
@@ -21,7 +21,7 @@ export const SellerProfile = () => {
   const [userDate, setUserDate] = useState()
   const [isHidden, setIsHidden] = useState(false);
 
-  const { data, isError, isLoading, isSuccess } = useGetAllPostsQuery();
+  const { data,    isSuccess } = useGetAllPostsQuery();
   const { data: users, isSuccess: userSuccess, isLoading: userLoading } = useGetAllUsersQuery()
 
   console.log(data);
@@ -99,7 +99,10 @@ export const SellerProfile = () => {
 
                     <S.SellerImgMobBlock data-id="seller__img-mob-block">
                       <S.SellerImgMob data-id="seller__img-mob">
-                      {userLoading ? <Skeleton></Skeleton> : user?.city }
+                      {userLoading ? <Skeleton></Skeleton> :                         <img
+                          src={`http://127.0.0.1:8090/${user?.avatar}`}
+                          alt="no"
+                        /> }
                       </S.SellerImgMob>
                     </S.SellerImgMobBlock>
 

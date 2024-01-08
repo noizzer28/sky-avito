@@ -342,10 +342,12 @@ export const ModalImageFlex = styled.div`
 export const ModalImage = styled.div`
   width: 90px;
   height: 90px;
-  margin-right: 10px;
+
   position: relative;
   z-index: 0;
-
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
   img {
     display: block;
     width: 100%;

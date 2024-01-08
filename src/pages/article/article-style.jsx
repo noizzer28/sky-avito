@@ -429,3 +429,10 @@ export const AuthorAbout = styled.p`
     font-weight: 600;
   }
 `;
+export const ButtonFlex = styled.p`
+  display: flex;
+  gap: 10px;
+  @media screen and (max-width: 620px) {
+    flex-direction: column;
+  }
+`;

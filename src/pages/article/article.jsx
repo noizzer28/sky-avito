@@ -24,10 +24,16 @@ export const Article = () => {
   const [activeImage, setActiveImage] = useState(null);
   const [isHidden, setIsHidden] = useState(false);
   const [isModal, setModal] = useState(false);
+  const [isOwned, setOwned] = useState(false)
   const { data = [], isLoading } = useGetPostQuery(id);
+
+  console.log(data)
   const userEmail = useSelector((state) => state.user.email);
-
-
+  useEffect(() => {
+    if (data?.user?.email === userEmail) {
+      setOwned(true)
+    }
+  }, [data]);
 
   useEffect(() => {
     if (data.images && data.images.length > 0) {
@@ -157,7 +163,15 @@ export const Article = () => {
                 <S.AtriclePrice data-id="article__price">
                   {isLoading ? <Skeleton></Skeleton> : `${data.price} ₽`}
                 </S.AtriclePrice>
-
+                    {isOwned ? 
+                    
+                    <S.ButtonFlex>
+                    
+                   <S.AtricleButton>Редактировать</S.AtricleButton>
+                    <S.AtricleButton>Снять с публикации</S.AtricleButton>
+                    </S.ButtonFlex>
+                  : 
+                  
                 <S.AtricleButton
                   disabled={!data?.user?.phone}
                   data-id="article__btn"
@@ -173,6 +187,7 @@ export const Article = () => {
                     </span>
                   )}
                 </S.AtricleButton>
+                  }
 
                 <S.AtricleAuthor data-id="article__author author">
                   <S.AuthorImg data-id="author__img">
@@ -188,7 +203,7 @@ export const Article = () => {
                     )}
                   </S.AuthorImg>
                   <S.AuthorCont data-id="author__cont">
-                    <Link to={`/sellerprofile/${data?.user?.id}`}>
+                    <Link to={isOwned ? '/profile' : `/sellerprofile/${data?.user?.id}`}>
                     <S.AuthorName data-id="author__name" >
                       {isLoading ? <Skeleton></Skeleton> : data.user.name}
                     </S.AuthorName>
