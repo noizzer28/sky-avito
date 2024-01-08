@@ -1,97 +1,124 @@
-import * as S from "./modal.styles";
-import { Header } from "../../components/header/header";
-import { useState } from "react";
+import * as S from './modal.styles'
+import { Header } from '../../components/header/header'
+import { useState } from 'react'
 import {
   useAddNewPostMutation,
   useAddPostPictureMutation,
-} from "../../components/store/postsApi";
+  useDeletePostPictureMutation,
+} from '../../components/store/postsApi'
+import { useEffect } from 'react'
 
-export function Modal({ isNew, isModal }) {
+export function EditModal({ isModal, data }) {
   const [postData, setPostData] = useState([
-    { title: "" },
-    { description: "" },
-    { price: "" },
-  ]);
-  const [uploadedPics, setUploadedPics] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [addPost] = useAddNewPostMutation();
-  const [addPostPicture] = useAddPostPictureMutation();
-  const [error, setError] = useState(null);
+    { title: '' },
+    { description: '' },
+    { price: '' },
+  ])
+  const [uploadedPics, setUploadedPics] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [addPost] = useAddNewPostMutation()
+  const [addPostPicture] = useAddPostPictureMutation()
+  const [deletePostPicture] = useDeletePostPictureMutation()
+  const [error, setError] = useState(null)
 
+  console.log(data)
+
+  useEffect(() => {
+    setPostData([
+      { title: data.title },
+      { description: data.description },
+      { price: data.price },
+    ])
+    setUploadedPics(
+      data?.images?.map((item) => {
+        return {
+          src: item.url,
+        }
+      }),
+    )
+  }, [data])
+
+  console.log('postdata', postData)
   const toggleModal = () => {
-    isModal((prev) => !prev);
-  };
+    isModal((prev) => !prev)
+  }
 
   const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    console.log(file);
+    const file = e.target.files[0]
+    console.log(file)
     if (file) {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onloadend = () => {
-        const imageUrl = reader.result;
+        const imageUrl = reader.result
         setUploadedPics((prevUploadedPics) => [
           ...prevUploadedPics,
           { file: file, src: imageUrl },
-        ]);
-      };
-      reader.readAsDataURL(file);
+        ])
+      }
+      reader.readAsDataURL(file)
     }
-  };
+  }
 
-  const removePic = (indexValue) => {
+  const removePic = async (indexValue) => {
+    console.log(uploadedPics[indexValue].src)
+    const response = await deletePostPicture({
+      postId: data.id,
+      file_url: uploadedPics[indexValue].src,
+    })
+    console.log(response)
     setUploadedPics((prevArray) =>
-      prevArray.filter((_, index) => index !== indexValue)
-    );
-  };
+      prevArray.filter((_, index) => index !== indexValue),
+    )
+  }
 
   const handlePostAd = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
+    setLoading(true)
     if (
-      postData[0].title === "" ||
-      postData[1].description === "" ||
-      postData[2].price === ""
+      postData[0].title === '' ||
+      postData[1].description === '' ||
+      postData[2].price === ''
     ) {
-      setError("Необходимо заполнить все поля перед отправкой");
-      setLoading(false);
+      setError('Необходимо заполнить все поля перед отправкой')
+      setLoading(false)
     } else {
-      setError(null);
+      setError(null)
       const response = await addPost({
         title: postData[0],
         description: postData[1],
         price: postData[2],
-      }).unwrap();
-      console.log("first response: ", response);
+      }).unwrap()
+      console.log('first response: ', response)
       if (response.error) {
-        setError("Произошла ошибка, попробуйте еще раз");
-        setLoading(false);
+        setError('Произошла ошибка, попробуйте еще раз')
+        setLoading(false)
       } else {
-        console.log("sending pictures");
-        console.log("responseID", response.id);
+        console.log('sending pictures')
+        console.log('responseID', response.id)
 
         uploadedPics.forEach(async (pic) => {
           const result = await addPostPicture({
             postId: response.id,
             image: pic.file,
-          });
-          console.log("secondResponse", result);
-          console.error(result.error);
+          })
+          console.log('secondResponse', result)
+          console.error(result.error)
           if (result.error) {
-            setError("Произошла ошибка, попробуйте еще раз");
+            setError('Произошла ошибка, попробуйте еще раз')
 
-            setLoading(false);
+            setLoading(false)
           } else {
-            console.log("final");
-            setUploadedPics([]);
-            setSuccess(true);
-            setLoading(false);
-            setPostData([{ title: "" }, { description: "" }, { price: "" }]);
+            console.log('final')
+            setUploadedPics([])
+            setSuccess(true)
+            setLoading(false)
+            setPostData([{ title: '' }, { description: '' }, { price: '' }])
           }
-        });
+        })
       }
     }
-  };
+  }
   return (
     <S.ModalWrapper data-id="modal-wrapper" onClick={toggleModal}>
       <S.ModalBlock data-id="modal__block" onClick={(e) => e.stopPropagation()}>
@@ -100,9 +127,7 @@ export function Modal({ isNew, isModal }) {
         </S.HeaderWrapper>
         <S.Modal data-id="modal">
           <S.ModalContent data-id="modal-content">
-            <S.Title data-id="title">
-              {isNew ? "Новое объявление" : "Редактировать объявление"}
-            </S.Title>
+            <S.Title data-id="title">Редактировать объявление</S.Title>
 
             <S.ModalClose data-id="modalclose">
               <S.ModalCloseLine
@@ -121,9 +146,9 @@ export function Modal({ isNew, isModal }) {
                   value={postData[0].title}
                   onChange={(e) =>
                     setPostData((prevArray) => {
-                      const newArray = [...prevArray];
-                      newArray[0] = e.target.value;
-                      return newArray;
+                      const newArray = [...prevArray]
+                      newArray[0] = e.target.value
+                      return newArray
                     })
                   }
                 />
@@ -138,9 +163,9 @@ export function Modal({ isNew, isModal }) {
                   value={postData[1].description}
                   onChange={(e) =>
                     setPostData((prevArray) => {
-                      const newArray = [...prevArray];
-                      newArray[1] = e.target.value;
-                      return newArray;
+                      const newArray = [...prevArray]
+                      newArray[1] = e.target.value
+                      return newArray
                     })
                   }
                 />
@@ -154,8 +179,11 @@ export function Modal({ isNew, isModal }) {
                   <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[0] && (
                       <>
-                        {" "}
-                        <img src={uploadedPics[0].src} alt="no" />{" "}
+                        {' '}
+                        <img
+                          src={`http://127.0.0.1:8090/${uploadedPics[0].src}`}
+                          alt="no"
+                        />{' '}
                         <S.DeletePic onClick={() => removePic(0)}></S.DeletePic>
                       </>
                     )}
@@ -175,8 +203,10 @@ export function Modal({ isNew, isModal }) {
                   <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[1] && (
                       <>
-                        {" "}
-                        <img src={uploadedPics[1].src} alt="no" />{" "}
+                        <img
+                          src={`http://127.0.0.1:8090/${uploadedPics[1].src}`}
+                          alt="no"
+                        />{' '}
                         <S.DeletePic onClick={() => removePic(1)}></S.DeletePic>
                       </>
                     )}
@@ -195,8 +225,11 @@ export function Modal({ isNew, isModal }) {
                   <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[2] && (
                       <>
-                        {" "}
-                        <img src={uploadedPics[2].src} alt="no" />{" "}
+                        {' '}
+                        <img
+                          src={`http://127.0.0.1:8090/${uploadedPics[2].src}`}
+                          alt="no"
+                        />{' '}
                         <S.DeletePic onClick={() => removePic(2)}></S.DeletePic>
                       </>
                     )}
@@ -215,8 +248,11 @@ export function Modal({ isNew, isModal }) {
                   <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[3] && (
                       <>
-                        {" "}
-                        <img src={uploadedPics[3].src} alt="no" />{" "}
+                        {' '}
+                        <img
+                          src={`http://127.0.0.1:8090/${uploadedPics[3].src}`}
+                          alt="no"
+                        />{' '}
                         <S.DeletePic onClick={() => removePic(3)}></S.DeletePic>
                       </>
                     )}
@@ -235,8 +271,11 @@ export function Modal({ isNew, isModal }) {
                   <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[4] && (
                       <>
-                        {" "}
-                        <img src={uploadedPics[4].src} alt="no" />{" "}
+                        {' '}
+                        <img
+                          src={`http://127.0.0.1:8090/${uploadedPics[4].src}`}
+                          alt="no"
+                        />{' '}
                         <S.DeletePic onClick={() => removePic(4)}></S.DeletePic>
                       </>
                     )}
@@ -265,16 +304,18 @@ export function Modal({ isNew, isModal }) {
                     value={postData[2].price}
                     onChange={(e) =>
                       setPostData((prevArray) => {
-                        const newArray = [...prevArray];
-                        newArray[2] = e.target.value;
-                        return newArray;
+                        const newArray = [...prevArray]
+                        newArray[2] = e.target.value
+                        return newArray
                       })
                     }
                   />
                   <S.Price data-id="form-newArt__input-price-cover">₽</S.Price>
                 </S.InputWrapper>
               </S.ModalPriceInput>
-              {success && <S.Success>Объявление успешно загружено!</S.Success>}
+              {success && (
+                <S.Success>Объявление успешно отредактировано</S.Success>
+              )}
               {error && <S.Error data-id="WARNING">{error}</S.Error>}
               <S.ModalButton
                 data-id="form-newArt__btn-pub btn-hov02"
@@ -283,15 +324,12 @@ export function Modal({ isNew, isModal }) {
                 disabled={loading ? true : false}
                 onClick={handlePostAd}
               >
-                {isNew
-                  ? `${loading ? "Загрузка" : "Опубликовать"}`
-                  : "Сохранить"}
+                {loading ? 'Загрузка' : 'Сохранить'}`
               </S.ModalButton>
-
             </S.ModalForm>
           </S.ModalContent>
         </S.Modal>
       </S.ModalBlock>
     </S.ModalWrapper>
-  );
+  )
 }
