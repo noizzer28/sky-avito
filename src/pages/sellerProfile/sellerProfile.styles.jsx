@@ -116,6 +116,7 @@ export const SellerImg = styled.div`
     display: block;
     -o-object-fit: cover;
     object-fit: cover;
+    border-radius: 50%;
   }
   @media screen and (max-width: 580px) {
     display: none;

@@ -399,6 +399,7 @@ export const AuthorImg = styled.div`
     width: 100%;
     height: auto;
     display: block;
+    border-radius: 50%;
     -o-object-fit: cover;
     object-fit: cover;
   }

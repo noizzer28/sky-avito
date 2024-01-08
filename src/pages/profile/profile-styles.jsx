@@ -158,6 +158,12 @@ export const SettingsImg = styled.div`
   height: 170px;
   border-radius: 50%;
   background-color: #f0f0f0;
+  img {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+  }
   @media screen and (max-width: 620px) {
     width: 132px;
     height: 132px;

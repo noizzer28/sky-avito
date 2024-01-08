@@ -3,20 +3,15 @@ import { Footer } from "../../components/footer/footer";
 import { Search } from "../../components/search/search";
 import { Content } from "../../components/content/content";
 import * as S from "./main.styles";
-import { useState, useEffect } from "react";
-import { GetPostsApi } from "../../components/store/postsSlice";
-import { useDispatch, useSelector } from "react-redux";
 import { SkeletonLoading } from "../../components/content/loading";
 import { useGetAllPostsQuery } from "../../components/store/postsApi";
 
 export const Main = () => {
-  const dispatch = useDispatch();
-  // const { posts: data, error: isError, loading: isLoading } = useSelector((state) => state.post);
+
+
 
   const { data, isError, isLoading } = useGetAllPostsQuery();
-  // useEffect(() => {
-  //   dispatch(GetPostsApi());
-  // }, []);
+
   console.log(data);
 
   return (

@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/react-in-jsx-scope */
 import * as S from "./modal.styles";
 import { Header } from "../../components/header/header";
 import { format } from "date-fns";

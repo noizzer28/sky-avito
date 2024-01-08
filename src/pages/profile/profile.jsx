@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { Header } from "../../components/header/header";
 import { Footer } from "../../components/footer/footer";
 import * as S from "./profile-styles";
@@ -11,6 +12,7 @@ import {
   useGetUserQuery,
   useChangeUserMutation,
   useGetUserPostQuery,
+  useAddUserAvatarMutation,
 } from "../../components/store/postsApi";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -21,12 +23,15 @@ export const Profile = () => {
   const dispatch = useDispatch();
 
   const { data = [], isLoading, error } = useGetUserQuery();
-  const { data: userPosts } = useGetUserPostQuery();
-  console.log(userPosts);
 
+  
+  const { data: userPosts } = useGetUserPostQuery();
+  
+  
   useEffect(() => {
+    console.log(data);
     dispatch(setUserData(data));
-  }, [isLoading]);
+  }, [data]);
 
   const user = useSelector((state) => state.user);
   const [isDisabled, setDisabled] = useState(true);
@@ -41,8 +46,8 @@ export const Profile = () => {
     setPhone(user.phone);
     setCity(user.city);
     setName(user.name);
+    setAvatar(user.avatar)
   }, [user]);
-
   useEffect(() => {
     if (
       userName != user.name ||
@@ -63,6 +68,7 @@ export const Profile = () => {
   };
 
   const [changeUserData] = useChangeUserMutation();
+  const [changeUserAvatar] = useAddUserAvatarMutation();
 
   const handleSaveData = async () => {
     const response = await changeUserData({
@@ -73,19 +79,23 @@ export const Profile = () => {
     }).unwrap();
   };
 
-  const handlePhotoChange = (e) => {
+  const handlePhotoChange = async (e) => {
     const file = e.target.files[0];
-    console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         const imageUrl = reader.result;
-        setAvatar(() => [{ file: file, src: imageUrl }]);
+        setAvatar(imageUrl);
       };
       reader.readAsDataURL(file);
+      const response = await changeUserAvatar({
+        image: file
+      })
+      console.log(response);
+      setAvatar(response.data.avatar)
     }
   };
-  console.log(userAvatar);
+
 
   return (
     <>
@@ -114,8 +124,10 @@ export const Profile = () => {
 
                 <S.ProfileSettings data-id="profile__settings settings">
                   <S.SettingsLeft data-id="settings__left">
+                    {isLoading}
+                    
                     <S.SettingsImg data-id="settings__img">
-                      {user.avatar && <img src={user.avatar} alt="userPic" />}
+                      {user.avatar && <img src={`http://127.0.0.1:8090/${userAvatar}`} alt="userPic" />}
                     </S.SettingsImg>
                     <S.SettingsPhoto
                       data-id="settings__change-photo"

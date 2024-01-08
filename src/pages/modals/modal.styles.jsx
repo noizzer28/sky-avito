@@ -584,6 +584,7 @@ export const ReviewImg = styled.div`
   img {
     display: block;
     width: 100%;
+    border-radius: 50%;
     height: auto;
     -o-object-fit: cover;
     object-fit: cover;

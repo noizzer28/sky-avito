@@ -26,6 +26,7 @@ const PostSlice = createSlice({
     posts: [],
     error: null,
     loading: false,
+    
   },
   reducers: {
     setAllPosts(state, action) {

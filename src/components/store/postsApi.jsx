@@ -124,6 +124,9 @@ export const PostsApi = createApi({
       query: () => "ads",
       providesTags: () => [POSTS_TAG],
     }),
+    getAllUsers: build.query({
+      query: () => "user/all",
+    }),
     addNewPost: build.mutation({
       query: (body) => ({
         method: "POST",
@@ -146,6 +149,19 @@ export const PostsApi = createApi({
       },
       invalidatesTags: () => [POSTS_TAG],
     }),
+    addUserAvatar: build.mutation({
+      query: ({ image }) => {
+        const fD = new FormData();
+        fD.append("file", image);
+        console.log("img before send", image);
+        return {
+          url: `user/avatar`,
+          method: "POST",
+          body: fD,
+        };
+      },
+      invalidatesTags: () => [USER_TAG],
+    }),
   }),
 });
 
@@ -159,4 +175,6 @@ export const {
   useAddNewPostMutation,
   useAddPostPictureMutation,
   useGetAllPostsQuery,
+  useAddUserAvatarMutation,
+  useGetAllUsersQuery,
 } = PostsApi;

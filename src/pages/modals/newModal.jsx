@@ -40,7 +40,6 @@ export function Modal({ isNew, isModal }) {
   };
 
   const removePic = (indexValue) => {
-    console.log(indexValue);
     setUploadedPics((prevArray) =>
       prevArray.filter((_, index) => index !== indexValue)
     );

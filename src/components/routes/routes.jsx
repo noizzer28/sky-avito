@@ -15,12 +15,10 @@ export const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<Main />} />
       <Route path="article/:id" element={<Article />} />
-      <Route path="sellerProfile" element={<SellerProfile />} />
+      <Route path="sellerProfile/:id" element={<SellerProfile />} />
       <Route path="/login" element={<Login />}></Route>
       <Route path="/register" element={<Register />}></Route>
-      <Route path="/new" element={<Modal isNew={true} />}></Route>
       <Route path="/edit" element={<Modal isNew={false} />}></Route>
-      {/* <Route path="/reviews" element={<ReviewsModal />}></Route> */}
       <Route path="*" element={<NotFound />} />
       <Route
         path="profile"

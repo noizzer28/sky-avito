@@ -15,6 +15,8 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { ReviewsModal } from "../modals/reviews";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale/ru";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const Article = () => {
   const { id } = useParams();
@@ -23,6 +25,9 @@ export const Article = () => {
   const [isHidden, setIsHidden] = useState(false);
   const [isModal, setModal] = useState(false);
   const { data = [], isLoading } = useGetPostQuery(id);
+  const userEmail = useSelector((state) => state.user.email);
+
+
 
   useEffect(() => {
     if (data.images && data.images.length > 0) {
@@ -183,9 +188,12 @@ export const Article = () => {
                     )}
                   </S.AuthorImg>
                   <S.AuthorCont data-id="author__cont">
-                    <S.AuthorName data-id="author__name">
+                    <Link to={`/sellerprofile/${data?.user?.id}`}>
+                    <S.AuthorName data-id="author__name" >
                       {isLoading ? <Skeleton></Skeleton> : data.user.name}
                     </S.AuthorName>
+                    
+                    </Link>
                     <S.AuthorAbout data-id="author__about">
                       {isLoading ? (
                         <Skeleton></Skeleton>
@@ -226,7 +234,7 @@ export const Article = () => {
   );
 };
 
-function handleShowNumber(mob) {
+export function handleShowNumber(mob) {
   const lastIndex = mob.length - 4;
   const replacedString = mob.substring(0, lastIndex) + "X".repeat(4);
   return replacedString;
