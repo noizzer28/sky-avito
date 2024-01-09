@@ -1,9 +1,13 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Main = styled.main`
   height: calc(100vh - 90px);
   overflow: hidden;
-`;
+  @media screen and (max-width: 590px) {
+    height: 100vh;
+    overflow: scroll;
+  }
+`
 
 export const MainContainer = styled.div`
   max-width: 1178px;
@@ -13,9 +17,9 @@ export const MainContainer = styled.div`
   height: calc(100vh - 200px);
   @media screen and (max-width: 590px) {
     padding: 15px 10px 84px;
-    height: 100vh;
+    height: 100%;
   }
-`;
+`
 
 export const MainH2 = styled.h2`
   font-style: normal;
@@ -25,7 +29,7 @@ export const MainH2 = styled.h2`
   margin-bottom: 30px;
 
   &:hover::before {
-    content: "";
+    content: '';
     display: block;
     width: 12px;
     height: 12px;
@@ -47,23 +51,23 @@ export const MainH2 = styled.h2`
     position: relative;
 
     &::before {
-      content: "";
-      display: block;
-      width: 12px;
-      height: 12px;
-      background-color: transparent;
-      border-top: 2px solid #000000;
-      border-left: 2px solid #000000;
-      transform: rotate(-45deg);
-      position: absolute;
-      top: 9px;
-      left: 13px;
-      cursor: pointer;
+      content: '';
+      // display: block;
+      // width: 12px;
+      // height: 12px;
+      // background-color: transparent;
+      // border-top: 2px solid #000000;
+      // border-left: 2px solid #000000;
+      // transform: rotate(-45deg);
+      // position: absolute;
+      // top: 9px;
+      // left: 13px;
+      // cursor: pointer;
     }
   }
-`;
+`
 
 export const Error = styled.div`
   color: #8c0303;
   font-size: 20px;
-`;
+`

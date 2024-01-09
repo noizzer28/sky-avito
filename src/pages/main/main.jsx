@@ -7,11 +7,13 @@ import { SkeletonLoading } from '../../components/content/loading'
 import { useGetAllPostsQuery } from '../../components/store/postsApi'
 import { useSelector, useDispatch } from 'react-redux'
 import { setAllPosts } from '../../components/store/postsSlice'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { Modal } from '../modals/newModal'
 
 export const Main = () => {
   const dispatch = useDispatch()
   const filteredPosts = useSelector((state) => state.post.filteredPosts)
+
   const { data, isError, isLoading, isSuccess } = useGetAllPostsQuery()
 
   useEffect(() => {

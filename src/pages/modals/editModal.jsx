@@ -133,8 +133,10 @@ export function EditModal({ isModal, data }) {
         </S.HeaderWrapper>
         <S.Modal data-id="modal">
           <S.ModalContent data-id="modal-content">
-            <S.Title data-id="title">Редактировать объявление</S.Title>
-
+            <S.MobCloseWrapper onClick={toggleModal}>
+              <S.ModalCloseMob></S.ModalCloseMob>
+              <S.Title data-id="title">Редактировать объявление</S.Title>
+            </S.MobCloseWrapper>
             <S.ModalClose data-id="modalclose">
               <S.ModalCloseLine
                 data-id="modalline"

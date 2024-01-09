@@ -1,17 +1,17 @@
-import * as S from "./header.styles";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
-import { useState } from "react";
-import { Modal } from "../../pages/modals/newModal";
+import * as S from './header.styles'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/useAuth'
+import { useState } from 'react'
+import { Modal } from '../../pages/modals/newModal'
 
 export const Header = () => {
-  const navigate = useNavigate();
-  const [isModal, setModal] = useState(false);
-  const { isAuth } = useAuth();
+  const navigate = useNavigate()
+  const [isModal, setModal] = useState(false)
+  const { isAuth } = useAuth()
 
   const toggleModal = () => {
-    setModal((prev) => !prev);
-  };
+    setModal((prev) => !prev)
+  }
 
   return (
     <>
@@ -20,11 +20,7 @@ export const Header = () => {
           {isAuth ? (
             <>
               <S.HeaderLogo className="header__logo logo-mob">
-                <S.HeaderLogoMobLink
-                  className="logo-mob__link"
-                  href=""
-                  target="_blank"
-                >
+                <S.HeaderLogoMobLink className="logo-mob__link" href="/">
                   <S.HeaderLogoMobImg
                     className="logo-mob__img"
                     src="/img/logo-mob.png"
@@ -35,18 +31,18 @@ export const Header = () => {
               <S.HeaderButton className="btn-hov01" onClick={toggleModal}>
                 Разместить объявление
               </S.HeaderButton>
-              <Link to={"/profile"}>
+              <Link to={'/profile'}>
                 <S.HeaderButton className="btn-hov01">
                   Личный кабинет
                 </S.HeaderButton>
               </Link>
-              {isModal && <Modal isNew={true} isModal={toggleModal}></Modal>}
+              {isModal && <Modal isModal={toggleModal}></Modal>}
             </>
           ) : (
             <>
               <S.HeaderButton
                 className="btn-hov01"
-                onClick={() => navigate("/login")}
+                onClick={() => navigate('/login')}
               >
                 Вход в личный кабинет
               </S.HeaderButton>
@@ -55,5 +51,5 @@ export const Header = () => {
         </S.HeaderNav>
       </S.Header>
     </>
-  );
-};
+  )
+}

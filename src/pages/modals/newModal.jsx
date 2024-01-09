@@ -6,7 +6,7 @@ import {
   useAddPostPictureMutation,
 } from '../../components/store/postsApi'
 
-export function Modal({ isNew, isModal }) {
+export function Modal({ isModal }) {
   const [postData, setPostData] = useState([
     { title: '' },
     { description: '' },
@@ -100,9 +100,10 @@ export function Modal({ isNew, isModal }) {
         </S.HeaderWrapper>
         <S.Modal data-id="modal">
           <S.ModalContent data-id="modal-content">
-            <S.Title data-id="title">
-              {isNew ? 'Новое объявление' : 'Редактировать объявление'}
-            </S.Title>
+            <S.MobCloseWrapper onClick={toggleModal}>
+              <S.ModalCloseMob></S.ModalCloseMob>
+              <S.Title data-id="title">Новое объявление</S.Title>
+            </S.MobCloseWrapper>
 
             <S.ModalClose data-id="modalclose">
               <S.ModalCloseLine
@@ -283,9 +284,7 @@ export function Modal({ isNew, isModal }) {
                 disabled={loading ? true : false}
                 onClick={handlePostAd}
               >
-                {isNew
-                  ? `${loading ? 'Загрузка' : 'Опубликовать'}`
-                  : 'Сохранить'}
+                {loading ? 'Загрузка' : 'Опубликовать'}
               </S.ModalButton>
             </S.ModalForm>
           </S.ModalContent>

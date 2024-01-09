@@ -138,6 +138,13 @@ export const PostsApi = createApi({
       }),
       invalidatesTags: () => [POSTS_TAG],
     }),
+    deletePost: build.mutation({
+      query: (id) => ({
+        method: 'DELETE',
+        url: `ads/${id}`,
+      }),
+      invalidatesTags: () => [POSTS_TAG],
+    }),
     addPostPicture: build.mutation({
       query: ({ postId, image }) => {
         const fD = new FormData()
@@ -200,4 +207,5 @@ export const {
   useGetAllUsersQuery,
   useDeletePostPictureMutation,
   useEditPostMutation,
+  useDeletePostMutation,
 } = PostsApi

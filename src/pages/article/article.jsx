@@ -2,10 +2,11 @@ import { Footer } from '../../components/footer/footer'
 import { Header } from '../../components/header/header'
 import * as S from './article-style'
 import { ComeBackElement } from '../../components/comeBack/comeBack'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   useGetPostQuery,
   useGetFeedbacksQuery,
+  useDeletePostMutation,
 } from '../../components/store/postsApi'
 import { useState, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton'
@@ -18,6 +19,7 @@ import { ru } from 'date-fns/locale/ru'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { EditModal } from '../modals/editModal'
+import { Navigate } from 'react-router-dom'
 
 export const Article = () => {
   const { id } = useParams()
@@ -27,13 +29,21 @@ export const Article = () => {
   const [isReviewsModal, setReviewsModal] = useState(false)
   const [isOwned, setOwned] = useState(false)
   const [isEditModal, setEditModal] = useState(false)
-  const { data = [], isLoading } = useGetPostQuery(id)
-
+  const { data = [], isLoading, error } = useGetPostQuery(id)
+  const [deletePost] = useDeletePostMutation()
+  const navigate = useNavigate()
+  console.error(error)
   console.log(data)
   const userEmail = useSelector((state) => state.user.email)
   useEffect(() => {
     if (data?.user?.email === userEmail) {
       setOwned(true)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (error?.status === 404) {
+      navigate('/*')
     }
   }, [data])
 
@@ -61,205 +71,218 @@ export const Article = () => {
     setEditModal((prev) => !prev)
   }
 
-  return (
-    <>
-      {isReviewsModal && (
-        <ReviewsModal
-          reviews={reviews}
-          isModal={toggleReviewsModal}
-          postId={id}
-        ></ReviewsModal>
-      )}
-      {isEditModal && (
-        <EditModal data={data} isModal={toggleEditModal}></EditModal>
-      )}
-      <Header></Header>
-      <S.Main data-id="main">
-        <S.MainContainer data-id="main__container">
-          <ComeBackElement></ComeBackElement>
-        </S.MainContainer>
+  const handleDeletePost = async () => {
+    const response = await deletePost(data?.id)
+    console.log(response)
+    if (response.ok) {
+      navigate('/')
+    }
+  }
+  if (data?.id) {
+    return (
+      <>
+        {isReviewsModal && (
+          <ReviewsModal
+            reviews={reviews}
+            isModal={toggleReviewsModal}
+            postId={id}
+          ></ReviewsModal>
+        )}
+        {isEditModal && (
+          <EditModal data={data} isModal={toggleEditModal}></EditModal>
+        )}
+        <Header></Header>
+        <S.Main data-id="main">
+          <S.MainContainer data-id="main__container">
+            <ComeBackElement></ComeBackElement>
+          </S.MainContainer>
 
-        <S.MainArtic data-id="main__artic artic">
-          <S.ArticContent data-id="artic__content article">
-            <S.ArticleLeft data-id="article__left">
-              <S.ArticleFillImg data-id="article__fill-img">
-                <S.BackArrowMob data-id="BackArrowMob"></S.BackArrowMob>
-                <S.ArticleImg data-id="article__img">
-                  {activeImage ? (
-                    <img src={activeImage} alt="no" />
-                  ) : (
-                    <img src="/img/no_image.png" alt="no" />
-                  )}
-                </S.ArticleImg>
+          <S.MainArtic data-id="main__artic artic">
+            <S.ArticContent data-id="artic__content article">
+              <S.ArticleLeft data-id="article__left">
+                <S.ArticleFillImg data-id="article__fill-img">
+                  <S.BackArrowMob data-id="BackArrowMob"></S.BackArrowMob>
+                  <S.ArticleImg data-id="article__img">
+                    {activeImage ? (
+                      <img src={activeImage} alt="no" />
+                    ) : (
+                      <img src="/img/no_image.png" alt="no" />
+                    )}
+                  </S.ArticleImg>
 
-                <S.AtricleImgBar data-id="article__img-bar">
-                  {images.map((item, index) => {
-                    if (item === activeImage) {
-                      return (
-                        <S.AtricleImgBarActive
-                          key={index}
-                          data-id="article__img_active"
-                        >
-                          <img src={item} alt="no" />
-                        </S.AtricleImgBarActive>
-                      )
-                    } else {
-                      return (
-                        <S.AtricleImgBarDiv
-                          key={index}
-                          data-id="article__img"
-                          onClick={() => setActiveImage(item)}
-                        >
-                          <img src={item} alt="no" />
-                        </S.AtricleImgBarDiv>
-                      )
-                    }
-                  })}
-                </S.AtricleImgBar>
-                <S.AtricleImgMob data-id="article__img-mob">
-                  {images.map((item, index) => {
-                    if (item === activeImage) {
-                      return (
-                        <S.ImgCircleMobActive
-                          key={index}
-                          data-id="ImgCircleMobActive"
-                        ></S.ImgCircleMobActive>
-                      )
-                    } else {
-                      return (
-                        <S.ImgCircleMob
-                          key={index}
-                          data-id="ImgCircleMob"
-                          onClick={() => setActiveImage(item)}
-                        ></S.ImgCircleMob>
-                      )
-                    }
-                  })}
-                </S.AtricleImgMob>
-              </S.ArticleFillImg>
-            </S.ArticleLeft>
-            <S.AtricleRight data-id="article__right">
-              <S.AtricleBlock data-id="article__block">
-                <S.AtricleTitle data-id="article__title title">
-                  {isLoading ? <Skeleton></Skeleton> : data.title}
-                </S.AtricleTitle>
-                <S.AtricleInfo data-id="article__info">
-                  <S.AtricleData data-id="article__date">
-                    {isLoading ? (
-                      <Skeleton></Skeleton>
-                    ) : (
-                      <ReactTimeAgo
-                        date={new Date(data.created_on)}
-                      ></ReactTimeAgo>
-                    )}
-                  </S.AtricleData>
-                  <S.AtricleData data-id="articledata">
-                    {isLoading ? <Skeleton></Skeleton> : data.user.city}
-                  </S.AtricleData>
-                  <S.AtricleLink
-                    data-id="article__link"
-                    onClick={() => setReviewsModal(true)}
-                  >
-                    {isLoading || reviewsLoading ? (
-                      <Skeleton></Skeleton>
-                    ) : reviews?.length > 0 ? (
-                      formatComments(reviews.length)
-                    ) : (
-                      'Оставить первый комментарий'
-                    )}
-                  </S.AtricleLink>
-                </S.AtricleInfo>
-                <S.AtriclePrice data-id="article__price">
-                  {isLoading ? <Skeleton></Skeleton> : `${data.price} ₽`}
-                </S.AtriclePrice>
-                {isOwned ? (
-                  <S.ButtonFlex>
-                    <S.AtricleButton onClick={toggleEditModal}>
-                      Редактировать
-                    </S.AtricleButton>
-                    <S.AtricleButton>Снять с публикации</S.AtricleButton>
-                  </S.ButtonFlex>
-                ) : (
-                  <S.AtricleButton
-                    disabled={!data?.user?.phone}
-                    data-id="article__btn"
-                    className="btn-hov02"
-                    onClick={() => setIsHidden((prev) => !prev)}
-                  >
-                    {isHidden ? 'Скрыть' : 'Показать'}&nbsp;телефон
-                    {data?.user?.phone && (
-                      <span>
-                        {isHidden
-                          ? data.user.phone
-                          : handleShowNumber(data.user.phone)}
-                      </span>
-                    )}
-                  </S.AtricleButton>
-                )}
-
-                <S.AtricleAuthor data-id="article__author author">
-                  <S.AuthorImg data-id="author__img">
-                    {isLoading ? (
-                      <Skeleton></Skeleton>
-                    ) : (
-                      data.user.avatar && (
-                        <img
-                          src={`http://127.0.0.1:8090/${data?.user?.avatar}`}
-                          alt="no"
-                        />
-                      )
-                    )}
-                  </S.AuthorImg>
-                  <S.AuthorCont data-id="author__cont">
-                    <Link
-                      to={
-                        isOwned
-                          ? '/profile'
-                          : `/sellerprofile/${data?.user?.id}`
+                  <S.AtricleImgBar data-id="article__img-bar">
+                    {images.map((item, index) => {
+                      if (item === activeImage) {
+                        return (
+                          <S.AtricleImgBarActive
+                            key={index}
+                            data-id="article__img_active"
+                          >
+                            <img src={item} alt="no" />
+                          </S.AtricleImgBarActive>
+                        )
+                      } else {
+                        return (
+                          <S.AtricleImgBarDiv
+                            key={index}
+                            data-id="article__img"
+                            onClick={() => setActiveImage(item)}
+                          >
+                            <img src={item} alt="no" />
+                          </S.AtricleImgBarDiv>
+                        )
                       }
-                    >
-                      <S.AuthorName data-id="author__name">
-                        {isLoading ? <Skeleton></Skeleton> : data.user.name}
-                      </S.AuthorName>
-                    </Link>
-                    <S.AuthorAbout data-id="author__about">
+                    })}
+                  </S.AtricleImgBar>
+                  <S.AtricleImgMob data-id="article__img-mob">
+                    {images.map((item, index) => {
+                      if (item === activeImage) {
+                        return (
+                          <S.ImgCircleMobActive
+                            key={index}
+                            data-id="ImgCircleMobActive"
+                          ></S.ImgCircleMobActive>
+                        )
+                      } else {
+                        return (
+                          <S.ImgCircleMob
+                            key={index}
+                            data-id="ImgCircleMob"
+                            onClick={() => setActiveImage(item)}
+                          ></S.ImgCircleMob>
+                        )
+                      }
+                    })}
+                  </S.AtricleImgMob>
+                </S.ArticleFillImg>
+              </S.ArticleLeft>
+              <S.AtricleRight data-id="article__right">
+                <S.AtricleBlock data-id="article__block">
+                  <S.AtricleTitle data-id="article__title title">
+                    {isLoading ? <Skeleton></Skeleton> : data.title}
+                  </S.AtricleTitle>
+                  <S.AtricleInfo data-id="article__info">
+                    <S.AtricleData data-id="article__date">
                       {isLoading ? (
                         <Skeleton></Skeleton>
                       ) : (
-                        `Продает товары с ${format(
-                          new Date(data.user.sells_from),
-                          'd MMMM yyyy',
-                          {
-                            locale: ru,
-                          },
-                        )} г.`
+                        <ReactTimeAgo
+                          date={new Date(data.created_on)}
+                        ></ReactTimeAgo>
                       )}
-                    </S.AuthorAbout>
-                  </S.AuthorCont>
-                </S.AtricleAuthor>
-              </S.AtricleBlock>
-            </S.AtricleRight>
-          </S.ArticContent>
-        </S.MainArtic>
+                    </S.AtricleData>
+                    <S.AtricleData data-id="articledata">
+                      {isLoading ? <Skeleton></Skeleton> : data.user.city}
+                    </S.AtricleData>
+                    <S.AtricleLink
+                      data-id="article__link"
+                      onClick={() => setReviewsModal(true)}
+                    >
+                      {isLoading || reviewsLoading ? (
+                        <Skeleton></Skeleton>
+                      ) : reviews?.length > 0 ? (
+                        formatComments(reviews.length)
+                      ) : (
+                        'Оставить первый комментарий'
+                      )}
+                    </S.AtricleLink>
+                  </S.AtricleInfo>
+                  <S.AtriclePrice data-id="article__price">
+                    {isLoading ? <Skeleton></Skeleton> : `${data.price} ₽`}
+                  </S.AtriclePrice>
+                  {isOwned ? (
+                    <S.ButtonFlex>
+                      <S.AtricleButton onClick={toggleEditModal}>
+                        Редактировать
+                      </S.AtricleButton>
+                      <S.AtricleButton onClick={handleDeletePost}>
+                        Снять с публикации
+                      </S.AtricleButton>
+                    </S.ButtonFlex>
+                  ) : (
+                    <S.AtricleButton
+                      disabled={!data?.user?.phone}
+                      data-id="article__btn"
+                      className="btn-hov02"
+                      onClick={() => setIsHidden((prev) => !prev)}
+                    >
+                      {isHidden ? 'Скрыть' : 'Показать'}&nbsp;телефон
+                      {data?.user?.phone && (
+                        <span>
+                          {isHidden
+                            ? data.user.phone
+                            : handleShowNumber(data.user.phone)}
+                        </span>
+                      )}
+                    </S.AtricleButton>
+                  )}
 
-        <S.MainContainer data-id="main__container">
-          <S.MainTitle data-id="main__title title">Описание товара</S.MainTitle>
-          <S.MainContent data-id="main__content">
-            <S.MainText data-id="main__text">
-              {isLoading ? (
-                <Skeleton count={5}></Skeleton>
-              ) : data.description ? (
-                data.description
-              ) : (
-                'Пользователь еще не добавил описание'
-              )}
-            </S.MainText>
-          </S.MainContent>
-        </S.MainContainer>
-      </S.Main>
-      <Footer></Footer>
-    </>
-  )
+                  <S.AtricleAuthor data-id="article__author author">
+                    <S.AuthorImg data-id="author__img">
+                      {isLoading ? (
+                        <Skeleton></Skeleton>
+                      ) : (
+                        data.user.avatar && (
+                          <img
+                            src={`http://127.0.0.1:8090/${data?.user?.avatar}`}
+                            alt="no"
+                          />
+                        )
+                      )}
+                    </S.AuthorImg>
+                    <S.AuthorCont data-id="author__cont">
+                      <Link
+                        to={
+                          isOwned
+                            ? '/profile'
+                            : `/sellerprofile/${data?.user?.id}`
+                        }
+                      >
+                        <S.AuthorName data-id="author__name">
+                          {isLoading ? <Skeleton></Skeleton> : data.user.name}
+                        </S.AuthorName>
+                      </Link>
+                      <S.AuthorAbout data-id="author__about">
+                        {isLoading ? (
+                          <Skeleton></Skeleton>
+                        ) : (
+                          `Продает товары с ${format(
+                            new Date(data.user.sells_from),
+                            'd MMMM yyyy',
+                            {
+                              locale: ru,
+                            },
+                          )} г.`
+                        )}
+                      </S.AuthorAbout>
+                    </S.AuthorCont>
+                  </S.AtricleAuthor>
+                </S.AtricleBlock>
+              </S.AtricleRight>
+            </S.ArticContent>
+          </S.MainArtic>
+
+          <S.MainContainer data-id="main__container">
+            <S.MainTitle data-id="main__title title">
+              Описание товара
+            </S.MainTitle>
+            <S.MainContent data-id="main__content">
+              <S.MainText data-id="main__text">
+                {isLoading ? (
+                  <Skeleton count={5}></Skeleton>
+                ) : data.description ? (
+                  data.description
+                ) : (
+                  'Пользователь еще не добавил описание'
+                )}
+              </S.MainText>
+            </S.MainContent>
+          </S.MainContainer>
+        </S.Main>
+        <Footer></Footer>
+      </>
+    )
+  }
 }
 
 export function handleShowNumber(mob) {

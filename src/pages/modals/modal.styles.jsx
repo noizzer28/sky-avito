@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components'
 
 export const ModalWrapper = styled.div`
   min-width: 100%;
@@ -18,8 +18,12 @@ export const ModalWrapper = styled.div`
   padding-top: 20px;
   @media screen and (max-width: 768px) {
     padding-top: 0px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100vh;
   }
-`;
+`
 
 export const ModalBlock = styled.div`
   margin: 0 20px;
@@ -30,7 +34,7 @@ export const ModalBlock = styled.div`
     overflow-y: auto;
     margin: 0;
   }
-`;
+`
 export const ModalNew = styled.div`
   max-width: 768px;
   @media screen and (max-width: 768px) {
@@ -39,7 +43,7 @@ export const ModalNew = styled.div`
     overflow-y: scroll;
     margin-top: 0;
   }
-`;
+`
 export const ModalReview = styled.div`
   min-width: 900px;
   @media screen and (max-width: 900px) {
@@ -51,7 +55,7 @@ export const ModalReview = styled.div`
     overflow-y: hidden;
     margin-top: 0;
   }
-`;
+`
 export const Modal = styled.div`
   background-color: #ffffff;
   border-radius: 12px;
@@ -72,7 +76,7 @@ export const Modal = styled.div`
     border-radius: 0px;
     padding: 10px 20px;
   }
-`;
+`
 
 export const Title = styled.h3`
   font-size: 32px;
@@ -92,7 +96,7 @@ export const Title = styled.h3`
 
     }
   }
-`;
+`
 
 export const ModalClose = styled.div`
   width: 23px;
@@ -105,31 +109,43 @@ export const ModalClose = styled.div`
   @media screen and (max-width: 768px) {
     display: none;
   }
-`;
+`
+
+export const MobCloseWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`
 export const ModalCloseMob = styled.div`
   @media screen and (max-width: 768px) {
     display: block;
-    width: 12px;
-    height: 12px;
-    background-color: transparent;
-    border-top: 2px solid #000000;
-    border-left: 2px solid #000000;
-    -webkit-transform: rotate(-45deg);
-    transform: rotate(-45deg);
+    width: 15px;
+    height: 100%;
     position: absolute;
     top: 9px;
     left: 0;
+
     cursor: pointer;
+    &::before {
+      content: '';
+      display: block;
+      width: 12px;
+      height: 12px;
+      background-color: transparent;
+      border-top: 2px solid #000000;
+      border-left: 2px solid #000000;
+      transform: rotate(-45deg);
+    }
   }
   display: none;
-`;
+`
 export const ModalCloseLine = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
   &::before,
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     width: 30px;
     height: 2px;
@@ -155,7 +171,7 @@ export const ModalCloseLine = styled.div`
   @media screen and (max-width: 768px) {
     display: none;
   }
-`;
+`
 export const ModalContent = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
@@ -190,7 +206,7 @@ export const ModalContent = styled.div`
     height: auto;
     padding: 30px 20px 30px;
   }
-`;
+`
 export const ModalForm = styled.form`
   width: 100%;
   margin-top: 22px;
@@ -205,7 +221,7 @@ export const ModalForm = styled.form`
     flex-direction: column;
     width: 100%;
   }
-`;
+`
 export const ModalInput = styled.div`
 width: 100%;
 display: -webkit-box;
@@ -227,13 +243,13 @@ margin-bottom: 20px;
           flex-direction: column;
   margin-bottom: 18px;
   
-  `;
+  `
 export const Label = styled.label`
   margin-bottom: 5px;
   font-size: 14px;
   line-height: 21px;
   color: #000000;
-`;
+`
 export const Input = styled.input`
   margin-top: 5px;
   padding: 13px 19px;
@@ -256,7 +272,7 @@ export const Input = styled.input`
   @media screen and (max-width: 768px) {
     width: 100%;
   }
-`;
+`
 
 export const InputDescription = styled.textarea`
   margin-top: 5px;
@@ -281,7 +297,7 @@ export const InputDescription = styled.textarea`
   @media screen and (max-width: 768px) {
     width: 100%;
   }
-`;
+`
 export const InputText = styled.div`
   font-size: 16px;
   line-height: 24px;
@@ -301,7 +317,7 @@ export const InputText = styled.div`
       color: rgba(0, 0, 0, 0.3);
     }
   }
-`;
+`
 
 export const ModalImageFlex = styled.div`
   width: 100%;
@@ -337,8 +353,11 @@ export const ModalImageFlex = styled.div`
     justify-content: start;
     margin: 0px -5px 10px;
     overflow-x: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
-`;
+`
 export const ModalImage = styled.div`
   width: 90px;
   height: 90px;
@@ -367,12 +386,12 @@ export const ModalImage = styled.div`
     img {
       display: block;
       width: 100%;
-      height: auto;
+      height: 100%;
       -o-object-fit: cover;
       object-fit: cover;
     }
   }
-`;
+`
 export const ModalImageCover = styled.label`
   position: absolute;
   width: 100%;
@@ -385,7 +404,7 @@ export const ModalImageCover = styled.label`
 
   &::after,
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     width: 30px;
     height: 2px;
@@ -398,7 +417,7 @@ export const ModalImageCover = styled.label`
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
   }
-`;
+`
 export const ModalPriceInput = styled.div`
   width: 100%;
   display: -webkit-box;
@@ -421,7 +440,7 @@ export const ModalPriceInput = styled.div`
     flex-direction: column;
     margin-bottom: 18px;
   }
-`;
+`
 export const InputPrice = styled(Input)`
   padding: 9px 17px;
   background: #ffffff;
@@ -464,12 +483,12 @@ export const InputPrice = styled(Input)`
       color: #000000;
     }
   }
-`;
+`
 
 export const InputWrapper = styled.div`
   position: relative;
   max-width: 200px;
-`;
+`
 
 export const Price = styled.div`
 
@@ -496,7 +515,7 @@ export const Price = styled.div`
       line-height: 21px;
     }
   }
-}`;
+}`
 
 export const ModalButton = styled.button`
   margin-top: 10px;
@@ -517,14 +536,14 @@ export const ModalButton = styled.button`
     width: 100%;
     height: 46px;
   }
-`;
+`
 
 export const HeaderWrapper = styled.div`
   display: none;
   @media screen and (max-width: 768px) {
     display: block;
   }
-`;
+`
 export const ModalReviews = styled.div`
   width: 100%;
   margin-top: 20px;
@@ -544,7 +563,7 @@ export const ModalReviews = styled.div`
     background-color: #0080c1;
     border-radius: 3px;
   }
-`;
+`
 export const Reviews = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
@@ -556,7 +575,7 @@ export const Reviews = styled.div`
   -ms-flex-pack: center;
   justify-content: flex-start;
   margin: 15px 0;
-`;
+`
 export const ReviewItem = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
@@ -571,13 +590,13 @@ export const ReviewItem = styled.div`
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-`;
+`
 export const ReviewLeft = styled.div`
   margin-right: 12px;
-`;
+`
 export const ReviewRight = styled.div`
   display: block;
-`;
+`
 export const ReviewImg = styled.div`
   width: 40px;
   height: 40px;
@@ -591,7 +610,7 @@ export const ReviewImg = styled.div`
     -o-object-fit: cover;
     object-fit: cover;
   }
-`;
+`
 export const ReviewText = styled.p`
   margin-bottom: 12px;
   font-weight: 600;
@@ -599,11 +618,11 @@ export const ReviewText = styled.p`
     margin-left: 10px;
     color: #5f5f5f;
   }
-`;
+`
 export const ReviewComm = styled.p`
   margin-bottom: 12px;
   font-weight: 400;
-`;
+`
 export const AuthModalWarning = styled.p`
   margin-top: 20px;
   font-size: 18px;
@@ -611,22 +630,22 @@ export const AuthModalWarning = styled.p`
     cursor: pointer;
     color: #009ee4;
   }
-`;
+`
 export const Error = styled.p`
   margin-top: 20px;
   margin-bottom: 20px;
   font-size: 18px;
   color: #700404;
-`;
+`
 export const Success = styled.p`
   margin-top: 20px;
   margin-bottom: 20px;
   font-size: 18px;
   color: #078f2e;
-`;
+`
 export const InputPicture = styled.input`
   display: none;
-`;
+`
 
 export const DeletePic = styled.div`
   width: 10px;
@@ -638,7 +657,7 @@ export const DeletePic = styled.div`
   cursor: pointer;
   &::before,
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     width: 10px;
     height: 1px;
@@ -662,4 +681,4 @@ export const DeletePic = styled.div`
   @media screen and (max-width: 768px) {
     display: none;
   }
-`;
+`
