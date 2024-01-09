@@ -63,6 +63,33 @@ export const GlobalStyles = createGlobalStyle`
     font-family: "Roboto", sans-serif;
   }
   
+  button {
+    background-color: #009ee4;
+    border-radius: 6px;
+    border: 1px solid #009ee4;
+    font-size: 16px;
+    line-height: 1;
+    color: #ffffff;
+  }
+  button:hover {
+      background-color: #0080c1;
+    }
+  
+    button:active {
+      background-color: #015681;
+    }
+  
+    button:disabled {
+      border: none;
+      background-color: #5e5e5e;
+    }
+    button:hover:disabled {
+      border: none;
+      background-color: #4d4d4d;
+      cursor: default;
+     
+    }
+
   .btn-hov01:hover {
     background: rgba(255, 255, 255, 0.15);
     border: 1px solid #ffffff;

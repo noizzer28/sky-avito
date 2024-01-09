@@ -1,4 +1,4 @@
-import { styled } from "styled-components";
+import { styled } from 'styled-components'
 
 export const ModalWrapper = styled.div`
   min-width: 100%;
@@ -8,45 +8,54 @@ export const ModalWrapper = styled.div`
   top: 0px;
   width: 100%;
   height: 100%;
-  background-color: #2492ca;
+  background-color: rgba(0, 0, 0, 0.7);
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 3;
 
   padding-top: 20px;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     padding-top: 0px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100vh;
   }
-`;
+`
 
 export const ModalBlock = styled.div`
   margin: 0 20px;
-  @media screen and (max-width: 600px) {
+
+  @media screen and (max-width: 768px) {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     overflow-y: auto;
     margin: 0;
   }
-`;
+`
 export const ModalNew = styled.div`
-  max-width: 600px;
-  @media screen and (max-width: 600px) {
+  max-width: 768px;
+  @media screen and (max-width: 768px) {
     width: 100%;
     height: 100vh;
     overflow-y: scroll;
     margin-top: 0;
   }
-`;
+`
 export const ModalReview = styled.div`
-  max-width: 900px;
-  @media screen and (max-width: 600px) {
+  min-width: 900px;
+  @media screen and (max-width: 900px) {
+    min-width: 700px;
+  }
+  @media screen and (max-width: 768px) {
     width: 100%;
     height: 100vh;
-    overflow-y: scroll;
+    overflow-y: hidden;
     margin-top: 0;
   }
-`;
+`
 export const Modal = styled.div`
   background-color: #ffffff;
   border-radius: 12px;
@@ -61,13 +70,13 @@ export const Modal = styled.div`
   -ms-flex-align: center;
   align-items: center;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
     height: 100vh;
     border-radius: 0px;
     padding: 10px 20px;
   }
-`;
+`
 
 export const Title = styled.h3`
   font-size: 32px;
@@ -79,29 +88,15 @@ export const Title = styled.h3`
     border-left: 2px solid #0080c1;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     font-size: 24px;
     line-height: 29px;
     padding: 0 0 0 26px;
     position: relative;
 
-    &::before {
-      content: "";
-      display: block;
-      width: 12px;
-      height: 12px;
-      background-color: transparent;
-      border-top: 2px solid #000000;
-      border-left: 2px solid #000000;
-      -webkit-transform: rotate(-45deg);
-      transform: rotate(-45deg);
-      position: absolute;
-      top: 9px;
-      left: 0;
-      cursor: pointer;
     }
   }
-`;
+`
 
 export const ModalClose = styled.div`
   width: 23px;
@@ -111,17 +106,46 @@ export const ModalClose = styled.div`
   right: 50px;
   z-index: 3;
   cursor: pointer;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
-`;
+`
+
+export const MobCloseWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`
+export const ModalCloseMob = styled.div`
+  @media screen and (max-width: 768px) {
+    display: block;
+    width: 15px;
+    height: 100%;
+    position: absolute;
+    top: 9px;
+    left: 0;
+
+    cursor: pointer;
+    &::before {
+      content: '';
+      display: block;
+      width: 12px;
+      height: 12px;
+      background-color: transparent;
+      border-top: 2px solid #000000;
+      border-left: 2px solid #000000;
+      transform: rotate(-45deg);
+    }
+  }
+  display: none;
+`
 export const ModalCloseLine = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
   &::before,
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     width: 30px;
     height: 2px;
@@ -144,10 +168,10 @@ export const ModalCloseLine = styled.div`
     transform: rotate(-45deg);
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
-`;
+`
 export const ModalContent = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
@@ -165,8 +189,9 @@ export const ModalContent = styled.div`
   background-color: #ffffff;
   border-radius: 12px;
   position: relative;
+  max-height: 1100px;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
@@ -181,11 +206,11 @@ export const ModalContent = styled.div`
     height: auto;
     padding: 30px 20px 30px;
   }
-`;
+`
 export const ModalForm = styled.form`
   width: 100%;
   margin-top: 22px;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     margin-top: 22px;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -196,7 +221,7 @@ export const ModalForm = styled.form`
     flex-direction: column;
     width: 100%;
   }
-`;
+`
 export const ModalInput = styled.div`
 width: 100%;
 display: -webkit-box;
@@ -207,7 +232,7 @@ display: flex;
     -ms-flex-direction: column;
         flex-direction: column;
 margin-bottom: 20px;
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -218,13 +243,13 @@ margin-bottom: 20px;
           flex-direction: column;
   margin-bottom: 18px;
   
-  `;
+  `
 export const Label = styled.label`
   margin-bottom: 5px;
   font-size: 14px;
   line-height: 21px;
   color: #000000;
-`;
+`
 export const Input = styled.input`
   margin-top: 5px;
   padding: 13px 19px;
@@ -244,10 +269,10 @@ export const Input = styled.input`
     line-height: 24px;
     color: #0000004d;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
-`;
+`
 
 export const InputDescription = styled.textarea`
   margin-top: 5px;
@@ -269,10 +294,10 @@ export const InputDescription = styled.textarea`
     line-height: 24px;
     color: #0000004d;
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
-`;
+`
 export const InputText = styled.div`
   font-size: 16px;
   line-height: 24px;
@@ -282,7 +307,7 @@ export const InputText = styled.div`
     margin-left: 10px;
     color: rgba(0, 0, 0, 0.3);
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     font-size: 14px;
     line-height: 21px;
     margin-bottom: 10px;
@@ -292,7 +317,7 @@ export const InputText = styled.div`
       color: rgba(0, 0, 0, 0.3);
     }
   }
-`;
+`
 
 export const ModalImageFlex = styled.div`
   width: 100%;
@@ -311,7 +336,7 @@ export const ModalImageFlex = styled.div`
   justify-content: space-between;
   margin-bottom: 10px;
   overflow: hidden;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -328,25 +353,30 @@ export const ModalImageFlex = styled.div`
     justify-content: start;
     margin: 0px -5px 10px;
     overflow-x: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
-`;
+`
 export const ModalImage = styled.div`
   width: 90px;
   height: 90px;
-  margin-right: 10px;
+
   position: relative;
   z-index: 0;
-
+  &:not(:last-child) {
+    margin-right: 10px;
+  }
   img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
     z-index: 2;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     display: block;
     width: 90px;
     min-width: 90px;
@@ -356,13 +386,13 @@ export const ModalImage = styled.div`
     img {
       display: block;
       width: 100%;
-      height: auto;
+      height: 100%;
       -o-object-fit: cover;
       object-fit: cover;
     }
   }
-`;
-export const ModalImageCover = styled.div`
+`
+export const ModalImageCover = styled.label`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -370,10 +400,11 @@ export const ModalImageCover = styled.div`
   left: 0;
   background-color: #f0f0f0;
   z-index: -1;
+  cursor: pointer;
 
   &::after,
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     width: 30px;
     height: 2px;
@@ -386,7 +417,7 @@ export const ModalImageCover = styled.div`
     -webkit-transform: rotate(90deg);
     transform: rotate(90deg);
   }
-`;
+`
 export const ModalPriceInput = styled.div`
   width: 100%;
   display: -webkit-box;
@@ -398,7 +429,7 @@ export const ModalPriceInput = styled.div`
   flex-direction: column;
   margin-bottom: 20px;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -409,7 +440,7 @@ export const ModalPriceInput = styled.div`
     flex-direction: column;
     margin-bottom: 18px;
   }
-`;
+`
 export const InputPrice = styled(Input)`
   padding: 9px 17px;
   background: #ffffff;
@@ -441,7 +472,7 @@ export const InputPrice = styled(Input)`
   //   color: #000000;
   //   z-index: 2;
   // }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 100%;
     &::-webkit-input-placeholder,
     &:-ms-input-placeholder,
@@ -452,12 +483,12 @@ export const InputPrice = styled(Input)`
       color: #000000;
     }
   }
-`;
+`
 
 export const InputWrapper = styled.div`
   position: relative;
   max-width: 200px;
-`;
+`
 
 export const Price = styled.div`
 
@@ -471,7 +502,7 @@ export const Price = styled.div`
   transform: translateY(-50%);
   position: absolute;
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     width: 21px;
     height: 21px;
     font-size: 14px;
@@ -484,35 +515,55 @@ export const Price = styled.div`
       line-height: 21px;
     }
   }
-}`;
+}`
 
 export const ModalButton = styled.button`
   margin-top: 10px;
   width: 181px;
   height: 50px;
-  background: #d9d9d9;
-  border: 1px solid #d9d9d9;
-  border-radius: 6px;
-  font-size: 16px;
-  line-height: 24px;
-  color: #ffffff;
+  &:disabled {
+    border: none;
+    background-color: #5e5e5e;
+  }
+  &:hover:disabled {
+    border: none;
+    background-color: #4d4d4d;
+    cursor: default;
+  }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     margin-top: 10px;
     width: 100%;
     height: 46px;
   }
-`;
+`
 
 export const HeaderWrapper = styled.div`
   display: none;
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 768px) {
     display: block;
   }
-`;
+`
 export const ModalReviews = styled.div`
   width: 100%;
-`;
+  margin-top: 20px;
+  overflow-y: scroll;
+  scrollbar-color: #ffffff #2e2e2e;
+  scrollbar-width: thin;
+  scrollbar-width: 0px;
+  height: 100%;
+  padding-bottom: 30px;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    background-color: #009ee4;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #0080c1;
+    border-radius: 3px;
+  }
+`
 export const Reviews = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
@@ -522,9 +573,9 @@ export const Reviews = styled.div`
   align-items: center;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 15px 0;
-`;
+`
 export const ReviewItem = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
@@ -539,13 +590,13 @@ export const ReviewItem = styled.div`
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-`;
+`
 export const ReviewLeft = styled.div`
   margin-right: 12px;
-`;
+`
 export const ReviewRight = styled.div`
   display: block;
-`;
+`
 export const ReviewImg = styled.div`
   width: 40px;
   height: 40px;
@@ -554,11 +605,12 @@ export const ReviewImg = styled.div`
   img {
     display: block;
     width: 100%;
+    border-radius: 50%;
     height: auto;
     -o-object-fit: cover;
     object-fit: cover;
   }
-`;
+`
 export const ReviewText = styled.p`
   margin-bottom: 12px;
   font-weight: 600;
@@ -566,8 +618,67 @@ export const ReviewText = styled.p`
     margin-left: 10px;
     color: #5f5f5f;
   }
-`;
+`
 export const ReviewComm = styled.p`
   margin-bottom: 12px;
   font-weight: 400;
-`;
+`
+export const AuthModalWarning = styled.p`
+  margin-top: 20px;
+  font-size: 18px;
+  span {
+    cursor: pointer;
+    color: #009ee4;
+  }
+`
+export const Error = styled.p`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #700404;
+`
+export const Success = styled.p`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: #078f2e;
+`
+export const InputPicture = styled.input`
+  display: none;
+`
+
+export const DeletePic = styled.div`
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 8px;
+  right: 2px;
+  z-index: 3;
+  cursor: pointer;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 1px;
+    border-radius: 2px;
+    background-color: #3b3a39;
+  }
+  &:hover::before,
+  &:hover::after {
+    background-color: #0080c1;
+  }
+
+  &::before {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  &::after {
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`

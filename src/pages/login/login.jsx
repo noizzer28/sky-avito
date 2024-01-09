@@ -1,9 +1,39 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import * as S from "./login.styles";
+import {
+  setLogin,
+  setPassword,
+  setError,
+} from "../../components/store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginApi } from "../../components/store/userSlice";
 
 export function Login() {
-  const isLoading = false;
-  const error = false;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { password, email, error, loading } = useSelector(
+    (state) => state.user
+  );
+  const handleLogin = async () => {
+    if (!password || !email) {
+      dispatch(setError(`Все поля должны быть заполнены`));
+      return;
+    }
+    try {
+      const data = await dispatch(LoginApi({ email, password }));
+      const user = {
+        refresh_token: data.payload.refresh_token,
+        access_token: data.payload.access_token,
+        email: email,
+        password: password,
+      };
+      localStorage.setItem("token", JSON.stringify(user));
+      navigate("/");
+    } catch (error) {
+      setError(`Ошибка: ${error.message}`);
+    }
+  };
+
   return (
     <S.ModalWrapper data-id="modal-wrapper">
       <S.ModalBlock data-id="modal__block">
@@ -16,25 +46,32 @@ export function Login() {
           <S.Inputs data-id="inputs">
             <S.ModalInput
               type="text"
-              name="login"
+              name="email"
               placeholder="Почта"
+              value={email}
+              autoComplete={email}
               onChange={(e) => {
-                console.log(e.target.value);
+                dispatch(setLogin(e.target.value));
               }}
             />
             <S.ModalInput
               type="password"
               name="password"
               placeholder="Пароль"
+              value={password}
+              autoComplete={password}
               onChange={(e) => {
-                console.log(e.target.value);
+                dispatch(setPassword(e.target.value));
               }}
             />
           </S.Inputs>
           {error && <S.Error>{error}</S.Error>}
           <S.Buttons data-id="buttons">
-            <S.PrimaryButton disabled={isLoading ? true : false}>
-              Войти
+            <S.PrimaryButton
+              disabled={loading ? true : false}
+              onClick={handleLogin}
+            >
+              {loading ? "Логинимся" : "Войти"}
             </S.PrimaryButton>
             <Link to="/register">
               <S.SecondaryButton>Зарегистрироваться</S.SecondaryButton>

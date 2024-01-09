@@ -72,7 +72,7 @@ export const ArticContent = styled.div`
   align-items: top;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
-  justify-content: center;
+  justify-content: flex-start;
   @media screen and (max-width: 768px) {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -143,40 +143,65 @@ export const ArticleFillImg = styled.div`
     -ms-flex-pack: center;
     justify-content: center;
     position: relative;
-    &::before {
-      content: "";
-      display: block;
-      width: 23px;
-      height: 23px;
-      background-color: transparent;
-      border-top: 2px solid #000000;
-      border-left: 2px solid #000000;
-      -webkit-transform: rotate(-45deg);
-      transform: rotate(-45deg);
-      position: absolute;
-      top: 24px;
-      left: 32px;
-      cursor: pointer;
-    }
   }
 `;
-export const AtricleImg = styled.div`
+
+// export const MainImageMob = styled.div`
+//   display: none;
+//   @media screen and (max-width: 768px) {
+//     display: inline-flex;
+//     gap: 10px;
+//     img {
+//       max-width: 100%;
+//       height: auto;
+//     }
+//   }
+// `;
+// export const MainImageMobContainer = styled.div`
+//   display: none;
+//   @media screen and (max-width: 768px) {
+//     display: block;
+//     overflow-x: auto;
+//     white-space: nowrap;
+//     -webkit-overflow-scrolling: touch;
+//   }
+// `;
+export const BackArrowMob = styled.div`
+  display: none;
+
+  @media screen and (max-width: 768px) {
+    width: 23px;
+    height: 23px;
+    background-color: transparent;
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    position: absolute;
+    top: 24px;
+    left: 32px;
+    cursor: pointer;
+  }
+`;
+export const ArticleImg = styled.div`
   width: 480px;
   height: 480px;
-  background-color: #f0f0f0;
-  margin: 0 5px;
+
   img {
     width: 100%;
-    height: auto;
-    display: block;
+    height: 100%;
     object-fit: cover;
   }
   @media screen and (max-width: 768px) {
     width: 100%;
-    min-width: 320px;
-    height: auto;
-    min-height: 320px;
+    height: 100%;
+    object-fit: cover;
     margin: 0 0px;
+    img {
+      width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+    }
   }
 `;
 export const AtricleImgMob = styled.div`
@@ -214,6 +239,7 @@ export const AtricleImgBar = styled.div`
   justify-content: left;
   overflow: hidden;
   margin-left: -5px;
+
   @media screen and (max-width: 768px) {
     display: none;
   }
@@ -223,15 +249,18 @@ export const AtricleImgBarDiv = styled.div`
   min-width: 88px;
   height: 88px;
   background-color: #f0f0f0;
-  border: 2px solid #f0f0f0;
+  border: 4px solid #f0f0f0;
   margin: 0 5px;
+  cursor: pointer;
   img {
     width: 100%;
-    height: auto;
-    display: block;
+    height: 100%;
     -o-object-fit: cover;
     object-fit: cover;
   }
+`;
+export const AtricleImgBarActive = styled(AtricleImgBarDiv)`
+  border: 4px solid rgba(0, 158, 228, 0.6);
 `;
 export const AtricleRight = styled.div`
   max-width: 621px;
@@ -274,10 +303,11 @@ export const AtricleData = styled.p`
     margin-bottom: 4px;
   }
 `;
-export const AtricleLink = styled.a`
+export const AtricleLink = styled.p`
   font-size: 16px;
   line-height: 21px;
   color: #009ee4;
+  cursor: pointer;
   @media screen and (max-width: 768px) {
     font-size: 14px;
     line-height: 19px;
@@ -343,11 +373,21 @@ export const AtricleAuthor = styled.div`
 `;
 
 export const ImgCircleMob = styled.div`
+  cursor: pointer;
   @media screen and (max-width: 768px) {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    border: 1px solid #ffffff;
+    border: 1px solid #eee;
+  }
+`;
+export const ImgCircleMobActive = styled(ImgCircleMob)`
+  @media screen and (max-width: 768px) {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #009ee4;
+    border: 1px solid #eee;
   }
 `;
 export const AuthorImg = styled.div`
@@ -359,6 +399,7 @@ export const AuthorImg = styled.div`
     width: 100%;
     height: auto;
     display: block;
+    border-radius: 50%;
     -o-object-fit: cover;
     object-fit: cover;
   }
@@ -371,6 +412,7 @@ export const AuthorName = styled.p`
   line-height: 26px;
   font-weight: 600;
   color: #009ee4;
+  cursor: pointer;
   @media screen and (max-width: 768px) {
     font-size: 18px;
     line-height: 23px;
@@ -385,5 +427,12 @@ export const AuthorAbout = styled.p`
     font-size: 18px;
     line-height: 23px;
     font-weight: 600;
+  }
+`;
+export const ButtonFlex = styled.p`
+  display: flex;
+  gap: 10px;
+  @media screen and (max-width: 620px) {
+    flex-direction: column;
   }
 `;

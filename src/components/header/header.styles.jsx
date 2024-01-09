@@ -75,10 +75,3 @@ export const HeaderButton = styled.button`
     display: none;
   }
 `;
-
-// export const Header = styled.div`
-
-// `
-// export const Header = styled.div`
-
-// `

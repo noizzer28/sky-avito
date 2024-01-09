@@ -1,7 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const Footer = styled.footer`
   display: none;
+
   @media screen and (max-width: 590px) {
     position: fixed;
     bottom: 0;
@@ -22,7 +23,7 @@ export const Footer = styled.footer`
     -webkit-box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.1);
   }
-`;
+`
 export const FooterContainer = styled.div`
   @media screen and (max-width: 590px) {
     width: 225px;
@@ -36,7 +37,7 @@ export const FooterContainer = styled.div`
     -ms-flex-pack: justify;
     justify-content: space-between;
   }
-`;
+`
 export const FooterImg = styled.div`
   @media screen and (max-width: 590px) {
     width: 42px;
@@ -49,4 +50,4 @@ export const FooterImg = styled.div`
       object-fit: cover;
     }
   }
-`;
+`

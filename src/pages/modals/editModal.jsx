@@ -2,11 +2,13 @@ import * as S from './modal.styles'
 import { Header } from '../../components/header/header'
 import { useState } from 'react'
 import {
-  useAddNewPostMutation,
+  useEditPostMutation,
   useAddPostPictureMutation,
+  useDeletePostPictureMutation,
 } from '../../components/store/postsApi'
+import { useEffect } from 'react'
 
-export function Modal({ isModal }) {
+export function EditModal({ isModal, data }) {
   const [postData, setPostData] = useState([
     { title: '' },
     { description: '' },
@@ -15,10 +17,29 @@ export function Modal({ isModal }) {
   const [uploadedPics, setUploadedPics] = useState([])
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [addPost] = useAddNewPostMutation()
+  const [editPost] = useEditPostMutation()
   const [addPostPicture] = useAddPostPictureMutation()
+  const [deletePostPicture] = useDeletePostPictureMutation()
   const [error, setError] = useState(null)
 
+  useEffect(() => {
+    setPostData([
+      { title: data.title },
+      { description: data.description },
+      { price: data.price },
+    ])
+    setUploadedPics(
+      data?.images?.map((item) => {
+        return {
+          src: `http://127.0.0.1:8090/${item.url}`,
+          url: item.url,
+        }
+      }),
+    )
+  }, [data])
+
+  console.log('postdata', postData)
+  console.log('uploadedPics', uploadedPics)
   const toggleModal = () => {
     isModal((prev) => !prev)
   }
@@ -30,16 +51,21 @@ export function Modal({ isModal }) {
       const reader = new FileReader()
       reader.onloadend = () => {
         const imageUrl = reader.result
-        setUploadedPics((prevValue) => [
-          ...prevValue,
+        setUploadedPics((prevUploadedPics) => [
+          ...prevUploadedPics,
           { file: file, src: imageUrl },
         ])
       }
       reader.readAsDataURL(file)
     }
   }
-  console.log('uploadedPics', uploadedPics)
-  const removePic = (indexValue) => {
+
+  const removePic = async (indexValue) => {
+    const response = await deletePostPicture({
+      postId: data.id,
+      file_url: uploadedPics[indexValue].url,
+    })
+    console.log(response)
     setUploadedPics((prevArray) =>
       prevArray.filter((_, index) => index !== indexValue),
     )
@@ -57,10 +83,13 @@ export function Modal({ isModal }) {
       setLoading(false)
     } else {
       setError(null)
-      const response = await addPost({
-        title: postData[0],
-        description: postData[1],
-        price: postData[2],
+      const response = await editPost({
+        postId: data?.id,
+        body: {
+          title: postData[0].title,
+          description: postData[1].description,
+          price: postData[2].price,
+        },
       }).unwrap()
       console.log('first response: ', response)
       if (response.error) {
@@ -71,22 +100,26 @@ export function Modal({ isModal }) {
         console.log('responseID', response.id)
 
         uploadedPics.forEach(async (pic) => {
-          const result = await addPostPicture({
-            postId: response.id,
-            image: pic.file,
-          })
-          console.log('secondResponse', result)
-          console.error(result.error)
-          if (result.error) {
-            setError('Произошла ошибка, попробуйте еще раз')
+          if (pic.file) {
+            const result = await addPostPicture({
+              postId: data.id,
+              image: pic.file,
+            })
+            console.log('secondResponse', result)
+            console.error(result.error)
+            if (result.error) {
+              setError('Произошла ошибка, попробуйте еще раз')
 
-            setLoading(false)
+              setLoading(false)
+            } else {
+              console.log('final')
+              setUploadedPics([])
+              setSuccess(true)
+              setLoading(false)
+            }
           } else {
-            console.log('final')
-            setUploadedPics([])
             setSuccess(true)
             setLoading(false)
-            setPostData([{ title: '' }, { description: '' }, { price: '' }])
           }
         })
       }
@@ -102,9 +135,8 @@ export function Modal({ isModal }) {
           <S.ModalContent data-id="modal-content">
             <S.MobCloseWrapper onClick={toggleModal}>
               <S.ModalCloseMob></S.ModalCloseMob>
-              <S.Title data-id="title">Новое объявление</S.Title>
+              <S.Title data-id="title">Редактировать объявление</S.Title>
             </S.MobCloseWrapper>
-
             <S.ModalClose data-id="modalclose">
               <S.ModalCloseLine
                 data-id="modalline"
@@ -123,7 +155,7 @@ export function Modal({ isModal }) {
                   onChange={(e) =>
                     setPostData((prevArray) => {
                       const newArray = [...prevArray]
-                      newArray[0] = e.target.value
+                      newArray[0].title = e.target.value
                       return newArray
                     })
                   }
@@ -140,7 +172,7 @@ export function Modal({ isModal }) {
                   onChange={(e) =>
                     setPostData((prevArray) => {
                       const newArray = [...prevArray]
-                      newArray[1] = e.target.value
+                      newArray[1].description = e.target.value
                       return newArray
                     })
                   }
@@ -152,7 +184,7 @@ export function Modal({ isModal }) {
                   Фотографии товара<span>не более 5 фотографий</span>
                 </S.InputText>
                 <S.ModalImageFlex data-id=" ModalImageFlex form-newArt__bar-img">
-                  <S.ModalImage data-id="ModalImage">
+                  <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[0] && (
                       <>
                         {' '}
@@ -163,7 +195,7 @@ export function Modal({ isModal }) {
 
                     <S.ModalImageCover
                       htmlFor="fileInput"
-                      data-id="ModalImage-cover"
+                      data-id="form-newArt__img-cover"
                     >
                       <S.InputPicture
                         type="file"
@@ -173,17 +205,16 @@ export function Modal({ isModal }) {
                       ></S.InputPicture>
                     </S.ModalImageCover>
                   </S.ModalImage>
-                  <S.ModalImage data-id="ModalImage">
+                  <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[1] && (
                       <>
-                        {' '}
                         <img src={uploadedPics[1].src} alt="no" />{' '}
                         <S.DeletePic onClick={() => removePic(1)}></S.DeletePic>
                       </>
                     )}
                     <S.ModalImageCover
                       htmlFor="fileInput2"
-                      data-id="ModalImage-cover"
+                      data-id="form-newArt__img-cover"
                     >
                       <S.InputPicture
                         type="file"
@@ -193,17 +224,16 @@ export function Modal({ isModal }) {
                       ></S.InputPicture>
                     </S.ModalImageCover>
                   </S.ModalImage>
-                  <S.ModalImage data-id="ModalImage">
+                  <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[2] && (
                       <>
-                        {' '}
                         <img src={uploadedPics[2].src} alt="no" />{' '}
                         <S.DeletePic onClick={() => removePic(2)}></S.DeletePic>
                       </>
                     )}
                     <S.ModalImageCover
                       htmlFor="fileInput2"
-                      data-id="ModalImage-cover"
+                      data-id="form-newArt__img-cover"
                     >
                       <S.InputPicture
                         type="file"
@@ -213,7 +243,7 @@ export function Modal({ isModal }) {
                       ></S.InputPicture>
                     </S.ModalImageCover>
                   </S.ModalImage>
-                  <S.ModalImage data-id="ModalImage">
+                  <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[3] && (
                       <>
                         {' '}
@@ -223,7 +253,7 @@ export function Modal({ isModal }) {
                     )}
                     <S.ModalImageCover
                       htmlFor="fileInput2"
-                      data-id="ModalImage-cover"
+                      data-id="form-newArt__img-cover"
                     >
                       <S.InputPicture
                         type="file"
@@ -233,7 +263,7 @@ export function Modal({ isModal }) {
                       ></S.InputPicture>
                     </S.ModalImageCover>
                   </S.ModalImage>
-                  <S.ModalImage data-id="ModalImage">
+                  <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[4] && (
                       <>
                         {' '}
@@ -243,7 +273,7 @@ export function Modal({ isModal }) {
                     )}
                     <S.ModalImageCover
                       htmlFor="fileInput2"
-                      data-id="ModalImage-cover"
+                      data-id="form-newArt__img-cover"
                     >
                       <S.InputPicture
                         type="file"
@@ -267,7 +297,7 @@ export function Modal({ isModal }) {
                     onChange={(e) =>
                       setPostData((prevArray) => {
                         const newArray = [...prevArray]
-                        newArray[2] = e.target.value
+                        newArray[2].price = e.target.value
                         return newArray
                       })
                     }
@@ -275,7 +305,9 @@ export function Modal({ isModal }) {
                   <S.Price data-id="form-newArt__input-price-cover">₽</S.Price>
                 </S.InputWrapper>
               </S.ModalPriceInput>
-              {success && <S.Success>Объявление успешно загружено!</S.Success>}
+              {success && (
+                <S.Success>Объявление успешно отредактировано</S.Success>
+              )}
               {error && <S.Error data-id="WARNING">{error}</S.Error>}
               <S.ModalButton
                 data-id="form-newArt__btn-pub btn-hov02"
@@ -284,7 +316,7 @@ export function Modal({ isModal }) {
                 disabled={loading ? true : false}
                 onClick={handlePostAd}
               >
-                {loading ? 'Загрузка' : 'Опубликовать'}
+                {loading ? 'Загрузка' : 'Сохранить'}
               </S.ModalButton>
             </S.ModalForm>
           </S.ModalContent>

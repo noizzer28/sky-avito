@@ -1,10 +1,26 @@
 import styled from "styled-components";
 
-export const Main = styled.div``;
-export const MainContainer = styled.div`
+export const Main = styled.div`
+  overflow: auto;
+  height: 100vh;
+  scrollbar-color: #ffffff #2e2e2e;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 0px;
+    background-color: #009ee4;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #0080c1;
+    border-radius: 3px;
+  }
+`;
+export const ProfileContainer = styled.div`
   max-width: 1178px;
   margin: 0 auto;
   padding: 0px 10px 79px;
+
   @media screen and (max-width: 890px) {
     padding: 15px 0px 84px;
   }
@@ -142,24 +158,34 @@ export const SettingsImg = styled.div`
   height: 170px;
   border-radius: 50%;
   background-color: #f0f0f0;
+  img {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 50%;
+  }
   @media screen and (max-width: 620px) {
     width: 132px;
     height: 132px;
   }
 `;
-export const SettingsPhoto = styled.a`
+export const SettingsPhoto = styled.label`
   margin-top: 10px;
   margin-bottom: 30px;
   text-decoration: none;
   font-size: 16px;
   line-height: 24px;
   color: #009ee4;
+  cursor: pointer;
 `;
 export const SettingsRight = styled.div`
   width: 630px;
   @media screen and (max-width: 620px) {
     width: 100%;
   }
+`;
+export const InputPicture = styled.input`
+  display: none;
 `;
 export const SettingsForm = styled.form`
   width: 630px;
@@ -174,6 +200,7 @@ export const SettingsForm = styled.form`
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 6px;
     padding: 13px 19px;
+    margin-right: 15px;
 
     &::-webkit-input-placeholder,
     &:-ms-input-placeholder,
@@ -248,15 +275,24 @@ export const SettingsInputPhone = styled.input`
   }
 `;
 export const SettingsButton = styled.button`
-  font-size: 16px;
-  line-height: 1;
-  color: #ffffff;
   width: 154px;
   height: 50px;
-  margin: 10px 7px 0;
-  background-color: #009ee4;
-  border-radius: 6px;
-  border: 1px solid #009ee4;
+  margin-top: 10px;
+  margin-right: 15px;
+
+  // &:hover {
+  //   background-color: #0080c1;
+  // }
+
+  // &:active {
+  //   background-color: #015681;
+  // }
+
+  // &:disabled {
+  //   background-color: #5e5e5e;
+  //   border: none;
+  //   cursor: not-allowed;
+  // }
   @media screen and (max-width: 620px) {
     font-size: 16px;
     line-height: 1;
