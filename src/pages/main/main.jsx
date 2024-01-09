@@ -1,18 +1,24 @@
-import { Header } from "../../components/header/header";
-import { Footer } from "../../components/footer/footer";
-import { Search } from "../../components/search/search";
-import { Content } from "../../components/content/content";
-import * as S from "./main.styles";
-import { SkeletonLoading } from "../../components/content/loading";
-import { useGetAllPostsQuery } from "../../components/store/postsApi";
+import { Header } from '../../components/header/header'
+import { Footer } from '../../components/footer/footer'
+import { Search } from '../../components/search/search'
+import { Content } from '../../components/content/content'
+import * as S from './main.styles'
+import { SkeletonLoading } from '../../components/content/loading'
+import { useGetAllPostsQuery } from '../../components/store/postsApi'
+import { useSelector, useDispatch } from 'react-redux'
+import { setAllPosts } from '../../components/store/postsSlice'
+import { useEffect } from 'react'
 
 export const Main = () => {
+  const dispatch = useDispatch()
+  const filteredPosts = useSelector((state) => state.post.filteredPosts)
+  const { data, isError, isLoading, isSuccess } = useGetAllPostsQuery()
 
-
-
-  const { data, isError, isLoading } = useGetAllPostsQuery();
-
-  console.log(data);
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setAllPosts(data))
+    }
+  }, [data])
 
   return (
     <>
@@ -27,11 +33,11 @@ export const Main = () => {
           {isLoading ? (
             <SkeletonLoading amount={8} />
           ) : (
-            <Content ads={data}></Content>
+            <Content ads={filteredPosts}></Content>
           )}
         </S.MainContainer>
       </S.Main>
       <Footer></Footer>
     </>
-  );
-};
+  )
+}

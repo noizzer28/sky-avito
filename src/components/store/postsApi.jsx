@@ -106,6 +106,7 @@ export const PostsApi = createApi({
         url: `/ads/${body}`,
         method: 'GET',
       }),
+      providesTags: () => [POST_TAG],
     }),
     getFeedbacks: build.query({
       query: (body) => ({
@@ -159,6 +160,16 @@ export const PostsApi = createApi({
       },
       invalidatesTags: () => [POST_TAG],
     }),
+    editPost: build.mutation({
+      query: ({ postId, body }) => {
+        return {
+          method: 'PATCH',
+          url: `/ads/${postId}`,
+          body,
+        }
+      },
+      invalidatesTags: () => [POST_TAG],
+    }),
     addUserAvatar: build.mutation({
       query: ({ image }) => {
         const fD = new FormData()
@@ -188,4 +199,5 @@ export const {
   useAddUserAvatarMutation,
   useGetAllUsersQuery,
   useDeletePostPictureMutation,
+  useEditPostMutation,
 } = PostsApi

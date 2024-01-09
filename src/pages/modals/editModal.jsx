@@ -2,7 +2,7 @@ import * as S from './modal.styles'
 import { Header } from '../../components/header/header'
 import { useState } from 'react'
 import {
-  useAddNewPostMutation,
+  useEditPostMutation,
   useAddPostPictureMutation,
   useDeletePostPictureMutation,
 } from '../../components/store/postsApi'
@@ -17,12 +17,10 @@ export function EditModal({ isModal, data }) {
   const [uploadedPics, setUploadedPics] = useState([])
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [addPost] = useAddNewPostMutation()
+  const [editPost] = useEditPostMutation()
   const [addPostPicture] = useAddPostPictureMutation()
   const [deletePostPicture] = useDeletePostPictureMutation()
   const [error, setError] = useState(null)
-
-  console.log(data)
 
   useEffect(() => {
     setPostData([
@@ -33,13 +31,15 @@ export function EditModal({ isModal, data }) {
     setUploadedPics(
       data?.images?.map((item) => {
         return {
-          src: item.url,
+          src: `http://127.0.0.1:8090/${item.url}`,
+          url: item.url,
         }
       }),
     )
   }, [data])
 
   console.log('postdata', postData)
+  console.log('uploadedPics', uploadedPics)
   const toggleModal = () => {
     isModal((prev) => !prev)
   }
@@ -61,10 +61,9 @@ export function EditModal({ isModal, data }) {
   }
 
   const removePic = async (indexValue) => {
-    console.log(uploadedPics[indexValue].src)
     const response = await deletePostPicture({
       postId: data.id,
-      file_url: uploadedPics[indexValue].src,
+      file_url: uploadedPics[indexValue].url,
     })
     console.log(response)
     setUploadedPics((prevArray) =>
@@ -84,10 +83,13 @@ export function EditModal({ isModal, data }) {
       setLoading(false)
     } else {
       setError(null)
-      const response = await addPost({
-        title: postData[0],
-        description: postData[1],
-        price: postData[2],
+      const response = await editPost({
+        postId: data?.id,
+        body: {
+          title: postData[0].title,
+          description: postData[1].description,
+          price: postData[2].price,
+        },
       }).unwrap()
       console.log('first response: ', response)
       if (response.error) {
@@ -98,22 +100,26 @@ export function EditModal({ isModal, data }) {
         console.log('responseID', response.id)
 
         uploadedPics.forEach(async (pic) => {
-          const result = await addPostPicture({
-            postId: response.id,
-            image: pic.file,
-          })
-          console.log('secondResponse', result)
-          console.error(result.error)
-          if (result.error) {
-            setError('Произошла ошибка, попробуйте еще раз')
+          if (pic.file) {
+            const result = await addPostPicture({
+              postId: data.id,
+              image: pic.file,
+            })
+            console.log('secondResponse', result)
+            console.error(result.error)
+            if (result.error) {
+              setError('Произошла ошибка, попробуйте еще раз')
 
-            setLoading(false)
+              setLoading(false)
+            } else {
+              console.log('final')
+              setUploadedPics([])
+              setSuccess(true)
+              setLoading(false)
+            }
           } else {
-            console.log('final')
-            setUploadedPics([])
             setSuccess(true)
             setLoading(false)
-            setPostData([{ title: '' }, { description: '' }, { price: '' }])
           }
         })
       }
@@ -147,7 +153,7 @@ export function EditModal({ isModal, data }) {
                   onChange={(e) =>
                     setPostData((prevArray) => {
                       const newArray = [...prevArray]
-                      newArray[0] = e.target.value
+                      newArray[0].title = e.target.value
                       return newArray
                     })
                   }
@@ -164,7 +170,7 @@ export function EditModal({ isModal, data }) {
                   onChange={(e) =>
                     setPostData((prevArray) => {
                       const newArray = [...prevArray]
-                      newArray[1] = e.target.value
+                      newArray[1].description = e.target.value
                       return newArray
                     })
                   }
@@ -180,10 +186,7 @@ export function EditModal({ isModal, data }) {
                     {uploadedPics[0] && (
                       <>
                         {' '}
-                        <img
-                          src={`http://127.0.0.1:8090/${uploadedPics[0].src}`}
-                          alt="no"
-                        />{' '}
+                        <img src={uploadedPics[0].src} alt="no" />{' '}
                         <S.DeletePic onClick={() => removePic(0)}></S.DeletePic>
                       </>
                     )}
@@ -203,10 +206,7 @@ export function EditModal({ isModal, data }) {
                   <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[1] && (
                       <>
-                        <img
-                          src={`http://127.0.0.1:8090/${uploadedPics[1].src}`}
-                          alt="no"
-                        />{' '}
+                        <img src={uploadedPics[1].src} alt="no" />{' '}
                         <S.DeletePic onClick={() => removePic(1)}></S.DeletePic>
                       </>
                     )}
@@ -225,11 +225,7 @@ export function EditModal({ isModal, data }) {
                   <S.ModalImage data-id="form-newArt__img">
                     {uploadedPics[2] && (
                       <>
-                        {' '}
-                        <img
-                          src={`http://127.0.0.1:8090/${uploadedPics[2].src}`}
-                          alt="no"
-                        />{' '}
+                        <img src={uploadedPics[2].src} alt="no" />{' '}
                         <S.DeletePic onClick={() => removePic(2)}></S.DeletePic>
                       </>
                     )}
@@ -249,10 +245,7 @@ export function EditModal({ isModal, data }) {
                     {uploadedPics[3] && (
                       <>
                         {' '}
-                        <img
-                          src={`http://127.0.0.1:8090/${uploadedPics[3].src}`}
-                          alt="no"
-                        />{' '}
+                        <img src={uploadedPics[3].src} alt="no" />{' '}
                         <S.DeletePic onClick={() => removePic(3)}></S.DeletePic>
                       </>
                     )}
@@ -272,10 +265,7 @@ export function EditModal({ isModal, data }) {
                     {uploadedPics[4] && (
                       <>
                         {' '}
-                        <img
-                          src={`http://127.0.0.1:8090/${uploadedPics[4].src}`}
-                          alt="no"
-                        />{' '}
+                        <img src={uploadedPics[4].src} alt="no" />{' '}
                         <S.DeletePic onClick={() => removePic(4)}></S.DeletePic>
                       </>
                     )}
@@ -305,7 +295,7 @@ export function EditModal({ isModal, data }) {
                     onChange={(e) =>
                       setPostData((prevArray) => {
                         const newArray = [...prevArray]
-                        newArray[2] = e.target.value
+                        newArray[2].price = e.target.value
                         return newArray
                       })
                     }
@@ -324,7 +314,7 @@ export function EditModal({ isModal, data }) {
                 disabled={loading ? true : false}
                 onClick={handlePostAd}
               >
-                {loading ? 'Загрузка' : 'Сохранить'}`
+                {loading ? 'Загрузка' : 'Сохранить'}
               </S.ModalButton>
             </S.ModalForm>
           </S.ModalContent>
